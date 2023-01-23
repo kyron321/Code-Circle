@@ -70,8 +70,9 @@ const loginButtonStyle = {
 
 const tryCodeCircleButtonStyle = {
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
+  flexWrap: 'wrap',
   alignItems: 'center',
   padding: ' 16px 24px',
   gap: '10px',
