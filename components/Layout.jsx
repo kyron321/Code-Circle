@@ -1,10 +1,11 @@
 import Footer from './Footer';
-import Nav from './Nav';
+import LoggedOutNav from './LoggedOutNav';
+import Nav from './LoggedOutNav';
 
 export default function Layout({ children }) {
   return (
     <div>
-      <Nav />
+      <LoggedOutNav />
       {children}
       <Footer />
     </div>

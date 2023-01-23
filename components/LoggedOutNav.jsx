@@ -1,7 +1,7 @@
 import logo from '../images/Logo.svg';
 import arrow from '../images/arrow.svg';
 import Image from 'next/image';
-export default function Nav() {
+export default function LoggedOutNav() {
   return (
     <nav>
       <div style={navStyle} id="nav-container">
@@ -70,8 +70,9 @@ const loginButtonStyle = {
 
 const tryCodeCircleButtonStyle = {
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'center',
+  flexWrap: 'wrap',
   alignItems: 'center',
   padding: ' 16px 24px',
   gap: '10px',
