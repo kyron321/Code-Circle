@@ -1,7 +1,7 @@
 import logo from '../images/Logo.svg';
 import arrow from '../images/arrow.svg';
 import Image from 'next/image';
-export default function Nav() {
+export default function LoggedOutNav() {
   return (
     <nav>
       <div style={navStyle} id="nav-container">
