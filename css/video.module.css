@@ -2,3 +2,12 @@
   margin-top: 92px;
   border: 1px solid black;
 }
+.localUser {
+  height: 400px;
+  width: 400px;
+}
+
+.remoteUser {
+  height: 400px;
+  width: 400px;
+}
