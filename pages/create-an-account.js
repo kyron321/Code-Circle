@@ -4,6 +4,7 @@ import { postUser } from '../hooks/postUser';
 import { app } from '../firebase/config';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { useRouter } from 'next/router'
 
 const db = getFirestore(app);
 
@@ -35,7 +36,7 @@ export default function CreateAnAccount() {
     }, []);
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         signup(emailInput, passwordInput);
         postUser(displayNameInput, techStack);
         setDisplayNameInput( "" );
@@ -44,8 +45,6 @@ export default function CreateAnAccount() {
     }
 
     function onChangeTechStack(e) {
-        // console.log(e.target.checked, "<----------- e.target.checked")
-        // console.log(e.target.name, "<----------- e.target.name")
         if (e.target.checked) {
             setTechStack((currentTechStack) => {
                 return [ ...currentTechStack, e.target.name];
@@ -74,6 +73,11 @@ export default function CreateAnAccount() {
             console.log(e.target.value, "is available");
             setIsDisplayNameAvailable(true);
         }
+    }
+
+    let router = useRouter();
+    function redirect() {
+        router.push('/test')
     }
 
     return (
