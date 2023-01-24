@@ -4,6 +4,9 @@ import Image from 'next/image';
 import styles from '../css/loggedOutNav.module.css';
 import React from 'react';
 export default function LoggedOutNav() {
+  //get user from context
+  const { user } = useAuthContext();
+  console.log(user)
   return (
     <nav>
       <div className={styles.navContainer}>
