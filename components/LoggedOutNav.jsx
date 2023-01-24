@@ -5,6 +5,7 @@ import styles from "../css/loggedOutNav.module.css";
 import React from 'react';
 import { useAuthContext } from "../hooks/useAuthContext";
 export default function LoggedOutNav() {
+  //get user from context
   const { user } = useAuthContext();
   console.log(user)
   return (
