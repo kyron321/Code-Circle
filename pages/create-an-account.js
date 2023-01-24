@@ -42,7 +42,7 @@ export default function CreateAnAccount() {
         setDisplayNameInput( "" );
         setEmailInput( "" );
         setPasswordInput( "" );
-        redirect();
+        // redirect();
     }
 
     function onChangeTechStack(e) {
@@ -76,10 +76,10 @@ export default function CreateAnAccount() {
         }
     }
 
-    let router = useRouter();
-    function redirect() {
-        router.push('/home')
-    }
+    // let router = useRouter();
+    // function redirect() {
+    //     router.push('/home')
+    // }
 
     return (
         <main>

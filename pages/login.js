@@ -8,15 +8,15 @@ export default function Login() {
 
     const { signin } = useSignin();
 
-    let router = useRouter();
-    function redirect() {
-        router.push('/home')
-    }
+    // let router = useRouter();
+    // function redirect() {
+    //     router.push('/home')
+    // }
 
     function handleSubmit(e) {
         e.preventDefault();
         signin(emailInput, passwordInput);
-        redirect();
+        // redirect();
     }
 
 
