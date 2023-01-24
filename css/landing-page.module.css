@@ -1,3 +1,9 @@
+.mainStyle {
+height: 100%;
+width: 100%;
+
+}
+
 .sectionStyle {
 display: flex;
 flex-direction: row-reverse;
@@ -16,13 +22,14 @@ background: #043873;
 
 @media (max-width: 800px) {
   .sectionStyle {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 }
 
 .waveyLinesStyle {
     position: absolute;
     width: 100vw;
+    height: 100vh;
   }
 
 .blurbContainerStyle {
@@ -30,8 +37,8 @@ background: #043873;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    gap: 60px;
-    width: 656px;
+    gap: 8vw;
+    width: 45vw;
     height: 347px;
     flex: none;
     order: 1;
@@ -41,14 +48,12 @@ background: #043873;
   }
 
   .blurbHeaderStyle {
-    width: 656px;
-    height: 140px;
+    width: 45vw;
+    height: 10vh;
     font-family: 'Archivo';
     font-style: normal;
     font-weight: 700;
-    font-size: 64px;
-    line-height: 70px;
-    letter-spacing: -0.02em;
+    font-size: 6vw;
     color: #FFFFFF;  
     flex: none;
     order: 0;
@@ -57,7 +62,7 @@ background: #043873;
     }
 
     .blurbBodyStyle {
-      width: 656px;
+      width: 45vw;
       height: 60px;                 
       font-family: 'Quicksand';
       font-style: normal;
@@ -77,7 +82,7 @@ background: #043873;
 height: 549px;
 order: 0;
 flex-grow: 0;
-border-radius: "15px";
+border-radius: 15px;
 margin-right: 6em;
 z-index: 1;
     }
