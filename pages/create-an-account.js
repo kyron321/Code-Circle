@@ -36,12 +36,13 @@ export default function CreateAnAccount() {
     }, []);
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         signup(emailInput, passwordInput);
         postUser(displayNameInput, techStack);
         setDisplayNameInput( "" );
         setEmailInput( "" );
         setPasswordInput( "" );
+        redirect();
     }
 
     function onChangeTechStack(e) {
@@ -77,7 +78,7 @@ export default function CreateAnAccount() {
 
     let router = useRouter();
     function redirect() {
-        router.push('/test')
+        router.push('/home')
     }
 
     return (
