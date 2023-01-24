@@ -32,4 +32,46 @@ background: #043873;
     flex-grow: 1;
     z-index: 1;
     margin-left: 8em;
-  };
+  }
+
+  .blurbHeaderStyle {
+    width: 656px;
+    height: 140px;
+    font-family: 'Archivo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 70px;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;  
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    }
+
+    .blurbBodyStyle {
+      width: 656px;
+      height: 60px;                 
+      font-family: 'Quicksand';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 30px;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;     
+      flex: none;
+      order: 1;
+      align-self: stretch;
+      flex-grow: 0;
+    }
+
+    .landingPageImageStyle {
+      width: 824px;
+height: 549px;
+order: 0;
+flex-grow: 0;
+border-radius: "15px";
+margin-right: 6em;
+z-index: 1;
+    }
