@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "../css/loggedOutNav.module.css";
 import React from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function LoggedOutNav() {
   const router = useRouter();
@@ -11,7 +12,9 @@ export default function LoggedOutNav() {
   return (
     <nav>
       <div className={styles.navContainer}>
-        <Image className={styles.logoStyle} alt="logo" src={logo} />
+      <Link href="/">
+          <Image className={styles.logoStyle} alt="logo" src={logo} />
+        </Link>
         <div className={styles.buttonContainerStyle}>
           <button
             className={styles.loginButtonStyle}

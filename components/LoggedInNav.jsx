@@ -14,9 +14,9 @@ export default function LoggedInNav() {
   const router = useRouter();
   const {logout} = useLogout()
 
-  const handleLogout = async (e)=>{
+  const handleLogout = (e)=>{
     e.preventDefault();
-    await logout()
+    logout()
     router.push("/")
   }
   return (
