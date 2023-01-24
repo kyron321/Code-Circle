@@ -8,16 +8,16 @@ export const AuthContext = createContext();
 //actions our reducer can perform based on the action dispatched
 export const authReducer = (state, action) => {
   switch (action.type) {
-    //when action dispatched is LOGIN, will take state and update the user within it to be 
+    //when action dispatched is LOGIN, will take state and update the user within it to be
     case "LOGIN":
       return { ...state, user: action.payload };
-      //when action dispatched is LOGOUT, will take the state and update the user to be null
+    //when action dispatched is LOGOUT, will take the state and update the user to be null
     case "LOGOUT":
       return { ...state, user: null };
-      //when action dispatched is AUTH_IS_READY, will run on initial page render and take the state and update user to be either the user if logged in, or null if signed out
+    //when action dispatched is AUTH_IS_READY, will run on initial page render and take the state and update user to be either the user if logged in, or null if signed out
     case "AUTH_IS_READY":
       return { ...state, user: action.payload, authIsReady: true };
-      //default state which returns current user state
+    //default state which returns current user state
     default:
       return state;
   }

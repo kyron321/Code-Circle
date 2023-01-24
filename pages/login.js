@@ -10,10 +10,10 @@ export default function Login() {
 
     let router = useRouter();
     function redirect() {
-        router.push('/home')
+        router.push('/test')
     }
 
-    function handleSubmit(e) {
+const handleSubmit = async (e) => {
         e.preventDefault();
         signin(emailInput, passwordInput);
         redirect();
