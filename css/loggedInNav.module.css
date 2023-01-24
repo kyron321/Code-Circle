@@ -1,0 +1,40 @@
+.navContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  width: 100vw;
+  height: 92px;
+  left: 0px;
+  top: 0px;
+
+  background: #043873;
+}
+
+.logoStyle {
+  margin-left: 4em;
+}
+.avatarImage {
+  height: 60px;
+  width: 60px;
+  border-radius: 50px;
+}
+
+.userInfoStyles {
+  display: flex;
+  gap: 1em;
+  margin-right: 2em;
+  align-items: center;
+  color: white;
+}
+
+.logoutButton {
+  background: #fb8c00;
+  border-radius: 8px;
+  width: 120px;
+  height: 45px;
+  border: 0;
+  color: white;
+}
