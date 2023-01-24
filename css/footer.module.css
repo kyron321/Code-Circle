@@ -1,0 +1,28 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:flex-start;
+    width: 100vw;
+    height: 92px;
+    left: 0px;
+    top: 0px;
+    background: #043873;
+    height: 100vh
+
+}
+
+.logoStyle {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px;
+        gap: 10px;
+        width: 191px;
+        height: 36px;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+      
+}

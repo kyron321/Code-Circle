@@ -1,5 +1,12 @@
-import React from 'react';
+import React from "react";
+import styles from "../css/footer.module.css";
+import Image from "next/image";
+import logo from "../images/Logo.svg";
 
 export default function Footer() {
-  return <h2>Footer</h2>;
+  return (
+    <main className={styles.main}>
+      <Image className={styles.logoStyle} alt="logo" src={logo} />
+    </main>
+  );
 }
