@@ -5,7 +5,7 @@ import styles from "../css/landing-page.module.css";
 
 export default function Home() {
   return (
-    <>
+    <main className={styles.mainStyle}>
       <section className={styles.sectionStyle}>
         <Image
           className={styles.waveyLinesStyle}
@@ -13,22 +13,21 @@ export default function Home() {
           alt="background wavey line styling"
         ></Image>{" "}
         <div className={styles.blurbContainerStyle}>
-          <div id="blurb-header" style={blurbHeaderStyle}>
+          <div className={styles.blurbHeaderStyle}>
             Get More Done with Code Circle
           </div>
-          <div id="blurb-body" style={blurbBodyStyle}>
+          <div className={styles.blurbBodyStyle}>
             Empowering developers to come together and create, our platform is
             your ultimate collaboration partner for coding success.
           </div>
-          <button>Try Code Circle</button>
         </div>
         <Image
           src={landingPageImage}
-          style={landingPageImageStyle}
+          className={styles.landingPageImageStyle}
           alt="two people using video chat via a laptop"
         />
       </section>
-    </>
+    </main>
   );
 }
 
