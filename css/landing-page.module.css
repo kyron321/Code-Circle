@@ -14,6 +14,12 @@ top: 92px;
 background: #043873;
 }
 
+@media (max-width: 800px) {
+  .sectionStyle {
+    flex-direction: column;
+  }
+}
+
 .waveyLinesStyle {
     position: absolute;
     width: 100vw;
