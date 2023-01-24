@@ -4,7 +4,7 @@ import { postUser } from '../hooks/postUser';
 import { app } from '../firebase/config';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const db = getFirestore(app);
 
