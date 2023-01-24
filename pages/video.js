@@ -8,6 +8,20 @@ export default function Video() {
   let roomDialog = null;
   let roomId = null;
 
+  const servers = {
+    iceServers: [
+      {
+        urls: [
+          'stun:stun1.l.google.com:19302',
+          'stun:stun2.l.google.com:19302',
+        ],
+      },
+    ],
+    iceCandidatePoolSize: 10,
+  };
+
+  const pc = new RTCPeerConnection(servers);
+
   useEffect(() => {
     const getLocalMedia = async () => {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -23,8 +37,19 @@ export default function Video() {
 
   return (
     <div className={styles.videoContainer}>
-      <video id="localUser"></video>
-      <video id="remoteUser"></video>
+      <video
+        muted
+        autoplay
+        playsinline
+        className={styles.localUser}
+        id="localUser"
+      ></video>
+      <video
+        autoplay
+        playsinline
+        className={styles.remoteUser}
+        id="remoteUser"
+      ></video>
     </div>
   );
 }
