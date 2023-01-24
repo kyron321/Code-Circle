@@ -1,13 +1,19 @@
+
+
 .videoContainer {
   margin-top: 92px;
-  border: 1px solid black;
+  background: #043873;
+  margin-bottom: 2vh
+  ;
 }
 .localUser {
-  height: 400px;
-  width: 400px;
+  margin-top: 0.5vw;
+  margin-left: 0.5vw;
+  width: 49vw;
 }
 
 .remoteUser {
-  height: 400px;
-  width: 400px;
+  margin-left: 1vw;
+  margin-top: 0.5vw;
+  width: 49vw;
 }
