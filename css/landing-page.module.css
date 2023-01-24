@@ -73,7 +73,7 @@ background: #043873;
     }
 
     .landingPageImageStyle {
-      width: 824px;
+      max-width: 45%;
 height: 549px;
 order: 0;
 flex-grow: 0;
