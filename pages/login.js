@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSignin } from '../hooks/useSignin';
+import { useRouter } from 'next/router';
 
 export default function Login() {
     const [ emailInput, setEmailInput ] = useState();
@@ -7,10 +8,18 @@ export default function Login() {
 
     const { signin } = useSignin();
 
+    let router = useRouter();
+    function redirect() {
+        router.push('/home')
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         signin(emailInput, passwordInput);
+        redirect();
     }
+
+
 
     return (
         <main>
