@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import styles from '../css/video.module.css';
+import React, { useEffect } from "react";
+import styles from "../css/video.module.css";
 
 export default function Video() {
   let peerConnection = null;
@@ -12,15 +12,15 @@ export default function Video() {
     iceServers: [
       {
         urls: [
-          'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
         ],
       },
     ],
     iceCandidatePoolSize: 10,
   };
 
-  const pc = new RTCPeerConnection(servers);
+  // const pc = new RTCPeerConnection(servers);
 
   useEffect(() => {
     const getLocalMedia = async () => {
@@ -28,7 +28,7 @@ export default function Video() {
         video: true,
         audio: true,
       });
-      document.querySelector('#localUser').srcObject = stream;
+      document.querySelector("#localUser").srcObject = stream;
       localStream = stream;
       console.log(stream);
     };
@@ -39,14 +39,14 @@ export default function Video() {
     <div className={styles.videoContainer}>
       <video
         muted
-        autoplay
-        playsinline
+        autoPlay
+        playsInline
         className={styles.localUser}
         id="localUser"
       ></video>
       <video
-        autoplay
-        playsinline
+        autoPlay
+        playsInline
         className={styles.remoteUser}
         id="remoteUser"
       ></video>
