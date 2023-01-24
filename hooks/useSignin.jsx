@@ -12,8 +12,8 @@ export const useSignin = () => {
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log("User could not be logged in.")
-                console.log(error)
+                console.log("User could not be logged in.");
+                console.log(error);
             });
     }
     return { signin };
