@@ -5,9 +5,11 @@ import logo from '../images/Logo.svg';
 import Link from 'next/link';
 import defaultAvatar from '../images/default-avatar.svg';
 import { TbMessage2 } from 'react-icons/tb';
+import { useLogout } from '../hooks/useLogout';
 
 export default function LoggedInNav() {
-  const handleLogout = () => {};
+  const {logout} = useLogout()
+
   return (
     <nav>
       <div className={styles.navContainer}>
@@ -28,7 +30,7 @@ export default function LoggedInNav() {
           </Link>
           <div>Username</div>
           <button
-            onClick={() => handleLogout()}
+            onClick={logout}
             className={styles.logoutButton}
           >
             Logout

@@ -5,6 +5,7 @@ import LoggedOutNav from './LoggedOutNav';
 
 export default function Layout({ children }) {
   const { user } = useAuthContext();
+  console.log(user)
   return (
     <div>
       {user &&<LoggedInNav/>}
