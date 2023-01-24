@@ -5,7 +5,7 @@ import LoggedOutNav from './LoggedOutNav';
 export default function Layout({ children }) {
   return (
     <div>
-      <LoggedInNav />
+      <LoggedOutNav />
       {children}
       <Footer />
     </div>
