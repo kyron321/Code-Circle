@@ -56,17 +56,23 @@
   flex: none;
   order: 0;
   flex-grow: 0;
-
   font-family: 'Archivo';
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 23px;
   border: 0;
-
   letter-spacing: -0.02em;
-
   color: #ffffff;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.loginButtonStyle:hover{
+  background-color: transparent;
+  border: 2px solid #fb8c00;
+ 
+
 }
 
 .tryCodeCircleButtonStyle {
@@ -86,6 +92,13 @@
   flex-grow: 0;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border: 0;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.tryCodeCircleButtonStyle:hover{
+  background-color: transparent;
+  border: #4f9cf9 2px solid;
 }
 
 .tryCodeText {
