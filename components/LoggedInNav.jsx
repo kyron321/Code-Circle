@@ -6,10 +6,19 @@ import Link from 'next/link';
 import defaultAvatar from '../images/default-avatar.svg';
 import { TbMessage2 } from 'react-icons/tb';
 import { useLogout } from '../hooks/useLogout';
+import { useRouter } from "next/router";
+
 
 export default function LoggedInNav() {
+  //calls logout hook to logout
+  const router = useRouter();
   const {logout} = useLogout()
 
+  const handleLogout = async (e)=>{
+    e.preventDefault();
+    await logout()
+    router.push("/")
+  }
   return (
     <nav>
       <div className={styles.navContainer}>
@@ -30,7 +39,7 @@ export default function LoggedInNav() {
           </Link>
           <div>Username</div>
           <button
-            onClick={logout}
+            onClick={(e)=>{handleLogout(e)}}
             className={styles.logoutButton}
           >
             Logout

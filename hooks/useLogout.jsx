@@ -14,15 +14,17 @@ export const useLogout = () => {
     setIsPending(true);
 
     //sign user out
-
+    try {
       await signOut(auth);
 
       //dispatch logout action
       dispatch({ type: "LOGOUT" });
+    } catch (err) {
       if (!isCancelled) {
+        setError(err.message);
         setIsPending(false);
-        setError(null);
       }
+    }
   };
 
   useEffect(() => {
