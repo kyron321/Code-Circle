@@ -7,12 +7,14 @@ import defaultAvatar from '../images/default-avatar.svg';
 import { TbMessage2 } from 'react-icons/tb';
 import { useLogout } from '../hooks/useLogout';
 import { useRouter } from "next/router";
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
 export default function LoggedInNav() {
   //calls logout hook to logout
   const router = useRouter();
   const {logout} = useLogout()
+  const { user } = useAuthContext();
 
   const handleLogout = (e)=>{
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function LoggedInNav() {
           <Link href="/messages">
             <TbMessage2 size={30} style={{ color: 'white' }} />{' '}
           </Link>
-          <div>Username</div>
+          <div>{user.displayName}</div>
           <button
             onClick={(e)=>{handleLogout(e)}}
             className={styles.logoutButton}

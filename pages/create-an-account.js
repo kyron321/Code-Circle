@@ -26,6 +26,11 @@ export default function CreateAnAccount() {
 
   const { signup } = useSignup();
 
+  const router = useRouter();
+  function redirect() {
+    router.push("/test");
+  }
+
   useEffect(() => {
     getUsers(db).then((response) => {
       setRegisteredDisplayNames(
@@ -36,14 +41,14 @@ export default function CreateAnAccount() {
     });
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signup(emailInput, passwordInput);
+    signup(emailInput, passwordInput, displayNameInput);
     postUser(displayNameInput, techStack);
     setDisplayNameInput("");
     setEmailInput("");
     setPasswordInput("");
-    // redirect();
+    redirect();
   };
 
   function onChangeTechStack(e) {
@@ -75,11 +80,6 @@ export default function CreateAnAccount() {
       setIsDisplayNameAvailable(true);
     }
   }
-
-  // let router = useRouter();
-  // function redirect() {
-  //     router.push('/home')
-  // }
 
   return (
     <main>
