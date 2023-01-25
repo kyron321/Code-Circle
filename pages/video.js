@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../css/video.module.css';
 import { db } from '../firebase/config';
 import {
@@ -15,9 +15,9 @@ export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
   const [isCameraStarted, setIsCameraStarted] = useState(false);
   const [roomId, setRoomId] = useState(null);
-  let peerConnection = null;
   let localStream = null;
   let remoteStream = null;
+  let peerConnection = useRef();
 
   const servers = {
     iceServers: [
@@ -32,8 +32,9 @@ export default function Video() {
   };
 
   useEffect(() => {
-    peerConnection = new RTCPeerConnection(servers);
+    peerConnection.current = new RTCPeerConnection(servers);
   }, []);
+
   const getLocalAndRemoteMedia = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: true,
@@ -43,13 +44,13 @@ export default function Video() {
     localStream = stream;
 
     localStream.getTracks().forEach((track) => {
-      peerConnection.addTrack(track, localStream);
+      peerConnection.current.addTrack(track, localStream);
 
       document.querySelector('#localUser').srcObject = stream;
     });
 
     remoteStream = new MediaStream();
-    peerConnection.ontrack = (event) => {
+    peerConnection.current.ontrack = (event) => {
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
@@ -59,16 +60,14 @@ export default function Video() {
   };
 
   const createCall = async (e) => {
-    peerConnection = new RTCPeerConnection(servers);
-
     e.preventDefault();
 
     const callDoc = doc(collection(db, 'calls'));
     const offerCandidates = collection(callDoc, 'offerCandidates');
-    const offerDescription = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offerDescription);
+    const offerDescription = await peerConnection.current.createOffer();
+    await peerConnection.current.setLocalDescription(offerDescription);
     setRoomId(callDoc.id);
-    peerConnection.onicecandidate = (event) => {
+    peerConnection.current.onicecandidate = (event) => {
       console.log(event);
 
       event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
@@ -89,35 +88,33 @@ export default function Video() {
     onSnapshot(callDoc),
       (snapshot) => {
         const data = snapshot.data();
-        if (!peerConnection.currentRemoteDescription && data?.answer) {
+        if (!peerConnection.current.currentRemoteDescription && data?.answer) {
           const answerDescription = new RTCSessionDescription(data.answer);
-          peerConnection.setRemoteDescription(answerDescription);
+          peerConnection.current.setRemoteDescription(answerDescription);
         }
       };
     setIsRoomCreated(true);
   };
 
   const answerCall = async (e) => {
-    peerConnection = new RTCPeerConnection(servers);
-
     e.preventDefault();
     const callId = e.target[0].value;
     const callDoc = doc(collection(db, 'calls'), callId);
     const answerCandidates = collection(callDoc, 'answerCandidates');
 
-    peerConnection.onicecandidate = (event) => {
+    peerConnection.current.onicecandidate = (event) => {
       event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
     };
 
     const callData = (await getDoc(callDoc)).data();
     const offerDescription = callData.offer;
 
-    await peerConnection.setRemoteDescription(
+    await peerConnection.current.setRemoteDescription(
       new RTCSessionDescription(offerDescription)
     );
 
-    const answerDescription = await peerConnection.createAnswer();
-    await peerConnection.setLocalDescription(answerDescription);
+    const answerDescription = await peerConnection.current.createAnswer();
+    await peerConnection.current.setLocalDescription(answerDescription);
 
     const answer = {
       type: answerDescription.type,
@@ -130,7 +127,7 @@ export default function Video() {
         snapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
             const candidate = new RTCIceCandidate(change.doc.data());
-            peerConnection.addIceCandidate(candidate);
+            peerConnection.current.addIceCandidate(candidate);
           }
         });
       };
@@ -146,8 +143,8 @@ export default function Video() {
       remoteStream.getTracks().forEach((track) => track.stop());
     }
 
-    if (peerConnection) {
-      peerConnection.close();
+    if (peerConnection.current) {
+      peerConnection.current.close();
     }
     setIsCameraStarted(false);
   }
