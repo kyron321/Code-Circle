@@ -1,12 +1,7 @@
 {
   "hosting": {
-    "public": ".firebase/code-circle--x/hosting",
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": ".firebase/code-circle--x/hosting/index.html"
-      }
-    ],
+    "public": "./.next/server/pages/",
+
     "ignore": [
       "firebase.json",
       "**/.*",
