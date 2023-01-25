@@ -58,6 +58,7 @@ export default function Video() {
       });
     };
     remoteUser.current.srcObject = remoteStream;
+
     setIsCameraStarted(true);
   };
 
@@ -66,15 +67,17 @@ export default function Video() {
 
     const callDoc = doc(collection(db, 'calls'));
     const offerCandidates = collection(callDoc, 'offerCandidates');
-    const offerDescription = await peerConnection.current.createOffer();
     const answerCandidates = collection(callDoc, 'answerCandidates');
 
-    await peerConnection.current.setLocalDescription(offerDescription);
     setRoomId(callDoc.id);
 
     peerConnection.current.onicecandidate = (event) => {
       event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
     };
+
+    const offerDescription = await peerConnection.current.createOffer();
+    await peerConnection.current.setLocalDescription(offerDescription);
+
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -157,7 +160,6 @@ export default function Video() {
       peerConnection.current.close();
     }
     setIsCameraStarted(false);
-    peerConnection.current = new RTCPeerConnection(servers);
   }
 
   return (
@@ -178,7 +180,7 @@ export default function Video() {
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
-        <button onClick={() => getLocalAndRemoteMedia()}>Start camera</button>
+        <button onClick={getLocalAndRemoteMedia}>Start camera</button>
         <button disabled={!isCameraStarted} onClick={createCall}>
           Create call
         </button>
@@ -187,7 +189,7 @@ export default function Video() {
             Room created with id of <code>{roomId}</code>
           </div>
         ) : null}
-        <button disabled={!isCameraStarted} onClick={() => hangUp()}>
+        <button disabled={!isCameraStarted} onClick={hangUp}>
           Hang up
         </button>
         <form onSubmit={answerCall}>
