@@ -17,7 +17,7 @@ export default function CreateAPost() {
     function handleSubmit(e) {
       e.preventDefault();
       createAPost(postTitleInput, projectDescription, programmingLanguage, timeToCode, timeZone);
-      // setTimeout(redirect(), 3000);      
+   redirect()      
     }
 
     function HandlePostTitleInput(e) {
@@ -93,8 +93,8 @@ export default function CreateAPost() {
           <input
             type="datetime-local"
             id="meeting-time"
-                    name="meeting-time"
-                    onChange={handleChooseTimeToCode}
+            name="meeting-time"
+            onChange={handleChooseTimeToCode}
           ></input>
           <br></br>
           <br></br>
@@ -102,7 +102,8 @@ export default function CreateAPost() {
           <select
             name="Time-zone"
             id="Time-Zones"
-            onChange={handleOnChangeTimeZone}>
+            onChange={handleOnChangeTimeZone}
+          >
             <option value="GMT">GMT</option>
             <option value="UTC">UTC</option>
             <option value="PST">PST</option>
@@ -115,7 +116,7 @@ export default function CreateAPost() {
           <br></br>
           <br></br>
 
-          <button>Submit</button>     
+          <button>Submit</button>
         </form>
       </div>
     );
