@@ -26,7 +26,7 @@ export default function CreateAnAccount() {
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
     const [ isEmailValid, setIsEmailValid ] = useState( null );
 
-    const { signup, err } = useSignup();
+    const { signup } = useSignup();
 
     useEffect(() => {
         getUsers(db)
@@ -42,9 +42,16 @@ export default function CreateAnAccount() {
 
         setIsEmailValid(null);
 
-        signup(emailInput, passwordInput, displayNameInput)
-        postUser(displayNameInput, techStack);
-        redirect();
+        createUserWithEmailAndPassword(auth, emailInput, passwordInput, displayNameInput)
+            .then((userCredential) => {
+                console.log("New user successfully created and added to Authentication > Users table.");
+                postUser(displayNameInput, techStack);
+                redirect();
+            })
+            .catch((error) => {
+                console.log(error.code);
+                setIsEmailValid(false)
+            });
     }
 
     function onChangeTechStack(e) {
@@ -172,4 +179,7 @@ export default function CreateAnAccount() {
             </form>
         </main>        
     )
-  }
+}
+
+
+
