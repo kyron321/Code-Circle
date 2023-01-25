@@ -38,27 +38,26 @@ export default function Video() {
   }, []);
 
   const getLocalAndRemoteMedia = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
+    localStream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
     });
-
-    localStream = stream;
 
     localStream.getTracks().forEach((track) => {
       peerConnection.current.addTrack(track, localStream);
     });
 
-    localUser.current.srcObject = stream;
+    localUser.current.srcObject = localStream;
 
     remoteStream = new MediaStream();
+
     peerConnection.current.ontrack = (event) => {
-      console.log(event.streams[0]);
+      console.log('new remote track found:', event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
-      remoteUser.current.srcObject = remoteStream;
     };
+    remoteUser.current.srcObject = remoteStream;
     setIsCameraStarted(true);
   };
 
@@ -74,8 +73,6 @@ export default function Video() {
     setRoomId(callDoc.id);
 
     peerConnection.current.onicecandidate = (event) => {
-      console.log(event);
-
       event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
     };
     const offer = {
