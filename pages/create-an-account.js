@@ -6,8 +6,6 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useRouter } from 'next/router';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useRouter } from "next/router";
-
 
 const db = getFirestore(app);
 
@@ -28,7 +26,7 @@ export default function CreateAnAccount() {
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
     const [ isEmailValid, setIsEmailValid ] = useState( null );
 
-    const { signup } = useSignup();
+    const { signup, err } = useSignup();
 
     useEffect(() => {
         getUsers(db)
@@ -44,16 +42,9 @@ export default function CreateAnAccount() {
 
         setIsEmailValid(null);
 
-        createUserWithEmailAndPassword(auth, emailInput, passwordInput, displayNameInput)
-            .then((userCredential) => {
-                console.log("New user successfully created and added to Authentication > Users table.");
-                postUser(displayNameInput, techStack);
-                redirect();
-            })
-            .catch((error) => {
-                console.log(error.code);
-                setIsEmailValid(false)
-            });
+        signup(emailInput, passwordInput, displayNameInput)
+        postUser(displayNameInput, techStack);
+        redirect();
     }
 
     function onChangeTechStack(e) {
@@ -182,6 +173,3 @@ export default function CreateAnAccount() {
         </main>        
     )
   }
-}
-
-

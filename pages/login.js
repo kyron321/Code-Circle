@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useSignin } from '../hooks/useSignin';
 import { useRouter } from 'next/router';
-
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/config';
 
@@ -12,7 +11,7 @@ export default function Login() {
     const [ isEmailValid, setIsEmailValid ] = useState( null );
     const [ isPasswordCorrect, setIsPasswordCorrect ] = useState( null );
 
-    const { signin } = useSignin();
+    const { signin, error } = useSignin();
 
     let router = useRouter();
     function redirect() {

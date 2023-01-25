@@ -1,9 +1,9 @@
-
 import { auth } from "../firebase/config";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+export const useSignin = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
@@ -36,4 +36,3 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
   return { signin,isPending,error };
 };
-
