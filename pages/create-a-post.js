@@ -1,40 +1,44 @@
-import { useState } from "react"
+import { useState } from "react";
+import { createAPost } from '../hooks/useCreateAPost';
+import { useRouter } from 'next/router';
 
 export default function CreateAPost() {
     const [postTitleInput, setPostTitleinput] = useState('')
     const [projectDescription, setProjectDescription] = useState("");
-    const [programmingLanguage, setProgrammingLanguage] = useState("");
+    const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
     const [timeToCode, setTimeToCode] = useState("");
-    const [timeZone, setTimeZone] = useState("");
-   
+    const [timeZone, setTimeZone] = useState("GMT");
+
+    let router = useRouter();
+    function redirect() {
+        router.push('/home')
+    }
     
     function handleSubmit(e) {
-    e.preventDefault()
+      e.preventDefault();
+      createAPost(postTitleInput, projectDescription, programmingLanguage, timeToCode, timeZone);
+      // setTimeout(redirect(), 3000);      
     }
 
     function HandlePostTitleInput(e) {
-         e.preventDefault();
       setPostTitleinput(e.target.value)
     }
 
-     function HandleProjectDescription(e) {
-          e.preventDefault();
+    function HandleProjectDescription(e) {
       setProjectDescription(e.target.value);
-     }
-    function handleOnChangeLanguage(e) {
-        console.log(e.target.value)
-        setProgrammingLanguage(e.target.value);
     }
 
-      function handleOnChangeTimeZone(e) {
-          console.log(e.target.value);
-          setTimeZone(e.target.value)
-          
-      }
+    function handleOnChangeLanguage(e) {
+      setProgrammingLanguage(e.target.value);
+    }
+
+    function handleOnChangeTimeZone(e) {
+      setTimeZone(e.target.value)
+    }
+
     function handleChooseTimeToCode(e) {
-        console.log(typeof e.target.value);
-        setTimeToCode(e.target.value);
-      }
+      setTimeToCode(e.target.value);
+    }
     
     return (
       <div>
@@ -98,8 +102,7 @@ export default function CreateAPost() {
           <select
             name="Time-zone"
             id="Time-Zones"
-            onChange={handleOnChangeTimeZone}
-          >
+            onChange={handleOnChangeTimeZone}>
             <option value="GMT">GMT</option>
             <option value="UTC">UTC</option>
             <option value="PST">PST</option>
@@ -108,9 +111,11 @@ export default function CreateAPost() {
             <option value="CT">CT</option>
             <option value="PT">PT</option>
           </select>
+
           <br></br>
           <br></br>
-          <button>Submit</button>
+
+          <button>Submit</button>     
         </form>
       </div>
     );
