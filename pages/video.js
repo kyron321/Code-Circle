@@ -35,9 +35,10 @@ export default function Video() {
   };
   useEffect(() => {
     peerConnection.current = new RTCPeerConnection(servers);
+    getRemoteMedia();
   }, []);
 
-  const getLocalAndRemoteMedia = async () => {
+  const getLocalMedia = async () => {
     localStream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
@@ -49,6 +50,10 @@ export default function Video() {
 
     localUser.current.srcObject = localStream;
 
+    setIsCameraStarted(true);
+  };
+
+  const getRemoteMedia = () => {
     remoteStream = new MediaStream();
 
     peerConnection.current.ontrack = (event) => {
@@ -58,8 +63,6 @@ export default function Video() {
       });
     };
     remoteUser.current.srcObject = remoteStream;
-
-    setIsCameraStarted(true);
   };
 
   const createCall = async (e) => {
@@ -77,7 +80,7 @@ export default function Video() {
 
     const offerDescription = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(offerDescription);
-
+    console.log('offer created with description: ', offerDescription);
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -85,25 +88,24 @@ export default function Video() {
 
     await setDoc(callDoc, { offer });
 
-    onSnapshot(callDoc),
-      (snapshot) => {
-        const data = snapshot.data();
-        if (!peerConnection.current.currentRemoteDescription && data?.answer) {
-          const answerDescription = new RTCSessionDescription(data.answer);
-          peerConnection.current.setRemoteDescription(answerDescription);
-        }
-      };
+    onSnapshot(callDoc, (snapshot) => {
+      const data = snapshot.data();
+      if (!peerConnection.current.currentRemoteDescription && data?.answer) {
+        const answerDescription = new RTCSessionDescription(data.answer);
 
-    onSnapshot(answerCandidates),
-      (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            console.log('new answer candidate added');
-            const candidate = new RTCIceCandidate(change.doc.data());
-            peerConnection.current.addIceCandidate(candidate);
-          }
-        });
-      };
+        peerConnection.current.setRemoteDescription(answerDescription);
+      }
+    });
+
+    onSnapshot(answerCandidates, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          console.log('new answer candidate added');
+          const candidate = new RTCIceCandidate(change.doc.data());
+          peerConnection.current.addIceCandidate(candidate);
+        }
+      });
+    });
     setIsRoomCreated(true);
   };
 
@@ -119,13 +121,14 @@ export default function Video() {
     };
 
     const callData = (await getDoc(callDoc)).data();
-    const offerDescription = callData.offer;
 
+    const offerDescription = callData.offer;
     await peerConnection.current.setRemoteDescription(
       new RTCSessionDescription(offerDescription)
     );
 
     const answerDescription = await peerConnection.current.createAnswer();
+    console.log(answerDescription);
     await peerConnection.current.setLocalDescription(answerDescription);
 
     const answer = {
@@ -134,16 +137,15 @@ export default function Video() {
     };
     await updateDoc(callDoc, { answer });
 
-    onSnapshot(offerCandidates),
-      (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            console.log('new answer candidate added');
-            const candidate = new RTCIceCandidate(change.doc.data());
-            peerConnection.current.addIceCandidate(candidate);
-          }
-        });
-      };
+    onSnapshot(offerCandidates, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          console.log('new answer candidate added');
+          const candidate = new RTCIceCandidate(change.doc.data());
+          peerConnection.current.addIceCandidate(candidate);
+        }
+      });
+    });
   };
 
   async function hangUp() {
@@ -180,7 +182,7 @@ export default function Video() {
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
-        <button onClick={getLocalAndRemoteMedia}>Start camera</button>
+        <button onClick={getLocalMedia}>Start camera</button>
         <button disabled={!isCameraStarted} onClick={createCall}>
           Create call
         </button>
