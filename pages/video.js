@@ -11,7 +11,6 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-
 export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
   const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -19,13 +18,16 @@ export default function Video() {
   let localStream = null;
   let remoteStream = null;
   let peerConnection = useRef();
+  const roomIdInput = useRef();
+  const localUser = useRef();
+  const remoteUser = useRef();
 
   const servers = {
     iceServers: [
       {
         urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
+          'stun:stun1.l.google.com:19302',
+          'stun:stun2.l.google.com:19302',
         ],
       },
     ],
@@ -35,29 +37,32 @@ export default function Video() {
     peerConnection.current = new RTCPeerConnection(servers);
   }, []);
 
-  const getLocalAndRemoteMedia = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
+  const getLocalMedia = async () => {
+    localStream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
     });
 
-    localStream = stream;
-
     localStream.getTracks().forEach((track) => {
       peerConnection.current.addTrack(track, localStream);
-
-      document.querySelector('#localUser').srcObject = stream;
     });
 
+    localUser.current.srcObject = localStream;
+
+    setIsCameraStarted(true);
+    getRemoteMedia();
+  };
+
+  const getRemoteMedia = () => {
     remoteStream = new MediaStream();
+
     peerConnection.current.ontrack = (event) => {
+      console.log('new remote track found:', event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
-      document.querySelector('#remoteUser').srcObject = remoteStream;
-
     };
-    setIsCameraStarted(true);
+    remoteUser.current.srcObject = remoteStream;
   };
 
   const createCall = async (e) => {
@@ -65,20 +70,17 @@ export default function Video() {
 
     const callDoc = doc(collection(db, 'calls'));
     const offerCandidates = collection(callDoc, 'offerCandidates');
-    const offerDescription = await peerConnection.current.createOffer();
-    await peerConnection.current.setLocalDescription(offerDescription);
-    setRoomId(callDoc.id);
-    peerConnection.current.onicecandidate = (event) => {
-      console.log(event);
+    const answerCandidates = collection(callDoc, 'answerCandidates');
 
+    setRoomId(callDoc.id);
+
+    peerConnection.current.onicecandidate = (event) => {
       event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
     };
-    console.log(e);
-    if (e.clipboardData) {
-      e.clipboardData.setData('text/plain', callDoc.id);
-      console.log(e.clipboardData.getData('text'));
-    }
 
+    const offerDescription = await peerConnection.current.createOffer();
+    await peerConnection.current.setLocalDescription(offerDescription);
+    console.log('offer created with description: ', offerDescription);
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -86,21 +88,32 @@ export default function Video() {
 
     await setDoc(callDoc, { offer });
 
-    onSnapshot(callDoc),
-      (snapshot) => {
-        const data = snapshot.data();
-        if (!peerConnection.current.currentRemoteDescription && data?.answer) {
-          const answerDescription = new RTCSessionDescription(data.answer);
-          peerConnection.current.setRemoteDescription(answerDescription);
+    onSnapshot(callDoc, (snapshot) => {
+      const data = snapshot.data();
+      if (!peerConnection.current.currentRemoteDescription && data?.answer) {
+        const answerDescription = new RTCSessionDescription(data.answer);
+
+        peerConnection.current.setRemoteDescription(answerDescription);
+      }
+    });
+
+    onSnapshot(answerCandidates, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          console.log('new answer candidate added');
+          const candidate = new RTCIceCandidate(change.doc.data());
+          peerConnection.current.addIceCandidate(candidate);
         }
-      };
+      });
+    });
     setIsRoomCreated(true);
   };
 
   const answerCall = async (e) => {
     e.preventDefault();
-    const callId = e.target[0].value;
+    const callId = roomIdInput.current.value;
     const callDoc = doc(collection(db, 'calls'), callId);
+    const offerCandidates = collection(callDoc, 'offerCandidates');
     const answerCandidates = collection(callDoc, 'answerCandidates');
 
     peerConnection.current.onicecandidate = (event) => {
@@ -108,13 +121,14 @@ export default function Video() {
     };
 
     const callData = (await getDoc(callDoc)).data();
-    const offerDescription = callData.offer;
 
+    const offerDescription = callData.offer;
     await peerConnection.current.setRemoteDescription(
       new RTCSessionDescription(offerDescription)
     );
 
     const answerDescription = await peerConnection.current.createAnswer();
+    console.log(answerDescription);
     await peerConnection.current.setLocalDescription(answerDescription);
 
     const answer = {
@@ -123,19 +137,19 @@ export default function Video() {
     };
     await updateDoc(callDoc, { answer });
 
-    onSnapshot(answerCandidates),
-      (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            const candidate = new RTCIceCandidate(change.doc.data());
-            peerConnection.current.addIceCandidate(candidate);
-          }
-        });
-      };
+    onSnapshot(offerCandidates, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          console.log('new answer candidate added');
+          const candidate = new RTCIceCandidate(change.doc.data());
+          peerConnection.current.addIceCandidate(candidate);
+        }
+      });
+    });
   };
 
   async function hangUp() {
-    const tracks = document.querySelector('#localUser').srcObject.getTracks();
+    const tracks = localUser.current.srcObject.getTracks();
     tracks.forEach((track) => {
       track.stop();
     });
@@ -158,17 +172,17 @@ export default function Video() {
           autoPlay
           playsInline
           className={styles.localUser}
-          id="localUser"
+          ref={localUser}
         ></video>
         <video
           autoPlay
           playsInline
           className={styles.remoteUser}
-          id="remoteUser"
+          ref={remoteUser}
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
-        <button onClick={() => getLocalAndRemoteMedia()}>Start camera</button>
+        <button onClick={getLocalMedia}>Start camera</button>
         <button disabled={!isCameraStarted} onClick={createCall}>
           Create call
         </button>
@@ -177,7 +191,7 @@ export default function Video() {
             Room created with id of <code>{roomId}</code>
           </div>
         ) : null}
-        <button disabled={!isCameraStarted} onClick={() => hangUp()}>
+        <button disabled={!isCameraStarted} onClick={hangUp}>
           Hang up
         </button>
         <form onSubmit={answerCall}>
@@ -185,11 +199,11 @@ export default function Video() {
             id="call-id-input"
             type="text"
             placeholder="Add your invite code"
+            ref={roomIdInput}
           ></input>
-          <button>Join call</button>
+          <button onClick={answerCall}>Join call</button>
         </form>
       </div>
-
     </div>
   );
 }
