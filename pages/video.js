@@ -19,6 +19,8 @@ export default function Video() {
   let remoteStream = null;
   let peerConnection = useRef();
   const roomIdInput = useRef();
+  const localUser = useRef();
+  const remoteUser = useRef();
 
   const servers = {
     iceServers: [
@@ -45,16 +47,17 @@ export default function Video() {
 
     localStream.getTracks().forEach((track) => {
       peerConnection.current.addTrack(track, localStream);
-
-      document.querySelector('#localUser').srcObject = stream;
     });
+
+    localUser.current.srcObject = stream;
 
     remoteStream = new MediaStream();
     peerConnection.current.ontrack = (event) => {
+      console.log(event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
-      document.querySelector('#remoteUser').srcObject = remoteStream;
+      remoteUser.current.srcObject = remoteStream;
     };
     setIsCameraStarted(true);
   };
@@ -65,19 +68,16 @@ export default function Video() {
     const callDoc = doc(collection(db, 'calls'));
     const offerCandidates = collection(callDoc, 'offerCandidates');
     const offerDescription = await peerConnection.current.createOffer();
+    const answerCandidates = collection(callDoc, 'answerCandidates');
+
     await peerConnection.current.setLocalDescription(offerDescription);
     setRoomId(callDoc.id);
+
     peerConnection.current.onicecandidate = (event) => {
       console.log(event);
 
       event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
     };
-    console.log(e);
-    if (e.clipboardData) {
-      e.clipboardData.setData('text/plain', callDoc.id);
-      console.log(e.clipboardData.getData('text'));
-    }
-
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -93,6 +93,17 @@ export default function Video() {
           peerConnection.current.setRemoteDescription(answerDescription);
         }
       };
+
+    onSnapshot(answerCandidates),
+      (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === 'added') {
+            console.log('new answer candidate added');
+            const candidate = new RTCIceCandidate(change.doc.data());
+            peerConnection.current.addIceCandidate(candidate);
+          }
+        });
+      };
     setIsRoomCreated(true);
   };
 
@@ -100,6 +111,7 @@ export default function Video() {
     e.preventDefault();
     const callId = roomIdInput.current.value;
     const callDoc = doc(collection(db, 'calls'), callId);
+    const offerCandidates = collection(callDoc, 'offerCandidates');
     const answerCandidates = collection(callDoc, 'answerCandidates');
 
     peerConnection.current.onicecandidate = (event) => {
@@ -122,7 +134,7 @@ export default function Video() {
     };
     await updateDoc(callDoc, { answer });
 
-    onSnapshot(answerCandidates),
+    onSnapshot(offerCandidates),
       (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
@@ -135,7 +147,7 @@ export default function Video() {
   };
 
   async function hangUp() {
-    const tracks = document.querySelector('#localUser').srcObject.getTracks();
+    const tracks = localUser.current.srcObject.getTracks();
     tracks.forEach((track) => {
       track.stop();
     });
@@ -159,13 +171,13 @@ export default function Video() {
           autoPlay
           playsInline
           className={styles.localUser}
-          id="localUser"
+          ref={localUser}
         ></video>
         <video
           autoPlay
           playsInline
           className={styles.remoteUser}
-          id="remoteUser"
+          ref={remoteUser}
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
