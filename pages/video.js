@@ -35,7 +35,6 @@ export default function Video() {
   };
   useEffect(() => {
     peerConnection.current = new RTCPeerConnection(servers);
-    getRemoteMedia();
   }, []);
 
   const getLocalMedia = async () => {
@@ -51,6 +50,7 @@ export default function Video() {
     localUser.current.srcObject = localStream;
 
     setIsCameraStarted(true);
+    getRemoteMedia();
   };
 
   const getRemoteMedia = () => {
