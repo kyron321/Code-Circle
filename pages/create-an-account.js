@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useSignup } from '../hooks/useSignup';
 import { postUser } from '../hooks/postUser';
@@ -101,6 +100,7 @@ export default function CreateAnAccount() {
         router.push('/home')
     }
 
+
     return (
         <main>
             <br />
@@ -181,6 +181,7 @@ export default function CreateAnAccount() {
             </form>
         </main>        
     )
+  }
 }
 
 
