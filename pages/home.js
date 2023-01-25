@@ -1,5 +1,3 @@
-// import { useRouter } from 'next/router';
-// import { useEffect } from 'react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
@@ -35,20 +33,17 @@ export default function Home() {
                 const postsArray = []
                 response.map((post) => {
                     const newPost = {};
-                    newPost.timeZone = post.timeZone;
+                    newPost.postId = post.postId;
                     newPost.postTitle = post.postTitle;
                     newPost.projectDescription = post.projectDescription;
-                    newPost.timeToCode = post.timeToCode.replace("T", " ");
                     newPost.programmingLanguage = post.programmingLanguage;
+                    newPost.timeToCode = post.timeToCode.replace("T", " ");
+                    newPost.timeZone = post.timeZone;
                     postsArray.push(newPost);
                 });
                 setPosts(postsArray);
             })
     }, []);
-
-    function handleSubmit(e) {
-        // e.preventDefault();
-    }
 
     return (
         <main>
@@ -60,11 +55,11 @@ export default function Home() {
             <br />
             <br />
             <h1>Homepage</h1>
-            <form onSubmit={handleSubmit}>
+            <form>
                 <Link href="/create-a-post"><button>Make a post</button></Link>
             </form>
             {posts.map((post) => {
-                return <HomePagePostCard key={post.postTitle} post={post}/>
+                return <HomePagePostCard key={post.postId} post={post}/>
             })}
             
         </main>

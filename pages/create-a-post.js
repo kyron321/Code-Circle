@@ -17,7 +17,7 @@ export default function CreateAPost() {
     function handleSubmit(e) {
       e.preventDefault();
       createAPost(postTitleInput, projectDescription, programmingLanguage, timeToCode, timeZone);
-   redirect()      
+      redirect();  
     }
 
     function HandlePostTitleInput(e) {
