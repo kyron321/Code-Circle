@@ -11,7 +11,6 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-
 export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
   const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -19,13 +18,14 @@ export default function Video() {
   let localStream = null;
   let remoteStream = null;
   let peerConnection = useRef();
+  const roomIdInput = useRef();
 
   const servers = {
     iceServers: [
       {
         urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
+          'stun:stun1.l.google.com:19302',
+          'stun:stun2.l.google.com:19302',
         ],
       },
     ],
@@ -55,7 +55,6 @@ export default function Video() {
         remoteStream.addTrack(track);
       });
       document.querySelector('#remoteUser').srcObject = remoteStream;
-
     };
     setIsCameraStarted(true);
   };
@@ -99,7 +98,7 @@ export default function Video() {
 
   const answerCall = async (e) => {
     e.preventDefault();
-    const callId = e.target[0].value;
+    const callId = roomIdInput.current.value;
     const callDoc = doc(collection(db, 'calls'), callId);
     const answerCandidates = collection(callDoc, 'answerCandidates');
 
@@ -127,6 +126,7 @@ export default function Video() {
       (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
+            console.log('new answer candidate added');
             const candidate = new RTCIceCandidate(change.doc.data());
             peerConnection.current.addIceCandidate(candidate);
           }
@@ -148,6 +148,7 @@ export default function Video() {
       peerConnection.current.close();
     }
     setIsCameraStarted(false);
+    peerConnection.current = new RTCPeerConnection(servers);
   }
 
   return (
@@ -185,11 +186,11 @@ export default function Video() {
             id="call-id-input"
             type="text"
             placeholder="Add your invite code"
+            ref={roomIdInput}
           ></input>
-          <button>Join call</button>
+          <button onClick={answerCall}>Join call</button>
         </form>
       </div>
-
     </div>
   );
 }
