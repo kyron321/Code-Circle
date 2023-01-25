@@ -32,7 +32,17 @@ export default function Home() {
     useEffect(() => {
         getPosts(db)
             .then((response) => {
-                setPosts(response);
+                const postsArray = []
+                response.map((post) => {
+                    const newPost = {};
+                    newPost.timeZone = post.timeZone;
+                    newPost.postTitle = post.postTitle;
+                    newPost.projectDescription = post.projectDescription;
+                    newPost.timeToCode = post.timeToCode.replace("T", " ");
+                    newPost.programmingLanguage = post.programmingLanguage;
+                    postsArray.push(newPost);
+                });
+                setPosts(postsArray);
             })
     }, []);
 
