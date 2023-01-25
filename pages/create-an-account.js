@@ -119,7 +119,7 @@ export default function CreateAnAccount() {
 
         <label htmlFor="password">Password:</label>
         <input
-          type="text"
+          type="password"
           id="password"
           value={passwordInput}
           onChange={(e) => {
