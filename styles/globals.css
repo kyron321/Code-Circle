@@ -9,13 +9,6 @@ ol {
 ul {
   list-style-type: none;
 }
-
-html, body {
-  margin: 0px;
-  padding: 0px;
-  background-color: #043873;
-}
-
 a:link { text-decoration: none; 
 color: #ffffff}
 
@@ -31,3 +24,9 @@ a:hover { text-decoration: none;
 
 a:active { text-decoration: none; 
   color: #ffffff}
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  background: #fafafa;
+}
