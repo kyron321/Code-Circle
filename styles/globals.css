@@ -2,7 +2,32 @@
   font-family: 'Archivo', sans-serif;
 }
 
+ol {
+  list-style-type: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
 html, body {
   margin: 0px;
   padding: 0px;
+  background-color: #043873;
 }
+
+a:link { text-decoration: none; 
+color: #ffffff}
+
+
+a:visited { text-decoration: none;
+  color: #ffffff 
+}
+
+
+a:hover { text-decoration: none; 
+  color: #ffffff}
+
+
+a:active { text-decoration: none; 
+  color: #ffffff}
