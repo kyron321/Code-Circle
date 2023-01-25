@@ -1,13 +1,50 @@
+.pageContainer {
+  background: #043873;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  align-items: center;
+}
+
 .videoContainer {
-  margin-top: 92px;
-  border: 1px solid black;
+  margin-top: 10em;
+  background: #043873;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4em;
 }
 .localUser {
-  height: 400px;
-  width: 400px;
+  height: 24rem;
+  width: 24rem;
+  border: 4px solid white;
+  border-radius: 360px;
+  flex-shrink: 5;
+  object-fit: cover;
 }
 
 .remoteUser {
-  height: 400px;
-  width: 400px;
+  height: 24rem;
+  width: 24rem;
+  border: 4px solid white;
+
+  border-radius: 360px;
+  flex-shrink: 2;
+  object-fit: cover;
+}
+
+.formAndButtonContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 1em;
+}
+
+.roomCreatedDialogue {
+  color: white;
 }
