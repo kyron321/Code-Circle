@@ -1,123 +1,123 @@
-// import io from "socket.io-client";
-// import { useState, useEffect } from "react";
+import io from "socket.io-client";
+import { useState, useEffect } from "react";
 
-// let socket;
+let socket;
 
-// export default function Home() {
-//   const [username, setUsername] = useState("");
-//   const [chosenUsername, setChosenUsername] = useState("");
-//   const [message, setMessage] = useState("");
-//   const [messages, setMessages] = useState([]);
+export default function Home() {
+  const [username, setUsername] = useState("");
+  const [chosenUsername, setChosenUsername] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
 
-//   useEffect(() => {
-//     socketInitializer();
-//   }, []);
+  useEffect(() => {
+    socketInitializer();
+  }, []);
 
-//   const socketInitializer = async () => {
-//     // We just call it because we don't need anything else out of it
-//     await fetch("/api/socket");
+  const socketInitializer = async () => {
+    // We just call it because we don't need anything else out of it
+    await fetch("/api/socket");
 
-//     socket = io();
+    socket = io();
 
-//     socket.on("newIncomingMessage", (msg) => {
-//       setMessages((currentMsg) => [
-//         ...currentMsg,
-//         { author: msg.author, message: msg.message },
-//       ]);
-//       console.log(messages);
-//     });
-//   };
+    socket.on("newIncomingMessage", (msg) => {
+      setMessages((currentMsg) => [
+        ...currentMsg,
+        { author: msg.author, message: msg.message },
+      ]);
+      console.log(messages);
+    });
+  };
 
-//   const sendMessage = async () => {
-//     socket.emit("createdMessage", { author: chosenUsername, message });
-//     setMessages((currentMsg) => [
-//       ...currentMsg,
-//       { author: chosenUsername, message },
-//     ]);
-//     setMessage("");
-//   };
+  const sendMessage = async () => {
+    socket.emit("createdMessage", { author: chosenUsername, message });
+    setMessages((currentMsg) => [
+      ...currentMsg,
+      { author: chosenUsername, message },
+    ]);
+    setMessage("");
+  };
 
-//   const handleKeypress = (e) => {
-//     //it triggers by pressing the enter key
-//     if (e.keyCode === 13) {
-//       if (message) {
-//         sendMessage();
-//       }
-//     }
-//   };
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      if (message) {
+        sendMessage();
+      }
+    }
+  };
 
-//   return (
-//     <div>
-//       <br/>
-//       <br/>
-//       <br/>
-//       <br/>
-//       <br/>
-//       <br/>
-//       <main>
-//         {!chosenUsername ? (
-//           <>
-//             <h3>
-//               How people should call you?
-//             </h3>
-//             <input
-//               type="text"
-//               placeholder="Identity..."
-//               value={username}
+  return (
+    <div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <main>
+        {!chosenUsername ? (
+          <>
+            <h3>
+              How people should call you?
+            </h3>
+            <input
+              type="text"
+              placeholder="Identity..."
+              value={username}
               
-//               onChange={(e) => setUsername(e.target.value)}
-//             />
-//             <button
-//               onClick={() => {
-//                 setChosenUsername(username);
-//               }}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <button
+              onClick={() => {
+                setChosenUsername(username);
+              }}
               
-//             >
-//               Go!
-//             </button>
-//           </>
-//         ) : (
-//           <>
-//             <p >
-//               Your username: {username}
-//             </p>
-//             <div >
-//               <div >
-//                 {messages.map((msg, i) => {
-//                   return (
-//                     <div
+            >
+              Go!
+            </button>
+          </>
+        ) : (
+          <>
+            <p >
+              Your username: {username}
+            </p>
+            <div >
+              <div >
+                {messages.map((msg, i) => {
+                  return (
+                    <div
                       
-//                       key={i}
-//                     >
-//                       {msg.author} : {msg.message}
-//                     </div>
-//                   );
-//                 })}
-//               </div>
-//               <div >
-//                 <input
-//                   type="text"
-//                   placeholder="New message..."
-//                   value={message}
+                      key={i}
+                    >
+                      {msg.author} : {msg.message}
+                    </div>
+                  );
+                })}
+              </div>
+              <div >
+                <input
+                  type="text"
+                  placeholder="New message..."
+                  value={message}
                 
-//                   onChange={(e) => setMessage(e.target.value)}
-//                   onKeyUp={handleKeypress}
-//                 />
-//                 <div>
-//                   <button
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyUp={handleKeypress}
+                />
+                <div>
+                  <button
                     
-//                     onClick={() => {
-//                       sendMessage();
-//                     }}
-//                   >
-//                     Send
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//           </>
-//         )}
-//       </main>
-//     </div>
-//   );
-// }
+                    onClick={() => {
+                      sendMessage();
+                    }}
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </main>
+    </div>
+  );
+}
