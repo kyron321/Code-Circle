@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSignup } from '../hooks/useSignup';
 import { postUser } from '../hooks/postUser';
-import { app } from '../firebase/config';
+import { app, auth } from '../firebase/config';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useRouter } from 'next/router';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const db = getFirestore(app);
 
@@ -23,6 +24,7 @@ export default function CreateAnAccount() {
     const [ techStack, setTechStack ] = useState( [] );
     const [ registeredDisplayNames, setRegisteredDisplayNames ] = useState( [] );
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
+    const [ isEmailValid, setIsEmailValid ] = useState( null );
 
     const { signup } = useSignup();
 
@@ -37,12 +39,19 @@ export default function CreateAnAccount() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        signup(emailInput, passwordInput);
-        postUser(displayNameInput, techStack);
-        setDisplayNameInput( "" );
-        setEmailInput( "" );
-        setPasswordInput( "" );
-        redirect();
+
+        setIsEmailValid(null);
+
+        createUserWithEmailAndPassword(auth, emailInput, passwordInput, displayNameInput)
+            .then((userCredential) => {
+                console.log("New user successfully created and added to Authentication > Users table.");
+                postUser(displayNameInput, techStack);
+                redirect();
+            })
+            .catch((error) => {
+                console.log(error.code);
+                setIsEmailValid(false)
+            });
     }
 
     function onChangeTechStack(e) {
@@ -67,12 +76,20 @@ export default function CreateAnAccount() {
     function handleDisplayNameInput(e) {
         setIsDisplayNameAvailable(null);
         setDisplayNameInput(e.target.value);
-        if (registeredDisplayNames.includes(e.target.value)) {
-            console.log(e.target.value, "is registered");
+        if (e.target.value === "") {
+            setIsDisplayNameAvailable(null);
+        } else if (registeredDisplayNames.includes(e.target.value)) {
             setIsDisplayNameAvailable(false);
         } else {
-            console.log(e.target.value, "is available");
             setIsDisplayNameAvailable(true);
+        }
+    }
+
+    function handleEmailInput(e) {
+        // console.log(e.target.value);
+        setEmailInput(e.target.value);
+        if (e.target.value === "") {
+            setEmailInput(null);
         }
     }
 
@@ -95,12 +112,13 @@ export default function CreateAnAccount() {
                     type="text"
                     id="display-name"
                     value={displayNameInput}
-                    onChange={handleDisplayNameInput}>
+                    onChange={handleDisplayNameInput}
+                    required>
                 </input>
-                {isDisplayNameAvailable === null
-                    ? null
-                    : isDisplayNameAvailable
-                        ? <span>Available</span>
+                {isDisplayNameAvailable === true
+                    ? <span>Available</span>
+                    : isDisplayNameAvailable === null
+                        ? null
                         : <span>Not available</span>}
 
                 <br />
@@ -110,8 +128,14 @@ export default function CreateAnAccount() {
                     type="text"
                     id="email"
                     value={emailInput}
-                    onChange={(e) => {setEmailInput(e.target.value)}}>
+                    onChange={handleEmailInput}
+                    required>
                 </input>
+                {isEmailValid === null
+                    ? null
+                    : isEmailValid === false
+                        ? <span>Please enter a valid email.</span>
+                        : null}
 
                 <br />
 
@@ -120,7 +144,8 @@ export default function CreateAnAccount() {
                     type="text"
                     id="password"
                     value={passwordInput}
-                    onChange={(e) => {setPasswordInput(e.target.value)}}>
+                    onChange={(e) => {setPasswordInput(e.target.value)}}
+                    required>
                 </input>
 
                 <br />
@@ -149,7 +174,7 @@ export default function CreateAnAccount() {
                     <label htmlFor="lamp">LAMP</label>
                 </fieldset>
 
-                <button>Submit</button>
+                <button disabled={!isDisplayNameAvailable}>Submit</button>
             </form>
         </main>        
     )
