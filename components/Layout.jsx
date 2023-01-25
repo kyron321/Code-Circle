@@ -1,11 +1,13 @@
+import { useAuthContext } from '../hooks/useAuthContext';
 import Footer from './Footer';
 import LoggedInNav from './LoggedInNav';
 import LoggedOutNav from './LoggedOutNav';
 
 export default function Layout({ children }) {
+  const { user } = useAuthContext();
   return (
     <div>
-      <LoggedOutNav />
+     {user ?  <LoggedInNav/>: <LoggedOutNav/> }
       {children}
       <Footer />
     </div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useSignup } from '../hooks/useSignup';
 import { postUser } from '../hooks/postUser';
@@ -6,15 +7,17 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useRouter } from 'next/router';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useRouter } from "next/router";
+
 
 const db = getFirestore(app);
 
 // Gets all users from Firestore database
 async function getUsers(db) {
-    const usersCol = collection(db, 'users');
-    const usersSnapshot = await getDocs(usersCol);
-    const usersList = usersSnapshot.docs.map(doc => doc.data());
-    return usersList;
+  const usersCol = collection(db, "users");
+  const usersSnapshot = await getDocs(usersCol);
+  const usersList = usersSnapshot.docs.map((doc) => doc.data());
+  return usersList;
 }
 
 export default function CreateAnAccount() {
@@ -179,3 +182,5 @@ export default function CreateAnAccount() {
         </main>        
     )
 }
+
+

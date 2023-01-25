@@ -1,3 +1,9 @@
+.mainStyle {
+height: 100%;
+width: 100%;
+
+}
+
 .sectionStyle {
 display: flex;
 flex-direction: row-reverse;
@@ -14,9 +20,16 @@ top: 92px;
 background: #043873;
 }
 
+@media (max-width: 800px) {
+  .sectionStyle {
+    flex-direction: column-reverse;
+  }
+}
+
 .waveyLinesStyle {
     position: absolute;
     width: 100vw;
+    height: 250px
   }
 
 .blurbContainerStyle {
@@ -24,12 +37,52 @@ background: #043873;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    gap: 60px;
-    width: 656px;
+    gap: 8vw;
+    width: 45vw;
     height: 347px;
     flex: none;
     order: 1;
     flex-grow: 1;
     z-index: 1;
     margin-left: 8em;
-  };
+  }
+
+  .blurbHeaderStyle {
+    width: 45vw;
+    height: 10vh;
+    font-family: 'Archivo';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 6vw;
+    color: #FFFFFF;  
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    }
+
+    .blurbBodyStyle {
+      width: 45vw;
+      height: 60px;                 
+      font-family: 'Quicksand';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 30px;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;     
+      flex: none;
+      order: 1;
+      align-self: stretch;
+      flex-grow: 0;
+    }
+
+    .landingPageImageStyle {
+      max-width: 45%;
+height: 549px;
+order: 0;
+flex-grow: 0;
+border-radius: 15px;
+margin-right: 6em;
+z-index: 1;
+    }

@@ -17,9 +17,9 @@ export default function Login() {
     let router = useRouter();
     function redirect() {
         router.push('/home')
-    }   
+    }
 
-    function handleSubmit(e) {
+const handleSubmit = async (e) => {
         e.preventDefault();
 
         setDoesEmailExist(null);
