@@ -1,7 +1,9 @@
 * {
   font-family: 'Archivo', sans-serif;
 }
-
-html {
+html, body {
+  margin: 0px;
+  padding: 0px;
   background: #043873;
 }
+

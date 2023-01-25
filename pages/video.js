@@ -11,6 +11,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
+
 export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
   const [isCameraStarted, setIsCameraStarted] = useState(false);
@@ -23,14 +24,13 @@ export default function Video() {
     iceServers: [
       {
         urls: [
-          'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
         ],
       },
     ],
     iceCandidatePoolSize: 10,
   };
-
   useEffect(() => {
     peerConnection.current = new RTCPeerConnection(servers);
   }, []);
@@ -55,6 +55,7 @@ export default function Video() {
         remoteStream.addTrack(track);
       });
       document.querySelector('#remoteUser').srcObject = remoteStream;
+
     };
     setIsCameraStarted(true);
   };
@@ -188,6 +189,7 @@ export default function Video() {
           <button>Join call</button>
         </form>
       </div>
+
     </div>
   );
 }
