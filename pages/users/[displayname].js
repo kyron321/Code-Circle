@@ -3,10 +3,10 @@ import styles from '../../css/userProfile.module.css';
 import { useRouter } from 'next/router';
 import UserProfile from '../../components/UserProfile';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import PastPosts from '../../components/PastPosts';
 
 export default function OtherUserProfile() {
   const { user } = useAuthContext();
-  const [isUsersOwnProfile, setIsUsersOwnProfile] = useState(false);
   let { query } = useRouter();
   let userNameFromParams = query.displayname;
 
@@ -15,6 +15,9 @@ export default function OtherUserProfile() {
       <UserProfile
         userName={user?.displayName}
         userNameFromParams={userNameFromParams}
+      />
+      <PastPosts
+          userNameFromParams={userNameFromParams}
       />
     </div>
   );
