@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/font": "13.1.4",
+    "ably": "^1.2.5-beta.1",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.4",
     "firebase": "^9.16.0",
