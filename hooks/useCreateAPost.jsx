@@ -1,6 +1,6 @@
 import { db } from '../firebase/config';
-import { addDoc, collection } from "firebase/firestore";
-import { doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
 export const createAPost = (user, postTitle, projectDescription, programmingLanguage, timeToCode, timeZone) => {
     try {
@@ -22,3 +22,4 @@ export const createAPost = (user, postTitle, projectDescription, programmingLang
         console.error("Error adding document: ", e);
     }
 }
+
