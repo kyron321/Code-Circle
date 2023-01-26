@@ -5,11 +5,12 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CreateAPost() {
     const { user } = useAuthContext();
-    const [postTitleInput, setPostTitleinput] = useState('')
-    const [projectDescription, setProjectDescription] = useState("");
-    const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
-    const [timeToCode, setTimeToCode] = useState("");
-    const [timeZone, setTimeZone] = useState("GMT");
+
+    const [ postTitleInput, setPostTitleinput ] = useState("")
+    const [ projectDescription, setProjectDescription ] = useState("");
+    const [ programmingLanguage, setProgrammingLanguage ] = useState("JavaScript");
+    const [ timeToCode, setTimeToCode ] = useState("");
+    const [ timeZone, setTimeZone ] = useState("GMT");
 
     let router = useRouter();
     function redirect() {

@@ -2,14 +2,11 @@ import { useState, useEffect } from 'react';
 import { useSignup } from '../hooks/useSignup';
 import { postUser } from '../hooks/postUser';
 import { app, auth } from '../firebase/config';
-import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useRouter } from 'next/router';
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const db = getFirestore(app);
 
-// Gets all users from Firestore database
 async function getUsers(db) {
   const usersCol = collection(db, "users");
   const usersSnapshot = await getDocs(usersCol);
@@ -24,7 +21,6 @@ export default function CreateAnAccount() {
     const [ techStack, setTechStack ] = useState( [] );
     const [ registeredDisplayNames, setRegisteredDisplayNames ] = useState( [] );
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
-    const [ isEmailValid, setIsEmailValid ] = useState( null );
 
     const { signup } = useSignup();
 
@@ -39,7 +35,6 @@ export default function CreateAnAccount() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsEmailValid(null);
         signup(emailInput, passwordInput, displayNameInput);
         postUser(displayNameInput, techStack);
         redirect();
