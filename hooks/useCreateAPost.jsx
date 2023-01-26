@@ -2,9 +2,10 @@ import { db } from '../firebase/config';
 import { addDoc, collection } from "firebase/firestore";
 import { doc, updateDoc } from "firebase/firestore";
 
-export const createAPost = (postTitle, projectDescription, programmingLanguage, timeToCode, timeZone) => {
+export const createAPost = (user, postTitle, projectDescription, programmingLanguage, timeToCode, timeZone) => {
     try {
         const docRef = addDoc(collection(db, "posts"), {
+            user: user,
             postTitle: postTitle,
             projectDescription: projectDescription,
             programmingLanguage: programmingLanguage,

@@ -39,19 +39,10 @@ export default function CreateAnAccount() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         setIsEmailValid(null);
-
-        createUserWithEmailAndPassword(auth, emailInput, passwordInput, displayNameInput)
-            .then((userCredential) => {
-                console.log("New user successfully created and added to Authentication > Users table.");
-                postUser(displayNameInput, techStack);
-                redirect();
-            })
-            .catch((error) => {
-                console.log(error.code);
-                setIsEmailValid(false)
-            });
+        signup(emailInput, passwordInput, displayNameInput);
+        postUser(displayNameInput, techStack);
+        redirect();
     }
 
     function onChangeTechStack(e) {
@@ -86,7 +77,6 @@ export default function CreateAnAccount() {
     }
 
     function handleEmailInput(e) {
-        // console.log(e.target.value);
         setEmailInput(e.target.value);
         if (e.target.value === "") {
             setEmailInput(null);
@@ -101,11 +91,6 @@ export default function CreateAnAccount() {
 
     return (
         <main>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
             <h1>Create an Account</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Display name:</label>
