@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
-
+import { useAuthContext } from "../hooks/useAuthContext";
+import { userAgent } from "next/server";
 
 const AblyChatComponent = () => {
-
-    let inputBox = null;
-    let messageEnd = null;
-    const [messageText, setMessageText] = useState("");
+  const { user } = useAuthContext();
+  let inputBox = null;
+  let messageEnd = null;
+  const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const [channel, ably] = useChannel("chat-demo", (message) => {
@@ -21,56 +22,68 @@ const AblyChatComponent = () => {
     // setMessages react useState hook
   });
   const sendChatMessage = (messageText) => {
-    channel.publish({ name: "chat-message", data: messageText });
+    channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
     inputBox.focus();
-  }
+  };
   const handleFormSubmission = (event) => {
     event.preventDefault();
     sendChatMessage(messageText);
-  }
+  };
   const handleKeyPress = (event) => {
     if (event.charCode !== 13 || messageTextIsEmpty) {
       return;
     }
-    sendChatMessage(messageText);
+    sendChatMessage(user.displayName+": "+messageText);
     event.preventDefault();
-  }
+  };
   const messages = receivedMessages.map((message, index) => {
     const author = message.connectionId === ably.connection.id ? "me" : "other";
-    return <span key={index} data-author={author}>{message.data}</span>;
+    return (
+      <span key={index} data-author={author}>
+        {message.data}
+      </span>
+    );
   });
-  <div ref={(element) => { messageEnd = element; }}></div>
+  <div
+    ref={(element) => {
+      messageEnd = element;
+    }}
+  ></div>;
   useEffect(() => {
     messageEnd.scrollIntoView({ behaviour: "smooth" });
   });
   return (
-    <div >
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        
-        
-      <div >
+    <div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div>
         {messages}
-        <div ref={(element) => { messageEnd = element; }}></div> 
+        <div
+          ref={(element) => {
+            messageEnd = element;
+          }}
+        ></div>
       </div>
-      <form onSubmit={handleFormSubmission} >
+      <form onSubmit={handleFormSubmission}>
         <textarea
-          ref={(element) => { inputBox = element; }}
-          
+          ref={(element) => {
+            inputBox = element;
+          }}
           placeholder="Type a message..."
-          onChange={e => setMessageText(e.target.value)}
+          onChange={(e) => setMessageText(e.target.value)}
           onKeyPress={handleKeyPress}
-          
         ></textarea>
-        <button type="submit" disabled={messageTextIsEmpty}>Send</button>
+        <button type="submit" disabled={messageTextIsEmpty}>
+          Send
+        </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default AblyChatComponent;
