@@ -44,7 +44,6 @@ export default function SinglePost() {
       <p>Time to code: {postToRender[0]?.timeToCode.replace("T", " ")}</p>
       <p>Time zone: {postToRender[0]?.timeZone}</p>
       <p>{postToRender[0]?.projectDescription}</p>
-      <h1>{postToRender[0]?.postTitle}</h1>
     </div>
   )
 }
