@@ -16,8 +16,8 @@ async function getPosts(db) {
 export default function SinglePost() {
   const [ posts, setPosts ] = useState( [] );
 
-  var router = useRouter();
-  var pid = router.query["pid"];
+  const router = useRouter();
+  const pid = router.query["pid"];
 
   useEffect(() => {
     getPosts(db)
