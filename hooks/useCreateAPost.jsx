@@ -11,14 +11,15 @@ export const createAPost = (
   timeZone
 ) => {
   const newDate = new Date();
+  console.log(postTitle, 'post title <--');
   try {
     const docRef = addDoc(collection(db, 'posts'), {
-      user: user,
-      postTitle: postTitle,
-      projectDescription: projectDescription,
-      programmingLanguage: programmingLanguage,
-      timeToCode: timeToCode,
-      timeZone: timeZone,
+      user,
+      postTitle,
+      projectDescription,
+      programmingLanguage,
+      timeToCode,
+      timeZone,
       postTime: newDate.getTime(),
     }).then((response) => {
       const post = doc(db, 'posts', response.id);
