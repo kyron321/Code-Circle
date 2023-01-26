@@ -1,123 +1,39 @@
-import io from "socket.io-client";
-import { useState, useEffect } from "react";
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
-let socket;
+const AblyChatComponent = dynamic(() => import('../components/AblyChatComponent'), { ssr: false });
 
-export default function Home() {
-  const [username, setUsername] = useState("");
-  const [chosenUsername, setChosenUsername] = useState("");
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    socketInitializer();
-  }, []);
-
-  const socketInitializer = async () => {
-    // We just call it because we don't need anything else out of it
-    await fetch("/api/socket");
-
-    socket = io();
-
-    socket.on("newIncomingMessage", (msg) => {
-      setMessages((currentMsg) => [
-        ...currentMsg,
-        { author: msg.author, message: msg.message },
-      ]);
-      console.log(messages);
-    });
-  };
-
-  const sendMessage = async () => {
-    socket.emit("createdMessage", { author: chosenUsername, message });
-    setMessages((currentMsg) => [
-      ...currentMsg,
-      { author: chosenUsername, message },
-    ]);
-    setMessage("");
-  };
-
-  const handleKeypress = (e) => {
-    //it triggers by pressing the enter key
-    if (e.keyCode === 13) {
-      if (message) {
-        sendMessage();
-      }
-    }
-  };
-
+export default function Message() {
   return (
-    <div>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+    <div className="container">
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <main>
-        {!chosenUsername ? (
-          <>
-            <h3>
-              How people should call you?
-            </h3>
-            <input
-              type="text"
-              placeholder="Identity..."
-              value={username}
-              
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <button
-              onClick={() => {
-                setChosenUsername(username);
-              }}
-              
-            >
-              Go!
-            </button>
-          </>
-        ) : (
-          <>
-            <p >
-              Your username: {username}
-            </p>
-            <div >
-              <div >
-                {messages.map((msg, i) => {
-                  return (
-                    <div
-                      
-                      key={i}
-                    >
-                      {msg.author} : {msg.message}
-                    </div>
-                  );
-                })}
-              </div>
-              <div >
-                <input
-                  type="text"
-                  placeholder="New message..."
-                  value={message}
-                
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyUp={handleKeypress}
-                />
-                <div>
-                  <button
-                    
-                    onClick={() => {
-                      sendMessage();
-                    }}
-                  >
-                    Send
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
+        <h1 className="title">Next.js Chat Demo</h1>
+        <AblyChatComponent />
       </main>
+
+      <footer>
+        Powered by
+        <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">
+          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
+        </a>
+        and
+        <a href="https://ably.com" rel="noopener noreferrer">
+          <img src="/ably-logo.svg" alt="Ably Logo" className="logo ably" />
+        </a>
+      </footer>
+
+      <style jsx>{`
+        ...       
+      `}</style>
+
+      <style jsx global>{`
+        ...        
+      `}</style>
     </div>
-  );
+  )
 }
