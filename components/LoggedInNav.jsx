@@ -6,21 +6,20 @@ import Link from 'next/link';
 import defaultAvatar from '../images/default-avatar.svg';
 import { TbMessage2 } from 'react-icons/tb';
 import { useLogout } from '../hooks/useLogout';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 import { useAuthContext } from '../hooks/useAuthContext';
-
 
 export default function LoggedInNav() {
   //calls logout hook to logout
   const router = useRouter();
-  const {logout} = useLogout()
+  const { logout } = useLogout();
   const { user } = useAuthContext();
 
-  const handleLogout = (e)=>{
+  const handleLogout = (e) => {
     e.preventDefault();
-    logout()
-    router.push("/")
-  }
+    logout();
+    router.push('/');
+  };
   return (
     <nav>
       <div className={styles.navContainer}>
@@ -29,7 +28,7 @@ export default function LoggedInNav() {
         </Link>
 
         <div className={styles.userInfoStyles}>
-          <Link href="/users/:user_id">
+          <Link href={`/users/${user.displayName}`}>
             <Image
               className={styles.avatarImage}
               src={defaultAvatar}
@@ -41,7 +40,9 @@ export default function LoggedInNav() {
           </Link>
           <div>{user.displayName}</div>
           <button
-            onClick={(e)=>{handleLogout(e)}}
+            onClick={(e) => {
+              handleLogout(e);
+            }}
             className={styles.logoutButton}
           >
             Logout
