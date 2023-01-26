@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSignup } from '../hooks/useSignup';
 import { postUser } from '../hooks/postUser';
-import { app, auth } from '../firebase/config';
+import { app } from '../firebase/config';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useRouter } from 'next/router';
 
@@ -21,6 +21,7 @@ export default function CreateAnAccount() {
     const [ techStack, setTechStack ] = useState( [] );
     const [ registeredDisplayNames, setRegisteredDisplayNames ] = useState( [] );
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
+    const [ isEmailValid, setIsEmailValid] = useState(null)
 
     const { signup } = useSignup();
 
