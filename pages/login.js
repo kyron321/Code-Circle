@@ -30,7 +30,6 @@ const handleSubmit = async (e) => {
                 redirect();
             })
             .catch((error) => {
-                console.log(error.code);
                 if (error.code === "auth/user-not-found") {
                     setDoesEmailExist(false);
                 }

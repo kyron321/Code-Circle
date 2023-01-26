@@ -34,6 +34,7 @@ export default function Home() {
                 response.map((post) => {
                     const newPost = {};
                     newPost.postId = post.postId;
+                    newPost.user = post.user;
                     newPost.postTitle = post.postTitle;
                     newPost.projectDescription = post.projectDescription;
                     newPost.programmingLanguage = post.programmingLanguage;
