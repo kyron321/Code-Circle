@@ -11,7 +11,6 @@ export const createAPost = (
   timeZone
 ) => {
   const newDate = new Date();
-  console.log(postTitle, 'post title <--');
   try {
     const docRef = addDoc(collection(db, 'posts'), {
       user,

@@ -14,28 +14,22 @@ async function getPosts(db) {
 }
 
 export default function SinglePost() {
+  const [ posts, setPosts ] = useState( [] );
+
   var router = useRouter();
   var pid = router.query["pid"];
-
-  const [ posts, setPosts ] = useState( [] );
-  const [ postToRender, setPostToRender ] = useState( {} );
 
   useEffect(() => {
     getPosts(db)
         .then((response) => {
-          setPosts(response);
+          setPosts(response)
         })
   }, []);
 
-  useEffect(() => {
-    const post = posts.filter((post) => {
-      return post.postId === pid;
-    })
-    setPostToRender(post)
-  }, [posts]);
+  const postToRender = posts.filter((post) => {
+    return post.postId === pid;
+  })
 
-  
-  
   return (
     <div>
       <br />
@@ -44,8 +38,13 @@ export default function SinglePost() {
       <br />
       <br />
       <br />
+      <h1>{postToRender[0]?.postTitle}</h1>
+      <p>User: {postToRender[0]?.user}</p>
+      <p>Programming language: {postToRender[0]?.programmingLanguage}</p>
+      <p>Time to code: {postToRender[0]?.timeToCode.replace("T", " ")}</p>
+      <p>Time zone: {postToRender[0]?.timeZone}</p>
+      <p>{postToRender[0]?.projectDescription}</p>
       <h1>{postToRender[0].postTitle}</h1>
     </div>
-    
   )
 }

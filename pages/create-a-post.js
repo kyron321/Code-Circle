@@ -5,6 +5,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CreateAPost() {
     const { user } = useAuthContext();
+
     const [ postTitleInput, setPostTitleinput ] = useState("")
     const [ projectDescription, setProjectDescription ] = useState("");
     const [ programmingLanguage, setProgrammingLanguage ] = useState("JavaScript");

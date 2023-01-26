@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 export default function HomePagePostCard({ post }) {
-  console.log(post.postTitle);
   return (
     <div>
       <p>Post ID: {post.postId}</p>

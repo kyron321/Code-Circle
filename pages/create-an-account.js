@@ -86,11 +86,6 @@ export default function CreateAnAccount() {
 
     return (
         <main>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
             <h1>Create an Account</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Display name:</label>
