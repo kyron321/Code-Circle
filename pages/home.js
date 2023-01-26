@@ -37,6 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     getPosts(db).then((response) => {
+      console.log(response)
       const postsArray = response.map((post) => {
         const newPost = {};
         newPost.postId = post.postId;
