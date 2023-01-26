@@ -16,7 +16,6 @@ async function getPosts(db) {
 export default function SinglePost() {
   var router = useRouter();
   var pid = router.query["pid"];
-  console.log(pid, "<------ Post ID");
 
   const [ posts, setPosts ] = useState( [] );
   const [ postToRender, setPostToRender ] = useState( {} );
@@ -35,8 +34,7 @@ export default function SinglePost() {
     setPostToRender(post)
   }, [posts]);
 
-  // console.log(posts, "<------ posts");
-  console.log(postToRender, "<------ post to render");
+  
   
   return (
     <div>
@@ -46,7 +44,7 @@ export default function SinglePost() {
       <br />
       <br />
       <br />
-      <h1>View a post</h1>
+      <h1>{postToRender[0].postTitle}</h1>
     </div>
     
   )

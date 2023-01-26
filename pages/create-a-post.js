@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { createAPost } from '../hooks/useCreateAPost';
 import { useRouter } from 'next/router';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function CreateAPost() {
-    const [postTitleInput, setPostTitleinput] = useState('')
-    const [projectDescription, setProjectDescription] = useState("");
-    const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
-    const [timeToCode, setTimeToCode] = useState("");
-    const [timeZone, setTimeZone] = useState("GMT");
+    const { user } = useAuthContext();
+    const [ postTitleInput, setPostTitleinput ] = useState("")
+    const [ projectDescription, setProjectDescription ] = useState("");
+    const [ programmingLanguage, setProgrammingLanguage ] = useState("JavaScript");
+    const [ timeToCode, setTimeToCode ] = useState("");
+    const [ timeZone, setTimeZone ] = useState("GMT");
 
     let router = useRouter();
     function redirect() {
@@ -16,7 +18,7 @@ export default function CreateAPost() {
     
     function handleSubmit(e) {
       e.preventDefault();
-      createAPost(postTitleInput, projectDescription, programmingLanguage, timeToCode, timeZone);
+      createAPost(user.displayName, postTitleInput, projectDescription, programmingLanguage, timeToCode, timeZone);
       redirect();  
     }
 

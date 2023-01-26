@@ -35,26 +35,24 @@ async function getPosts() {
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    getPosts().then((response) => {
-      console.log(response);
-      const postsArray = response.map((post) => {
-        const newPost = {};
-        newPost.postId = post.postId;
-        newPost.postTitle = post.postTitle;
-        newPost.projectDescription = post.projectDescription;
-        newPost.programmingLanguage = post.programmingLanguage;
-        newPost.timeToCode = post.timeToCode.replace('T', ' ');
-        newPost.timeZone = post.timeZone;
-        newPost.timePosted = post.postTime;
-        return newPost;
-      });
-      setPosts(postsArray);
-    });
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  }, []);
+    useEffect(() => {
+        getPosts(db)
+            .then((response) => {
+                const postsArray = []
+                response.map((post) => {
+                    const newPost = {};
+                    newPost.postId = post.postId;
+                    newPost.user = post.user;
+                    newPost.postTitle = post.postTitle;
+                    newPost.projectDescription = post.projectDescription;
+                    newPost.programmingLanguage = post.programmingLanguage;
+                    newPost.timeToCode = post.timeToCode.replace("T", " ");
+                    newPost.timeZone = post.timeZone;
+                    postsArray.push(newPost);
+                });
+                setPosts(postsArray);
+            })
+    }, []);
 
   return (
     <main>
