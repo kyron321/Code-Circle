@@ -14,7 +14,6 @@ export default function Message() {
   return (
     <div className="container">
       <main>
-        <h1 className="title">Next.js Chat Demo</h1>
         <AblyChatComponent channelNum={channelNum} />
       </main>
     </div>

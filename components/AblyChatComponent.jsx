@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { userAgent } from "next/server";
-import { collection, addDoc, getDocs, query } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/config";
-
-// const q = query(collection(db, "messages"), where("channel", "==", "4"));
-
-// const querySnapshot = await getDocs(collection(db, "messages"));
-// querySnapshot.forEach((doc) => {
-//   console.log(`${doc.id} => ${doc.data()}`);
-// });
 
 const AblyChatComponent = (props) => {
   const { user } = useAuthContext();
@@ -18,6 +10,7 @@ const AblyChatComponent = (props) => {
   let messageEnd = null;
   const [messageText, setMessageText] = useState("");
   const [receivedMessages, setMessages] = useState([]);
+  const [messageHistory, setMessageHistory] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const [channel, ably] = useChannel(props.channelNum.channel, (message) => {
     // Here we're computing the state that'll be drawn into the message history
@@ -30,7 +23,20 @@ const AblyChatComponent = (props) => {
     // This means we'll always have up to 199 message + 1 new message, stored using the
     // setMessages react useState hook
   });
-
+  useEffect(() => {
+    async function getChatHistory() {
+      const q = query(collection(db, "messages"), where("channel", "==", "1"));
+      const querySnapshot = await getDocs(q);
+      const returnedMessages = querySnapshot.docs.map((doc) => {
+        return doc._document.data.value.mapValue.fields;
+      });
+      return returnedMessages;
+    }
+    getChatHistory().then((res) => {
+      setMessageHistory(res);
+    });
+    messageEnd.scrollIntoView({ behaviour: "smooth" });
+  }, []);
   const sendChatMessage = (messageText) => {
     const docRef = addDoc(collection(db, "messages"), {
       user: user.displayName,
@@ -38,10 +44,8 @@ const AblyChatComponent = (props) => {
       channel: props.channelNum.channel,
     });
     console.log("Document written with ID: ", docRef.id);
-
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
-
     inputBox.focus();
   };
   const handleFormSubmission = (event) => {
@@ -55,8 +59,17 @@ const AblyChatComponent = (props) => {
     sendChatMessage(messageText);
     event.preventDefault();
   };
+  const previousMessages = messageHistory.map((msg, index) => {
+    return (
+      <span key={index}>
+        {msg.name}: {msg.data}
+      </span>
+    );
+  });
+
   const messages = receivedMessages.map((message, index) => {
     const author = message.connectionId === ably.connection.id ? "me" : "other";
+
     return (
       <span key={index} data-author={author}>
         {message.name}: {message.data}
@@ -68,19 +81,11 @@ const AblyChatComponent = (props) => {
       messageEnd = element;
     }}
   ></div>;
-  useEffect(() => {
-    messageEnd.scrollIntoView({ behaviour: "smooth" });
-  });
-  return (
-    <div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
 
+  return (
+    <main style={{ marginTop: "92px" }}>
       <div>
+        {previousMessages}
         {messages}
         <div
           ref={(element) => {
@@ -101,7 +106,7 @@ const AblyChatComponent = (props) => {
           Send
         </button>
       </form>
-    </div>
+    </main>
   );
 };
 
