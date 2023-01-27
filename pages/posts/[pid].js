@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useState, useEffect } from 'react';
 import { app } from '../../firebase/config';
+import PostReplyForm from '../../components/postReplyForm';
+import PostReplies from '../../components/postReplyForm';
 
 const db = getFirestore(app);
 
@@ -44,6 +46,8 @@ export default function SinglePost() {
       <p>Time to code: {postToRender[0]?.timeToCode.replace("T", " ")}</p>
       <p>Time zone: {postToRender[0]?.timeZone}</p>
       <p>{postToRender[0]?.projectDescription}</p>
+      <PostReplyForm pid={ pid}/>
+       <PostReplies pid={ pid}/>
     </div>
   )
 }
