@@ -41,6 +41,7 @@ const AblyChatComponent = (props) => {
 
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
+
     inputBox.focus();
   };
   const handleFormSubmission = (event) => {
@@ -78,6 +79,7 @@ const AblyChatComponent = (props) => {
       <br />
       <br />
       <br />
+
       <div>
         {messages}
         <div

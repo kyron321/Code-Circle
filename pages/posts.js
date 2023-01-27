@@ -3,7 +3,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { useState, useEffect } from 'react';
-import { query, orderBy, limit } from "firebase/firestore"; 
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI',
@@ -42,10 +41,11 @@ export default function Posts() {
             <br />
             <br />
             <br />
-            <h1>Users</h1>
+            <h1>Posts</h1>
             {posts.map((post) => {
                 return (
                     <div key={post.postTitle}>
+                        <p>Post ID: {post.postId}</p>
                         <p>Post title: {post.postTitle}</p>
                         <p>Programming language: {post.programmingLanguage}</p>
                         <p>Time to code: {post.timeToCode.seconds}</p>
