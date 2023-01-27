@@ -21,7 +21,7 @@ export default function CreateAnAccount() {
     const [ techStack, setTechStack ] = useState( [] );
     const [ registeredDisplayNames, setRegisteredDisplayNames ] = useState( [] );
     const [ isDisplayNameAvailable, setIsDisplayNameAvailable ] = useState( null );
-
+    const [isEmailValid, setEmailIsValid] = useState(null)
     const { signup } = useSignup();
 
     useEffect(() => {
