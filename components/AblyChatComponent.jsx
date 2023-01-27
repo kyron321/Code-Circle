@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { userAgent } from "next/server";
+import { collection, addDoc, getDocs, query } from "firebase/firestore";
+import { db } from "../firebase/config";
+
+const q = query(collection(db, "messages"), where("channel", "==", "4"));
+
+const querySnapshot = await getDocs(collection(db, "messages"));
+querySnapshot.forEach((doc) => {
+  console.log(`${doc.id} => ${doc.data()}`);
+});
 
 const AblyChatComponent = (props) => {
   const { user } = useAuthContext();
@@ -21,7 +30,15 @@ const AblyChatComponent = (props) => {
     // This means we'll always have up to 199 message + 1 new message, stored using the
     // setMessages react useState hook
   });
+
   const sendChatMessage = (messageText) => {
+    const docRef = addDoc(collection(db, "messages"), {
+      user: user.displayName,
+      message: messageText,
+      channel: props.channelNum.channel,
+    });
+    console.log("Document written with ID: ", docRef.id);
+
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
     inputBox.focus();
