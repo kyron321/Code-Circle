@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -11,6 +12,7 @@ const AblyChatComponent = (props) => {
   const [receivedMessages, setMessages] = useState([]);
   const messageTextIsEmpty = messageText.trim().length === 0;
   const [channel, ably] = useChannel(props.channelNum.channel, (message) => {
+
     // Here we're computing the state that'll be drawn into the message history
     // We do that by slicing the last 199 messages from the receivedMessages buffer
 
@@ -22,8 +24,10 @@ const AblyChatComponent = (props) => {
     // setMessages react useState hook
   });
   const sendChatMessage = (messageText) => {
+
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
+
     inputBox.focus();
   };
   const handleFormSubmission = (event) => {
@@ -38,10 +42,12 @@ const AblyChatComponent = (props) => {
     event.preventDefault();
   };
   const messages = receivedMessages.map((message, index) => {
+
     const author = message.connectionId === ably.connection.id ? "me" : "other";
     return (
       <span key={index} data-author={author}>
         {message.name}: {message.data}
+
       </span>
     );
   });
@@ -51,7 +57,7 @@ const AblyChatComponent = (props) => {
     }}
   ></div>;
   useEffect(() => {
-    messageEnd.scrollIntoView({ behaviour: "smooth" });
+    messageEnd.scrollIntoView({ behaviour: 'smooth' });
   });
   return (
     <div>
@@ -61,6 +67,7 @@ const AblyChatComponent = (props) => {
       <br />
       <br />
       <br />
+
       <div>
         {messages}
         <div
