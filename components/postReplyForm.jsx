@@ -1,27 +1,36 @@
 import { useState } from "react";
 import { postReply } from "../hooks/postReply";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useRouter } from 'next/router';
 
 export default function PostReplyForm({ pid }) {
-  const [reply, setReply] = useState("");
-  console.log(setReply, "<<<<<");
+  const [ reply, setReply ] = useState("");
+  const [ postReplyInput, setPostReplyInput] = useState( "" );
 
   const { user } = useAuthContext();
 
-  function handleSubmit(e) {
+  let router = useRouter();
+  function redirect() {
+      router.push(`/posts/${pid}`)
+  }
 
+  function handleSubmit(e) {
     e.preventDefault();
-    postReply(reply, pid);
-    setReply("");
+    postReply(postReplyInput, pid, user.displayName);
+    setPostReplyInput("");
+    redirect();
+  }
+
+  function onChangePostReply(e) {
+    setPostReplyInput(e.target.value);
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="Reply__card">
-        <input
-          onChange={(e) => setReply(e.target.value)}
-          type="text"
-          value={reply}
+        <textarea
+          onChange={onChangePostReply}
+          value={postReplyInput}
         />
         <button>submit</button>
       </form>

@@ -6,12 +6,12 @@ import { addDoc, collection } from "firebase/firestore";
 // post table and reply both need a username 
 // either display name or username but not both 
 
-export const postReply = (message, postId) => {
+export const postReply = (message, postId, user) => {
     try {
         const docRef = addDoc(collection(db, "replies"), {
             message,
-            // user,
-            postId
+            postId,
+            user
         });
       console.log("Document written with ID: ", docRef.id)
     } catch (e) {
