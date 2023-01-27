@@ -10,7 +10,6 @@ export default function PastPosts() {
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
-  console.log(router);
   const userNameFromParams = router.query.displayname;
 
   useEffect(() => {
@@ -38,13 +37,11 @@ export default function PastPosts() {
   }, [router.isReady, userNameFromParams]);
 
   if (isLoading) return <div>Loading...</div>;
-
   return (
     <div>
       <div className={styles.pastPostContainer}>
         {pastPosts?.map((post) => {
-          console.log(post);
-          return <ProfilePagePostCard props={post} key={post.title} />;
+          return <ProfilePagePostCard key={post.postId} props={post} />;
         })}
       </div>
     </div>
