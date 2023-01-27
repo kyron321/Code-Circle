@@ -25,7 +25,3 @@ export const postReply = (message, postId, user) => {
 }
 
 } 
-//  const reply = doc(db, "replies", response.id);
-//  updateDoc(reply, {
-//    replyId: response.id,
-//  });  
