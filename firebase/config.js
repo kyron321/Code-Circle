@@ -3,22 +3,17 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDocs, getCollection, getFirestore } from "firebase/firestore";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Code Circle's config
+// const firebaseConfig = {
+//   apiKey: “AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI”,
+//   authDomain: “code-circle--x.firebaseapp.com”,
+//   projectId: “code-circle--x”,
+//   storageBucket: “code-circle--x.appspot.com”,
+//   messagingSenderId: “250555057230”,
+//   appId: “1:250555057230:web:b0b6fe6f763bc2f458ef1f”,
+//   measurementId: “G-LHZ1H9YKED”
+// };
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI",
-  authDomain: "code-circle--x.firebaseapp.com",
-  projectId: "code-circle--x",
-  storageBucket: "code-circle--x.appspot.com",
-  messagingSenderId: "250555057230",
-  appId: "1:250555057230:web:b0b6fe6f763bc2f458ef1f",
-  measurementId: "G-LHZ1H9YKED"
-};
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
