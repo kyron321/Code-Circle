@@ -5,12 +5,12 @@ import { userAgent } from "next/server";
 import { collection, addDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase/config";
 
-const q = query(collection(db, "messages"), where("channel", "==", "4"));
+// const q = query(collection(db, "messages"), where("channel", "==", "4"));
 
-const querySnapshot = await getDocs(collection(db, "messages"));
-querySnapshot.forEach((doc) => {
-  console.log(`${doc.id} => ${doc.data()}`);
-});
+// const querySnapshot = await getDocs(collection(db, "messages"));
+// querySnapshot.forEach((doc) => {
+//   console.log(`${doc.id} => ${doc.data()}`);
+// });
 
 const AblyChatComponent = (props) => {
   const { user } = useAuthContext();
