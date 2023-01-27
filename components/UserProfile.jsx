@@ -13,28 +13,27 @@ export default function UserProfile({ userName, userNameFromParams }) {
 
   const isSomeoneElsesProfile = userName !== userNameFromParams;
 
-  useEffect(() => {
-    setIsLoading(true);
-    getUser()
-      .then((response) => {
-        setUser(response[0]);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  async function getUser() {
-    const usersCol = collection(db, 'users');
-    const userQuery = query(
-      usersCol,
-      where('displayname', '==', `${userNameFromParams}`)
-    );
-    const usersSnapshot = await getDocs(userQuery);
-    const usersList = usersSnapshot.docs.map((doc) => doc.data());
-    return usersList;
-  }
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   async function getUser() {
+  //     const usersCol = collection(db, 'users');
+  //     const userQuery = query(
+  //       usersCol,
+  //       where('displayname', '==', `${userNameFromParams}`)
+  //     );
+  //     const usersSnapshot = await getDocs(userQuery);
+  //     const usersList = usersSnapshot.docs.map((doc) => doc.data());
+  //     return usersList;
+  //   }
+  //   getUser()
+  //     .then((response) => {
+  //       setUser(response[0]);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [userNameFromParams]);
 
   if (isLoading) return <div>Loading...</div>;
   return (
