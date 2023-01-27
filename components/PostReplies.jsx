@@ -6,21 +6,21 @@ import postReplyForm from './postReplyForm';
 
 export default function PostReplies({pid}) {
   const [replies, setReplies] = useState([]);
-  // const [filteredReplies, setFilteredReplies] = useState([]);
+  
 
   const db = getFirestore(app);
 
   async function getReplies(db) {
     const RepliesCol = collection(db, "replies");
-    // const q = query(RepliesCol, where("postID", "==", pid))
-    const RepliesSnapshot = await getDocs(RepliesCol);
+   const RepliesSnapshot = await getDocs(RepliesCol);
     const RepliesList = RepliesSnapshot.docs.map((doc) => doc.data());
 
     return RepliesList;
   }
 
   useEffect(() => {
-    getReplies(db).then((response) => {     
+    getReplies(db).then((response) => { 
+      console.log(response,"R")
       setReplies(response);
     });
   }, []);
@@ -34,9 +34,10 @@ export default function PostReplies({pid}) {
     <div>
       <h1>Replies to a Post </h1>
       {repliesToRender.map((reply) => {
+        console.log(reply,">>>>>")
         return (
-          <div>
-            <p>{reply.user}</p>
+          <div key = {reply.replyId}>
+            <p >{reply.user}</p>
             <p>{reply.message}</p>
             {/* <p>{reply.createdAt.toDate()}</p> */}
           </div>
