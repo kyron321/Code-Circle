@@ -35,17 +35,6 @@ export default function CreateAnAccount() {
     }
   };
 
-  const handleDisplayNameInput=(e)=> {
-    setDisplayNameInput(e.target.value);
-  }
-
-  const handleEmailInput=(e)=> {
-    setEmailInput(e.target.value);
-    if (e.target.value === "") {
-      setEmailInput(null);
-    }
-  }
-
   let router = useRouter();
   function redirect() {
     router.push("/home");
@@ -55,12 +44,12 @@ export default function CreateAnAccount() {
     <main>
       <h1>Create an Account</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Display name:</label>
+        <label htmlFor="text">Display name:</label>
         <input
           type="text"
           id="display-name"
           value={displayNameInput}
-          onChange={handleDisplayNameInput}
+          onChange={(e) => setDisplayNameInput(e.target.value)}
           required
         />
 
@@ -71,7 +60,7 @@ export default function CreateAnAccount() {
           type="email"
           id="email"
           value={emailInput}
-          onChange={handleEmailInput}
+          onChange={(e) => setEmailInput(e.target.value)}
           required
         />
 
