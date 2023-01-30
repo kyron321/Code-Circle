@@ -6,21 +6,14 @@ import { getDocs, getCollection, getFirestore } from "firebase/firestore";
 // Code Circle's config
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1ootVgJ89u4TYCjXs4FwbvRL2U4H_eQs",
-
-  authDomain: "rich-branch-41bc2.firebaseapp.com",
-
-  projectId: "rich-branch-41bc2",
-
-  storageBucket: "rich-branch-41bc2.appspot.com",
-
-  messagingSenderId: "3217860387",
-
-  appId: "1:3217860387:web:32d1e9f639ec1f7d54ce96",
+  apiKey: "AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI",
+  authDomain: "code-circle--x.firebaseapp.com",
+  projectId: "code-circle--x",
+  storageBucket: "code-circle--x.appspot.com",
+  messagingSenderId: "250555057230",
+  appId: "1:250555057230:web:b0b6fe6f763bc2f458ef1f",
+  measurementId: "G-LHZ1H9YKED"
 };
-
-
-
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

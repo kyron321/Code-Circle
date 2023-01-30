@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-import { app } from "../../firebase/config";
+import { db } from "../../firebase/config";
 import PostReplyForm from "../../components/postReplyForm";
 import PostReplies from "../../components/PostReplies";
 import { getReplies } from "../../hooks/getReplies";
 
-const db = getFirestore(app);
+
 
 // Gets all posts from Firestore database
 async function getPosts(db) {

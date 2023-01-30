@@ -4,8 +4,11 @@ import landingPageImage from "../../images/landingPageImage.svg";
 import styles from "../../css/hero.module.css";
 import Button from "../../components/Button";
 import arrow from "../../images/arrow.svg";
+import { useRouter } from "next/router";
+
 
 export default function Hero() {
+  const router = useRouter()
   return (
     <main className={styles.mainStyle}>
       <div className={styles.imageContainer}>

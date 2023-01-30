@@ -1,9 +1,8 @@
 import { getDocs, collection, getFirestore } from "firebase/firestore";
 
-import { app } from "../firebase/config";
+import { db } from "../firebase/config";
 
 export async function getReplies() {
-  const db = getFirestore(app);
 
   const repliesCol = collection(db, "replies");
   

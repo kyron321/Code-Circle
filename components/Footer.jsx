@@ -40,6 +40,8 @@ export default function Footer() {
             label="Github Repository"
             image={arrow}
             className={styles.button}
+            href={'https://github.com/kyron321/Code-Circle'}
+            target="_blank"
           />
         </div>
       </div>

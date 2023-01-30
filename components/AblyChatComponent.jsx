@@ -62,8 +62,8 @@ const AblyChatComponent = (props) => {
   const previousMessages = messageHistory.map((msg, index) => {
     console.log(msg);
     return (
-      <section>
-        <span key={index}>
+      <section key ={index}>
+        <span>
           {msg.user.stringValue}: {msg.message.stringValue}
         </span>
         <br />
@@ -75,8 +75,8 @@ const AblyChatComponent = (props) => {
     const author = message.connectionId === ably.connection.id ? "me" : "other";
 
     return (
-      <section>
-        <span key={index} data-author={author}>
+      <section key={index} >
+        <span data-author={author}>
           {message.name}: {message.data}
         </span>
         <br />
