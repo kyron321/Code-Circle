@@ -8,13 +8,13 @@ export default function CreateAnAccount() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [techStack, setTechStack] = useState([]);
-  const { signup } = useSignup();
+  const { signup, error, isPending } = useSignup();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup(emailInput, passwordInput, displayNameInput);
     postUser(displayNameInput, techStack);
-    redirect();
+    signup(emailInput, passwordInput, displayNameInput);
+    // redirect();
   };
 
   const onChangeTechStack = (e) => {
@@ -35,17 +35,6 @@ export default function CreateAnAccount() {
     }
   };
 
-  const handleDisplayNameInput=(e)=> {
-    setDisplayNameInput(e.target.value);
-  }
-
-  const handleEmailInput=(e)=> {
-    setEmailInput(e.target.value);
-    if (e.target.value === "") {
-      setEmailInput(null);
-    }
-  }
-
   let router = useRouter();
   function redirect() {
     router.push("/home");
@@ -55,12 +44,11 @@ export default function CreateAnAccount() {
     <main>
       <h1>Create an Account</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Display name:</label>
+        <label htmlFor="text">Display name:</label>
         <input
           type="text"
-          id="display-name"
           value={displayNameInput}
-          onChange={handleDisplayNameInput}
+          onChange={(e) => setDisplayNameInput(e.target.value)}
           required
         />
 
@@ -69,9 +57,8 @@ export default function CreateAnAccount() {
         <label htmlFor="email">Email:</label>
         <input
           type="email"
-          id="email"
           value={emailInput}
-          onChange={handleEmailInput}
+          onChange={(e) => setEmailInput(e.target.value)}
           required
         />
 
@@ -80,7 +67,6 @@ export default function CreateAnAccount() {
         <label htmlFor="password">Password:</label>
         <input
           type="password"
-          id="password"
           value={passwordInput}
           onChange={(e) => {
             setPasswordInput(e.target.value);
@@ -94,7 +80,6 @@ export default function CreateAnAccount() {
           <legend>Tech stack:</legend>
           <input
             type="checkbox"
-            id="html"
             name="HTML"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -105,7 +90,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="css"
             name="CSS"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -115,7 +99,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="javascript"
             name="JavaScript"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -125,7 +108,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="java"
             name="Java"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -135,7 +117,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="php"
             name="PHP"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -145,7 +126,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="mysql"
             name="MySQL"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -155,7 +135,6 @@ export default function CreateAnAccount() {
 
           <input
             type="checkbox"
-            id="lamp"
             name="LAMP"
             onChange={(e) => {
               onChangeTechStack(e);
@@ -163,7 +142,10 @@ export default function CreateAnAccount() {
           />
           <label htmlFor="lamp">LAMP</label>
         </fieldset>
-        <button>Submit</button>
+      {!isPending && <button className="btn">Signup</button>}
+      {isPending && <button className="btn" disabled>Loading</button>}
+        {error && <p>{error}</p>}
+      {console.log(error)}
       </form>
     </main>
   );
