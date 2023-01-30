@@ -60,10 +60,14 @@ const AblyChatComponent = (props) => {
     event.preventDefault();
   };
   const previousMessages = messageHistory.map((msg, index) => {
+    console.log(msg);
     return (
-      <span key={index}>
-        {msg.name}: {msg.data}
-      </span>
+      <section>
+        <span key={index}>
+          {msg.user.stringValue}: {msg.message.stringValue}
+        </span>
+        <br />
+      </section>
     );
   });
 
@@ -71,9 +75,12 @@ const AblyChatComponent = (props) => {
     const author = message.connectionId === ably.connection.id ? "me" : "other";
 
     return (
-      <span key={index} data-author={author}>
-        {message.name}: {message.data}
-      </span>
+      <section>
+        <span key={index} data-author={author}>
+          {message.name}: {message.data}
+        </span>
+        <br />
+      </section>
     );
   });
   <div
