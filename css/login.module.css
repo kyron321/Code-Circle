@@ -1,61 +1,111 @@
+.login {
+  display: flex;
+}
+
 .container {
+  height: 75vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+}
+
+.header {
+  text-align: center;
+}
+
+.logoStyle {
+  cursor: pointer;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.inputStyle {
+  width: 312px;
+  height: 50px;
+  border: 1px solid #dbdbdb;
+  border-radius: 15px;
+  background: #fafafa;
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.button {
+  width: 342px;
+  height: 64px;
+  border: 1px solid #dbdbdb;
+  border-radius: 15px;
+  background-color: #043873;
+  color: #ffffff;
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.forgotPassword:visited {
+  text-decoration: none;
+  color: #4f9cf9;
+}
+
+.fieldset {
+  border: 1px solid #dbdbdb;
+  width: 342px;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.sideContainer {
+  display: none;
+}
+
+@media screen and (min-width: 1024px) {
+  .sideContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    background-color: #043873;
+    color: white;
+    width: 50%;
+    height: 100vh;
+    padding: 0px 100px;
+    box-sizing: border-box;
+  }
+  .container {
     height: 75vh;
-    padding-top: 200px;
+    padding-top: 100px;
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 50%;
     gap: 30px;
   }
-  
-  .header {
-    text-align: center;
+  .sideTitle {
+    font-size: 40px;
+    text-align: left;
+    width: 70%;
   }
-  
-  .logoStyle {
-    cursor: pointer;
+
+  .description {
+    font-size: 16px;
+    text-align: left;
+    width: 70%;
+    font-family: quicksand;
   }
-  
-  .formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  .side_btn {
+    width: 150px;
   }
-  
-  .inputStyle {
-    width: 312px;
-    height: 50px;
-    border: 1px solid #dbdbdb;
-    border-radius: 15px;
-    background: #fafafa;
-    padding: 0px 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  
-  .button {
-    width: 342px;
-    height: 64px;
-    border: 1px solid #dbdbdb;
-    border-radius: 15px;
-    background-color: #043873;
-    color: #ffffff;
-    padding: 0px 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .forgotPassword:visited {
-    text-decoration: none;
-    color: #4f9cf9;
-  }
-  
-  .fieldset {
-    border: 1px solid #dbdbdb;
-    width: 342px;
-    display: flex;
-    margin-bottom: 20px;
-  }
+}
+
