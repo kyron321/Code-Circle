@@ -165,7 +165,7 @@ export default function Video() {
   }
 
   async function startScreenCapture() {
-    const sender = peerConnection.current.getSenders()[1];    
+    const sender = peerConnection.current.getSenders()[1];
     const displayMediaOptions = {
       video: {
         displaySurface: 'window',
@@ -211,7 +211,9 @@ export default function Video() {
         <button disabled={!isCameraStarted} onClick={hangUp}>
           Hang up
         </button>
-        <button onClick={startScreenCapture}>Screen share</button>
+        <button disabled={!isCameraStarted} onClick={startScreenCapture}>
+          Screen share
+        </button>
         <form onSubmit={answerCall}>
           <input
             id="call-id-input"
