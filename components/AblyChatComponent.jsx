@@ -25,7 +25,10 @@ const AblyChatComponent = (props) => {
   });
   useEffect(() => {
     async function getChatHistory() {
-      const q = query(collection(db, "messages"), where("channel", "==", "1"));
+      const q = query(
+        collection(db, "messages"),
+        where("channel", "==", `${props.channelNum.channel}`)
+      );
       const querySnapshot = await getDocs(q);
       const returnedMessages = querySnapshot.docs.map((doc) => {
         return doc._document.data.value.mapValue.fields;
