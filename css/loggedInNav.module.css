@@ -1,65 +1,48 @@
 .navContainer {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  position: absolute;
-  width: 100vw;
-  height: 92px;
-  left: 0px;
-  top: 0px;
-
-  background: #043873;
+  background-color: #043873;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  padding: 40px;
+  box-sizing: border-box;
+  width: calc(100%);
 }
 
-.logoStyle {
-  margin-left: 4em;
+.buttonContainerStyle {
+  display: none;
 }
-.avatarImage {
-  height: 60px;
-  width: 60px;
-  border-radius: 50px;
+
+.hamburgerMenuStyle {
+  color: white;
+  font-size: 30px;
 }
 
 .userInfoStyles {
   display: flex;
-  gap: 1em;
-  margin-right: 2em;
+  gap: 20px;
   align-items: center;
+}
+
+.username {
   color: white;
+  font-size: 16px;
+  font-weight: 100;
 }
 
-.logoutButton {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 16px 40px;
-  gap: 10px;
-  width: 124px;
-  height: 60px;
-  background: #fb8c00;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  font-family: 'Archivo';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 23px;
-  border: 0;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  cursor: pointer;
-  transition-duration: 0.4s;
+@media screen and (min-width: 769px) {
+  .buttonContainerStyle {
+    display: flex;
+    gap: 20px;
+  }
+  .navContainer {
+    padding: 20px 100px;
+  }
+  .hamburgerMenuStyle {
+    display: none;
+  }
 }
 
-.logoutButton:hover{
-  background-color: transparent;
-  border: 2px solid #fb8c00;
- 
 
-}

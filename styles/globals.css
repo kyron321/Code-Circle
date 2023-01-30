@@ -1,32 +1,45 @@
 * {
-  font-family: 'Archivo', sans-serif;
+  font-family: "Archivo", sans-serif;
 }
 
 ol {
   list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 ul {
   list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 }
-a:link { text-decoration: none; 
-color: #ffffff}
-
-
-a:visited { text-decoration: none;
-  color: #ffffff 
+a:link {
+  text-decoration: none;
+  color: #ffffff;
 }
 
+a:visited {
+  text-decoration: none;
+  color: #ffffff;
+}
 
-a:hover { text-decoration: none; 
-  color: #ffffff}
+a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
 
+a:active {
+  text-decoration: none;
+  color: #ffffff;
+}
 
-a:active { text-decoration: none; 
-  color: #ffffff}
-
-html, body {
+html,
+body {
   margin: 0px;
   padding: 0px;
   background: #fafafa;
+}
+
+h1 {
+  margin: 0px;
 }
