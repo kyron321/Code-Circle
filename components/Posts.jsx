@@ -6,6 +6,7 @@ import { orderBy, query, getDocs, collection } from "firebase/firestore";
 import styles from "../css/posts.module.css";
 import Button from "./Button";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Loader from "./Loader";
 
 async function getPosts() {
   const postsCol = collection(db, "posts");
@@ -18,8 +19,8 @@ async function getPosts() {
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthContext();
-  console.log(user);
 
   useEffect(() => {
     getPosts(db).then((response) => {
@@ -35,12 +36,26 @@ export default function Posts() {
         return newPost;
       });
       setPosts(postsArray);
+      setIsLoading(false);
     });
   }, []);
+
   return (
     <main className={styles.container}>
-      <h1>Welcome {user?.displayName}</h1>
-      <Button type="primary" label="Create a Post" href={"/create-a-post"} />
+      {isLoading ? (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      ) : (
+        <div>
+          <h1>Welcome {user?.displayName}</h1>
+          <Button
+            type="primary"
+            label="Create a Post"
+            href={"/create-a-post"}
+          />
+        </div>
+      )}
       {posts.map((post) => {
         return <HomePagePostCard key={post.postId} post={post} />;
       })}
