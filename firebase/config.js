@@ -5,7 +5,6 @@ import { getDocs, getCollection, getFirestore } from "firebase/firestore";
 
 // Code Circle's config
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI",
   authDomain: "code-circle--x.firebaseapp.com",
@@ -15,6 +14,7 @@ const firebaseConfig = {
   appId: "1:250555057230:web:b0b6fe6f763bc2f458ef1f",
   measurementId: "G-LHZ1H9YKED"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

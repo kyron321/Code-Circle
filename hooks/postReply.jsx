@@ -1,5 +1,6 @@
 import { db } from '../firebase/config';
 import { addDoc, collection } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 // Todo - user needs to be reinstated, 
 
@@ -12,8 +13,13 @@ export const postReply = (message, postId, user) => {
             message,
             postId,
             user
-        });
-      console.log("Document written with ID: ", docRef.id)
+        })
+            .then((response) => {
+                const reply = doc(db, "replies", response.id);
+                updateDoc(reply, {
+                    replyId: response.id,
+ });  
+        })
     } catch (e) {
            console.log("error")
 }
