@@ -19,8 +19,11 @@ export default function UserProfile({ userName }) {
   let messageChannel;
 
   function createChannel() {
-    messageChannel = userNameFromParams + user.displayName;
-    return messageChannel;
+    if (user.displayName > userNameFromParams) {
+      messageChannel = userNameFromParams + user.displayName;
+    } else
+        messageChannel =  user.displayName + userNameFromParams;
+        return messageChannel;
   }
 
   // if (user.displayName !== null && user.displayName > userNameFromParams) {
