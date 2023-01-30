@@ -8,13 +8,14 @@ export default function ScreenSharing() {
     audio: true,
   };
 
-  function startCapture() {
-    const displayMediaOptions = {
-      video: {
-        displaySurface: 'window',
-      },
-      audio: false,
-    };
+  const displayMediaOptions = {
+    video: {
+      displaySurface: 'window',
+    },
+    audio: false,
+  };
+
+  function startCapture(displayMediaOptions) {
     navigator.mediaDevices
       .getDisplayMedia(displayMediaOptions)
       .then((mediaStream) => {
