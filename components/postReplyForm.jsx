@@ -1,24 +1,19 @@
 import { useState } from "react";
 import { postReply } from "../hooks/postReply";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
-export default function PostReplyForm({ pid }) {
-  const [ reply, setReply ] = useState("");
-  const [ postReplyInput, setPostReplyInput] = useState( "" );
+
+export default function PostReplyForm({ pid, setReplies }) {
+  const [postReplyInput, setPostReplyInput] = useState("");
 
   const { user } = useAuthContext();
-
-  let router = useRouter();
-  function redirect() {
-      router.push(`/posts/${pid}`)
-  }
-
+ 
   function handleSubmit(e) {
     e.preventDefault();
     postReply(postReplyInput, pid, user.displayName);
     setPostReplyInput("");
-    redirect();
+    setReplies((prevReplies) => [...prevReplies, {message: postReplyInput, user: user.displayName, postId: pid, createdAt: new Date()}]);
   }
 
   function onChangePostReply(e) {
@@ -27,13 +22,14 @@ export default function PostReplyForm({ pid }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="Reply__card">
+      <form onSubmit={handleSubmit}>
         <textarea
           onChange={onChangePostReply}
           value={postReplyInput}
+          placeholder="type your reply here"
         />
-        <button>submit</button>
+        <button type="submit">submit</button>
       </form>
     </div>
   );
-} 
+}
