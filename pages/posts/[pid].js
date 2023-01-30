@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import PostReplyForm from "../../components/postReplyForm";
 import PostReplies from "../../components/PostReplies";
 import { getReplies } from "../../hooks/getReplies";
-
-
+import styles from "../../css/posts.module.css";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
@@ -40,15 +39,17 @@ export default function SinglePost() {
   });
 
   return (
-    <div>
+    <div className={styles.singlePost}>
+      <div className={styles.back} onClick={()=>{
+        router.push('/home')
+      }}>{'< Back to all posts'}</div>
       <h1>{postToRender[0]?.postTitle}</h1>
       <p>User: {postToRender[0]?.user}</p>
       <p>Programming language: {postToRender[0]?.programmingLanguage}</p>
       <p>Time to code: {postToRender[0]?.timeToCode?.replace("T", " ")}</p>
       <p>Time zone: {postToRender[0]?.timeZone}</p>
       <p>{postToRender[0]?.projectDescription}</p>
-      <PostReplyForm pid={pid}
-        setReplies={setReplies}/>
+      <PostReplyForm pid={pid} setReplies={setReplies} />
       <PostReplies pid={pid} replies={replies} />
     </div>
   );
