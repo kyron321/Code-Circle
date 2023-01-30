@@ -76,7 +76,10 @@ export default function UserProfile({ userName }) {
         <h2 className={styles.displayName}>{userNameFromParams}</h2>
         {isSomeoneElsesProfile ? (
           <div className={styles.contactOtherUser}>
-            <button onClick={() => router.push(`/message/${createChannel()}`)}>
+            <button onClick={() => router.push({ pathname: `/message/${createChannel()}`,
+          query: {secondUser: `${userNameFromParams}`}
+            })}>
+              
               <TbMessage2 size={30} style={{ color: "white" }} />
             </button>
 
