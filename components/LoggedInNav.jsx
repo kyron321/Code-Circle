@@ -52,7 +52,7 @@ export default function LoggedInNav() {
   return (
     <nav>
       <div className={styles.navContainer}>
-        <Link href={'/'} >
+        <Link href={"/"}>
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
         {showModal && modal}
@@ -61,7 +61,7 @@ export default function LoggedInNav() {
         }} className={styles.hamburgerMenuStyle} />
         <div className={styles.buttonContainerStyle}>
           <div className={styles.userInfoStyles}>
-            <Link href={'/'} >
+            <Link href={"/"}>
               <Image
                 className={styles.avatarImage}
                 src={defaultAvatar}
@@ -70,7 +70,7 @@ export default function LoggedInNav() {
                 height={50}
               />
             </Link>
-            <Link href={'/message'}>
+            <Link href={"/message"}>
               <TbMessage2 size={30} style={{ color: "white" }} />{" "}
             </Link>
             <div className={styles.username}>{user.displayName}</div>
@@ -84,6 +84,5 @@ export default function LoggedInNav() {
         </div>
       </div>
     </nav>
-
   );
 }
