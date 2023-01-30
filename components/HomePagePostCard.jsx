@@ -14,7 +14,7 @@ export default function HomePagePostCard({ post }) {
       <p>User: {post.user}</p>
       <p>
         Post title:{' '}
-        {post.title}
+        {post.postTitle}
       </p>
       <p>Project description: {post.projectDescription}</p>
       <p>Programming language: {post.programmingLanguage}</p>
