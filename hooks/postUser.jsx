@@ -7,7 +7,6 @@ export const postUser = (displayName, techStack) => {
             displayname: displayName,
             techstack: techStack
         });            
-        console.log("Document written with ID: ", docRef.id);
     } catch(e) {
         console.error("Error adding document: ", e);
     }
