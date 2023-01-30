@@ -5,6 +5,8 @@ import styles from "../css/loggedOutNav.module.css";
 import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Button from "./Button";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function LoggedOutNav() {
   const router = useRouter();
@@ -12,22 +14,28 @@ export default function LoggedOutNav() {
   return (
     <nav>
       <div className={styles.navContainer}>
-      <Link href="/">
+        <Link href="/">
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
+        <GiHamburgerMenu className={styles.hamburgerMenuStyle} />
         <div className={styles.buttonContainerStyle}>
-          <button
-            className={styles.loginButtonStyle}
+          <Button
+            label="Login"
+            type="primary"
+            size="medium"
             onClick={() => {
               router.push("/login");
             }}
-          >
-            Login
-          </button>
-          <button onClick={()=>{router.push('/create-an-account')}} className={styles.tryCodeCircleButtonStyle}>
-            <div className={styles.tryCodeText}>Try Code Circle free</div>
-            <Image src={arrow} alt="button arrow" />
-          </button>
+          />
+          <Button
+            label="Try Code Circle free"
+            type="secondary"
+            size="medium"
+            image={arrow}
+            onClick={() => {
+              router.push("/create-an-account");
+            }}
+          />
         </div>
       </div>
     </nav>
