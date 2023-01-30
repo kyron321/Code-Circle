@@ -18,6 +18,7 @@ export default function Button({
   className,
   loading,
   onClick,
+  target,
   image = null,
 }) {
   const sizeStyles = {
@@ -73,6 +74,7 @@ export default function Button({
         href={href}
         className={className}
         onClick={onClick}
+        target={target}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           {label}

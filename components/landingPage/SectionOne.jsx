@@ -3,8 +3,10 @@ import styles from "../../css/sectionOne.module.css";
 import Button from "../../components/Button";
 import arrow from "../../images/arrow.svg";
 import collabImg from "../../images/collab-img.png";
+import { useRouter } from "next/router";
 
 export default function SectionOne() {
+  const router = useRouter()
   return (
     <section className={styles.mainContainer}>
       <div className={styles.sectionContainer}>

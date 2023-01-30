@@ -1,9 +1,10 @@
 import Button from "../Button";
 import arrow from "../../images/arrow.svg";
-import router from "next/router";
+import  { useRouter } from "next/router";
 import styles from "../../css/info.module.css";
 
 export default function Info() {
+  const router = useRouter()
   return (
     <div className={styles.container}>
       <div className={styles.info}>
