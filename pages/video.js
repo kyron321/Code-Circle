@@ -165,18 +165,19 @@ export default function Video() {
   }
 
   async function startScreenCapture() {
+    const sender = peerConnection.current.getSenders()[1];    
     const displayMediaOptions = {
       video: {
         displaySurface: 'window',
       },
       audio: false,
     };
-
     const screenCapture = await navigator.mediaDevices.getDisplayMedia(
       displayMediaOptions
     );
     localStream = screenCapture;
-    console.log(peerConnection.current);
+    const screenShareTrack = localStream.getTracks()[0];
+    sender.replaceTrack(screenShareTrack);
     localUser.current.srcObject = screenCapture;
   }
 
