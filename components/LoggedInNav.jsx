@@ -52,7 +52,7 @@ export default function LoggedInNav() {
   return (
     <nav>
       <div className={styles.navContainer}>
-        <Link href={"/"}>
+        <Link href={"/home"}>
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
         {showModal && modal}
