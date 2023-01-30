@@ -66,9 +66,7 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .mainStyle {
-    padding-bottom: 0px;
-  }
+ 
 
   .imageContainer {
     position: relative;
