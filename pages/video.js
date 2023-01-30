@@ -148,7 +148,7 @@ export default function Video() {
     });
   };
 
-  async function hangUp() {
+  function hangUp() {
     const tracks = localUser.current.srcObject.getTracks();
     tracks.forEach((track) => {
       track.stop();
@@ -162,6 +162,23 @@ export default function Video() {
       peerConnection.current.close();
     }
     setIsCameraStarted(false);
+  }
+
+  async function startScreenCapture() {
+    const sender = peerConnection.current.getSenders()[1];
+    const displayMediaOptions = {
+      video: {
+        displaySurface: 'window',
+      },
+      audio: false,
+    };
+    const screenCapture = await navigator.mediaDevices.getDisplayMedia(
+      displayMediaOptions
+    );
+    localStream = screenCapture;
+    const screenShareTrack = localStream.getTracks()[0];
+    sender.replaceTrack(screenShareTrack);
+    localUser.current.srcObject = screenCapture;
   }
 
   return (
@@ -193,6 +210,9 @@ export default function Video() {
         ) : null}
         <button disabled={!isCameraStarted} onClick={hangUp}>
           Hang up
+        </button>
+        <button disabled={!isCameraStarted} onClick={startScreenCapture}>
+          Screen share
         </button>
         <form onSubmit={answerCall}>
           <input
