@@ -39,9 +39,8 @@ export default function Posts() {
   }, []);
   return (
     <main className={styles.container}>
+      <h1>Welcome {user?.displayName}</h1>
       <Button type="primary" label="Create a Post" href={"/create-a-post"} />
-      {/* <h1>Welcome {user.displayName}</h1> */}
-
       {posts.map((post) => {
         return <HomePagePostCard key={post.postId} post={post} />;
       })}
