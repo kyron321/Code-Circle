@@ -90,12 +90,16 @@ export default function CreateAPost() {
           id="programming-languages"
           onChange={handleOnChangeLanguage}
         >
+          <option value="HTML">HTML</option>
+          <option value="CSS">CSS</option>
           <option value="Javascript">Javascript</option>
-          <option value="Java">Java</option>
-          <option value="C++">C++</option>
-          <option value="PHP">PHP</option>
           <option value="Python">Python</option>
+          <option value="Java">Java</option>
+          <option value="PHP">PHP</option> 
+          <option value="C#">C#</option>                   
           <option value="Swift">Swift</option>
+          <option value="Kotlin">Kotlin</option>
+          <option value="R">R</option>
         </select>
         <br></br>
         <br></br>

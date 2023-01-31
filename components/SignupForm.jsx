@@ -127,7 +127,7 @@ export default function SignupForm() {
         </Link>
 
         <fieldset className={styles.fieldset}>
-          <legend>Tech stack:</legend>
+          <legend>Languages:</legend>
           <input
             type="checkbox"
             id="html"
@@ -161,6 +161,16 @@ export default function SignupForm() {
 
           <input
             type="checkbox"
+            id="python"
+            name="Python"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="python">Python</label>
+
+          <input
+            type="checkbox"
             id="java"
             name="Java"
             onChange={(e) => {
@@ -181,23 +191,43 @@ export default function SignupForm() {
 
           <input
             type="checkbox"
-            id="mysql"
-            name="MySQL"
+            id="c#"
+            name="C#"
             onChange={(e) => {
               onChangeTechStack(e);
             }}
           />
-          <label htmlFor="mysql">MySQL</label>
+          <label htmlFor="c#">C#</label>
 
           <input
             type="checkbox"
-            id="lamp"
-            name="LAMP"
+            id="swift"
+            name="Swift"
             onChange={(e) => {
               onChangeTechStack(e);
             }}
           />
-          <label htmlFor="lamp">LAMP</label>
+          <label htmlFor="swift">Swift</label>
+
+          <input
+            type="checkbox"
+            id="kotlin"
+            name="Kotlin"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="kotlin">Kotlin</label>
+
+          <input
+            type="checkbox"
+            id="r"
+            name="R"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="r">R</label>
         </fieldset>
         <motion.button
           variants={buttonVariants}
