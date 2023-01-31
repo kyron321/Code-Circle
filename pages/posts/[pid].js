@@ -6,11 +6,12 @@ import PostReplyForm from "../../components/postReplyForm";
 import PostReplies from "../../components/PostReplies";
 import { getReplies } from "../../hooks/getReplies";
 import styles from "../../css/posts.module.css";
-import profilePlaceholder from '../../images/profilePlaceholder.png'
+import profilePlaceholder from "../../images/profilePlaceholder.png";
 import Image from "next/image";
 import moment from "moment/moment";
-import imagePlaceholder from '../../images/image-placeholder.svg'
-import {IoChevronBackCircleSharp} from 'react-icons/io5'
+import imagePlaceholder from "../../images/image-placeholder.svg";
+import { IoChevronBackCircleSharp } from "react-icons/io5";
+import Link from "next/link";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
@@ -45,70 +46,72 @@ export default function SinglePost() {
 
   return (
     <div className={styles.container}>
-    <div
-      style={{ cursor: "pointer" }}
-      onClick={() => {
-        router.push("/home");
-      }}
-    >
-      <div className={styles.back}>
-        <div>Back to all posts</div>
-        <IoChevronBackCircleSharp/>
-      </div>
-   
-
-    </div>
-    <div className={styles.post}>
-      <div className={styles.colOne}>
-        <div className={styles.profileContainer}>
-          <Image
-            src={profilePlaceholder}
-            width={60}
-            height={60}
-            alt="profile placeholder"
-            className={styles.profileImage}
-          />
+      <div
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          router.push("/home");
+        }}
+      >
+        <div className={styles.back}>
+          <div>Back to all posts</div>
+          <IoChevronBackCircleSharp />
         </div>
-        <div className={styles.colTwo}>
-          <div className={styles.userInfo}>
-            <div>{postToRender[0]?.user}</div>
-            <div className={styles.atUser}>@{postToRender[0]?.user} in</div>
-            <div className={styles.programmingLanguage}>
-              {postToRender[0]?.programmingLanguage}
-            </div>
-            <div className={styles.time}>
-              Today <span>at</span> 16:12pm
-            </div>
+      </div>
+      <div className={styles.post}>
+        <div className={styles.colOne}>
+          <div className={styles.profileContainer}>
+            <Image
+              src={profilePlaceholder}
+              width={60}
+              height={60}
+              alt="profile placeholder"
+              className={styles.profileImage}
+            />
           </div>
-
-          <div className={styles.details}>
-            <div>
-              <div className={styles.title}>{postToRender[0]?.postTitle}</div>
-              <div className={styles.description}>
-                {postToRender[0]?.projectDescription}
+          <div className={styles.colTwo}>
+            <div className={styles.userInfo}>
+              <div className={styles.link}>
+                <Link href={`/users/${postToRender[0]?.user}`}>
+                  {postToRender[0]?.user}
+                </Link>
+              </div>
+              <div className={styles.atUser}>@{postToRender[0]?.user} in</div>
+              <div className={styles.programmingLanguage}>
+                {postToRender[0]?.programmingLanguage}
+              </div>
+              <div className={styles.time}>
+                Today <span>at</span> 16:12pm
               </div>
             </div>
-            <div>
+
+            <div className={styles.details}>
               <div>
-                Time to code:{" "}
-                {moment(postToRender[0]?.timeToCode).format("MMMM Do YYYY")}{" "}
-                at {moment(postToRender[0]?.timeToCode).format("HH:MM a")}
+                <div className={styles.title}>{postToRender[0]?.postTitle}</div>
+                <div className={styles.description}>
+                  {postToRender[0]?.projectDescription}
+                </div>
               </div>
-              <div>Time zone: {postToRender[0]?.timeZone}</div>
+              <div>
+                <div>
+                  Time to code:{" "}
+                  {moment(postToRender[0]?.timeToCode).format("MMMM Do YYYY")}{" "}
+                  at {moment(postToRender[0]?.timeToCode).format("HH:MM a")}
+                </div>
+                <div>Time zone: {postToRender[0]?.timeZone}</div>
+              </div>
             </div>
           </div>
+          <div className={styles.colThree}>
+            <Image
+              src={imagePlaceholder}
+              className={styles.image}
+              alt="image placeholder"
+            />
+          </div>
         </div>
-        <div className={styles.colThree}>
-          <Image
-            src={imagePlaceholder}
-            className={styles.image}
-            alt="image placeholder"
-          />
-        </div>
+        <PostReplyForm pid={pid} setReplies={setReplies} />
+        <PostReplies pid={pid} replies={replies} />
       </div>
-      <PostReplyForm pid={pid} setReplies={setReplies} />
-      <PostReplies pid={pid} replies={replies} />
-    </div>
     </div>
   );
 }
