@@ -53,6 +53,7 @@ export default function Conversations() {
         <section className={styles.conversations}>
           {Object.keys(grouped).map((item, i) => (
             <div
+            key={i}
               onClick={() =>
                 handleRedirect(
                   grouped?.[item]?.[0]?.channel,
