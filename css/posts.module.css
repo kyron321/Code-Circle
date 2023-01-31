@@ -258,3 +258,7 @@
     }
   }
 
+  .link :any-link {
+    color: black;
+  }
+

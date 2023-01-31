@@ -1,21 +1,24 @@
-import React from 'react';
-import Link from 'next/link';
-import styles from '../css/posts.module.css'
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import {BiMessageRounded} from 'react-icons/bi'
-import profilePlaceholder from '../images/profilePlaceholder.png'
-import imagePlaceholder from '../images/image-placeholder.svg'
-import moment from 'moment/moment';
+import React from "react";
+import Link from "next/link";
+import styles from "../css/posts.module.css";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { BiMessageRounded } from "react-icons/bi";
+import profilePlaceholder from "../images/profilePlaceholder.png";
+import imagePlaceholder from "../images/image-placeholder.svg";
+import moment from "moment/moment";
 
 export default function HomePagePostCard({ post }) {
-  const router = useRouter()
-  const {postId} = router.query
+  const router = useRouter();
+  const { postId } = router.query;
   return (
-    <div className={styles.post} onClick={()=>{
-      router.push(`/posts/${post.postId}`)
-    }}>
-       <div className={styles.mainContainer}>
+    <div
+      className={styles.post}
+      onClickCapture={() => {
+        router.push(`/posts/${post.postId}`);
+      }}
+    >
+      <div className={styles.mainContainer}>
         <div className={styles.colOne}>
           <div className={styles.profileContainer}>
             <Image
@@ -28,7 +31,9 @@ export default function HomePagePostCard({ post }) {
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div>{post.user}</div>
+              <div className={styles.link}>
+                <Link href={`/users/${post.user}`}>User: {post.user}</Link>
+              </div>
               <div className={styles.atUser}>@{post.user} in</div>
               <div className={styles.programmingLanguage}>
                 {post.programmingLanguage}
