@@ -12,6 +12,7 @@ import moment from "moment/moment";
 import imagePlaceholder from "../../images/image-placeholder.svg";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
+import checkLoggedIn from "../../hooks/checkLoggedIn";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
@@ -22,6 +23,7 @@ async function getPosts(db) {
 }
 
 export default function SinglePost() {
+  checkLoggedIn();
   const [posts, setPosts] = useState([]);
   const [replies, setReplies] = useState([]);
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createAPost } from "../hooks/useCreateAPost";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../hooks/useAuthContext";
+import checkLoggedIn from "../hooks/checkLoggedIn";
 
 export default function CreateAPost() {
   const { user } = useAuthContext();
@@ -11,6 +12,7 @@ export default function CreateAPost() {
   const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
   const [timeToCode, setTimeToCode] = useState("");
   const [timeZone, setTimeZone] = useState("GMT");
+  checkLoggedIn();
 
   let router = useRouter();
   function redirect() {
