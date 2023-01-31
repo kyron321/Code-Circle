@@ -1,0 +1,65 @@
+.conversations {
+  height: 90px;
+  background-color: #fafafa;
+  border-bottom: solid 1px #e0e0e0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  margin: 20px;
+}
+
+.photo {
+  margin-left: 20px;
+  display: block;
+  width: 45px;
+  height: 45px;
+}
+
+.avatarImage {
+  border-radius: 50%;
+  border: 1px solid #043873;
+}
+
+.online {
+  position: relative;
+  top: -20px;
+  left: 35px;
+  width: 13px;
+  height: 13px;
+  background-color: #8bc34a;
+  border-radius: 13px;
+  border: 3px solid #fafafa;
+}
+
+.desc-contact {
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.name {
+  margin: 0 0 0 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16pt;
+  color: #515151;
+}
+
+.message {
+  margin: 6px 0 0 20px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10pt;
+  color: #515151;
+}
+
+.createdAt {
+  margin-left: 15%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 11px;
+  padding: 3px 8px;
+  color: #bbb;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 15px;
+}

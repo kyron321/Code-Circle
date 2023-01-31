@@ -24,8 +24,8 @@ const AblyChatComponent = (props) => {
     // This means we'll always have up to 199 message + 1 new message, stored using the
     // setMessages react useState hook
   });
-  const router = useRouter()
-  console.log(router.query.secondUser,"ROUTER")
+  const router = useRouter();
+  console.log(router.query.secondUser, "ROUTER");
 
   useEffect(() => {
     async function getChatHistory() {
@@ -70,7 +70,7 @@ const AblyChatComponent = (props) => {
   const previousMessages = messageHistory.map((msg, index) => {
     console.log(msg);
     return (
-      <section key ={index}>
+      <section key={index}>
         <span>
           {msg.user.stringValue}: {msg.message.stringValue}
         </span>
@@ -83,7 +83,7 @@ const AblyChatComponent = (props) => {
     const author = message.connectionId === ably.connection.id ? "me" : "other";
 
     return (
-      <section key={index} >
+      <section key={index}>
         <span data-author={author}>
           {message.name}: {message.data}
         </span>

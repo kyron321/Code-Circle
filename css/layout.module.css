@@ -1,0 +1,4 @@
+/* add padding so that nav doesnt hide content */
+.main {
+  padding-top: 140px;
+}
