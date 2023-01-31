@@ -14,6 +14,7 @@ const buttonVariants = {
     scale: 0.99,
   },
 };
+import checkLoggedIn from "../hooks/checkLoggedIn";
 
 export default function CreateAPost() {
   const { user } = useAuthContext();
@@ -24,6 +25,7 @@ export default function CreateAPost() {
   const [timeToCode, setTimeToCode] = useState("");
   const [timeZone, setTimeZone] = useState("GMT");
   const [loading, setLoading] = useState(false);
+  checkLoggedIn();
 
   const router = useRouter();
 

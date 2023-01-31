@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../css/video.module.css';
-import { db } from '../firebase/config';
+import React, { useEffect, useRef, useState } from "react";
+import styles from "../css/video.module.css";
+import { db } from "../firebase/config";
 import {
   collection,
   getDoc,
@@ -9,12 +9,14 @@ import {
   setDoc,
   onSnapshot,
   updateDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
+import checkLoggedIn from "../hooks/checkLoggedIn";
 
 export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
   const [isCameraStarted, setIsCameraStarted] = useState(false);
   const [roomId, setRoomId] = useState(null);
+  checkLoggedIn();
   let localStream = null;
   let remoteStream = null;
   let peerConnection = useRef();
@@ -26,8 +28,8 @@ export default function Video() {
     iceServers: [
       {
         urls: [
-          'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
         ],
       },
     ],
@@ -57,7 +59,7 @@ export default function Video() {
     remoteStream = new MediaStream();
 
     peerConnection.current.ontrack = (event) => {
-      console.log('new remote track found:', event.streams[0]);
+      console.log("new remote track found:", event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
@@ -68,9 +70,9 @@ export default function Video() {
   const createCall = async (e) => {
     e.preventDefault();
 
-    const callDoc = doc(collection(db, 'calls'));
-    const offerCandidates = collection(callDoc, 'offerCandidates');
-    const answerCandidates = collection(callDoc, 'answerCandidates');
+    const callDoc = doc(collection(db, "calls"));
+    const offerCandidates = collection(callDoc, "offerCandidates");
+    const answerCandidates = collection(callDoc, "answerCandidates");
 
     setRoomId(callDoc.id);
 
@@ -80,7 +82,7 @@ export default function Video() {
 
     const offerDescription = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(offerDescription);
-    console.log('offer created with description: ', offerDescription);
+    console.log("offer created with description: ", offerDescription);
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -99,8 +101,8 @@ export default function Video() {
 
     onSnapshot(answerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          console.log('new answer candidate added');
+        if (change.type === "added") {
+          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
@@ -112,9 +114,9 @@ export default function Video() {
   const answerCall = async (e) => {
     e.preventDefault();
     const callId = roomIdInput.current.value;
-    const callDoc = doc(collection(db, 'calls'), callId);
-    const offerCandidates = collection(callDoc, 'offerCandidates');
-    const answerCandidates = collection(callDoc, 'answerCandidates');
+    const callDoc = doc(collection(db, "calls"), callId);
+    const offerCandidates = collection(callDoc, "offerCandidates");
+    const answerCandidates = collection(callDoc, "answerCandidates");
 
     peerConnection.current.onicecandidate = (event) => {
       event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
@@ -139,8 +141,8 @@ export default function Video() {
 
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          console.log('new answer candidate added');
+        if (change.type === "added") {
+          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
@@ -168,7 +170,7 @@ export default function Video() {
     const sender = peerConnection.current.getSenders()[1];
     const displayMediaOptions = {
       video: {
-        displaySurface: 'window',
+        displaySurface: "window",
       },
       audio: false,
     };
