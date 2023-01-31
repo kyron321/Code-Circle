@@ -2,6 +2,18 @@ import { useState } from "react";
 import { createAPost } from "../hooks/useCreateAPost";
 import { useRouter } from "next/router";
 import { useAuthContext } from "../hooks/useAuthContext";
+import styles from "../css/createPost.module.css";
+import { motion } from "framer-motion";
+import LoaderButton from "../components/LoaderButton";
+
+const buttonVariants = {
+  hover: {
+    scale: 1.06,
+  },
+  tap: {
+    scale: 0.99,
+  },
+};
 
 export default function CreateAPost() {
   const { user } = useAuthContext();
@@ -11,11 +23,9 @@ export default function CreateAPost() {
   const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
   const [timeToCode, setTimeToCode] = useState("");
   const [timeZone, setTimeZone] = useState("GMT");
+  const [loading, setLoading] = useState(false);
 
-  let router = useRouter();
-  function redirect() {
-    router.push("/home");
-  }
+  const router = useRouter();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -27,7 +37,10 @@ export default function CreateAPost() {
       timeToCode,
       timeZone
     );
-    redirect();
+    setLoading(true);
+    setTimeout(() => {
+      router.push("/home");
+    }, 1500);
   }
 
   function HandlePostTitleInput(e) {
@@ -51,82 +64,78 @@ export default function CreateAPost() {
   }
 
   return (
-    <div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+    <div className={styles.container}>
       <h1>Create a Post</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="post-title">Post Title</label>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
         <input
+          className={styles.input}
           type="text"
-          id="post-title"
           value={postTitleInput}
           onChange={HandlePostTitleInput}
           required
-        ></input>
-        <br></br>
-        <br></br>
+          placeholder="Enter a title for your project"
+          autoFocus
+        />
 
-        <label htmlFor="project-description">Project Description</label>
         <textarea
-          rows="10"
           name="project-description"
-          id="project-description"
           value={projectDescription}
           onChange={HandleProjectDescription}
           required
-        ></textarea>
-        <br></br>
-        <br></br>
-        <label htmlFor="programming-language">
-          select your Programming language:
+          placeholder="Enter a description for your project"
+          spellCheck="true"
+          className={styles.textarea}
+        />
+
+        <label className={styles.inputContainer}>
+          Choose a programming language :
+          <select
+            name="programming-languages"
+            onChange={handleOnChangeLanguage}
+            className={styles.select}
+          >
+            <option value="Javascript">Javascript</option>
+            <option value="Java">Java</option>
+            <option value="C++">C++</option>
+            <option value="PHP">PHP</option>
+            <option value="Python">Python</option>
+            <option value="Swift">Swift</option>
+          </select>
         </label>
-        <select
-          name="programming-languages"
-          id="programming-languages"
-          onChange={handleOnChangeLanguage}
-        >
-          <option value="Javascript">Javascript</option>
-          <option value="Java">Java</option>
-          <option value="C++">C++</option>
-          <option value="PHP">PHP</option>
-          <option value="Python">Python</option>
-          <option value="Swift">Swift</option>
-        </select>
-        <br></br>
-        <br></br>
-        <label htmlFor="meeting-time">Choose a time to code :</label>
-        <input
-          type="datetime-local"
-          id="meeting-time"
-          name="meeting-time"
-          onChange={handleChooseTimeToCode}
-        ></input>
-        <br></br>
-        <br></br>
-        <label htmlFor="Time-zone">select your Timezone:</label>
-        <select
-          name="Time-zone"
-          id="Time-Zones"
-          onChange={handleOnChangeTimeZone}
-        >
-          <option value="GMT">GMT</option>
-          <option value="UTC">UTC</option>
-          <option value="PST">PST</option>
-          <option value="UTC">UTC</option>
-          <option value="ET">ET</option>
-          <option value="CT">CT</option>
-          <option value="PT">PT</option>
-        </select>
 
-        <br></br>
-        <br></br>
-
-        <button>Submit</button>
+        <label className={styles.inputContainer}>
+          Choose a time to code :
+          <input
+            className={styles.input}
+            type="datetime-local"
+            name="meeting-time"
+            onChange={handleChooseTimeToCode}
+          />
+        </label>
+        <label className={styles.inputContainer}>
+          Choose a time zone :
+          <select
+            name="Time-zone"
+            onChange={handleOnChangeTimeZone}
+            className={styles.select}
+          >
+            <option value="GMT">GMT</option>
+            <option value="UTC">UTC</option>
+            <option value="PST">PST</option>
+            <option value="UTC">UTC</option>
+            <option value="ET">ET</option>
+            <option value="CT">CT</option>
+            <option value="PT">PT</option>
+          </select>
+        </label>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          className={styles.button}
+        >
+          {loading ? <LoaderButton /> : "Add Post"}
+        </motion.button>
       </form>
     </div>
   );
