@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Button from "./Button";
 import { GiHamburgerMenu } from "react-icons/gi";
-import Modal from "./Modal"
+import Modal from "./Modal";
 
 export default function LoggedInNav() {
   //calls logout hook to logout
@@ -22,6 +22,7 @@ export default function LoggedInNav() {
 
   const modal = (
     <Modal setShowModal={setShowModal} showModal={showModal}>
+      <Link href={`/users/${user?.displayName}`}>
       <Image
         className={styles.avatarImage}
         src={defaultAvatar}
@@ -29,8 +30,9 @@ export default function LoggedInNav() {
         width={50}
         height={50}
       />
+</Link>
       <div>Logged in {user.displayName}</div>
-      <Link href="/messages" className={styles.message_container}>
+      <Link href="/conversations" className={styles.message_container}>
         <TbMessage2 size={30} className={styles.messages} />{" "}
         <span className={styles.messages}>Messages</span>
       </Link>
@@ -56,12 +58,15 @@ export default function LoggedInNav() {
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
         {showModal && modal}
-        <GiHamburgerMenu onClick={()=>{
-          setShowModal(!showModal)
-        }} className={styles.hamburgerMenuStyle} />
+        <GiHamburgerMenu
+          onClick={() => {
+            setShowModal(!showModal);
+          }}
+          className={styles.hamburgerMenuStyle}
+        />
         <div className={styles.buttonContainerStyle}>
           <div className={styles.userInfoStyles}>
-            <Link href={"/"}>
+            <Link href={`/users/${user?.displayName}`}>
               <Image
                 className={styles.avatarImage}
                 src={defaultAvatar}
@@ -70,7 +75,7 @@ export default function LoggedInNav() {
                 height={50}
               />
             </Link>
-            <Link href={"/message"}>
+            <Link href={"/conversations"}>
               <TbMessage2 size={30} style={{ color: "white" }} />{" "}
             </Link>
             <div className={styles.username}>{user.displayName}</div>
