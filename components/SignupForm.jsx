@@ -22,6 +22,7 @@ export default function SignupForm() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [techStack, setTechStack] = useState([]);
+  const [areAllTechCheckboxesUnselected, setAreAllTechCheckboxesUnselected] = useState(true);
   const { signup } = useSignup();
 
   const handleSubmit = (e) => {
@@ -32,6 +33,8 @@ export default function SignupForm() {
   };
 
   const onChangeTechStack = (e) => {
+    const techCheckboxes = [ ...e.target.parentElement.elements];
+
     if (e.target.checked) {
       setTechStack((currentTechStack) => {
         return [...currentTechStack, e.target.name];
@@ -47,6 +50,12 @@ export default function SignupForm() {
         return updatedTechStack;
       });
     }
+
+    const allCheckboxesUnselected = techCheckboxes.every((tech) => {
+      return tech.checked === false;
+    })
+
+    setAreAllTechCheckboxesUnselected(allCheckboxesUnselected);
   };
 
   const handleDisplayNameInput = (e) => {
@@ -64,6 +73,7 @@ export default function SignupForm() {
   function redirect() {
     router.push("/home");
   }
+
   return (
     <main className={styles.container}>
       <div className={styles.header}>
@@ -194,6 +204,7 @@ export default function SignupForm() {
           whileHover="hover"
           whileTap="tap"
           className={styles.button}
+          disabled={areAllTechCheckboxesUnselected}
         >
           Signup
         </motion.button>
