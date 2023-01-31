@@ -1,0 +1,100 @@
+.container {
+    padding-top: 150px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .formContainer {
+    width: 75%;
+    margin: 0px auto;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    padding: 40px 0px;
+    background: #ffffff;
+    margin: 20px 0px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .input {
+    width: 90%;
+    height: 50px;
+    border: 1px solid #dbdbdb;
+    border-radius: 15px;
+    background: #fafafa;
+    padding: 0px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .button {
+    width: 90%;
+    height: 64px;
+    border: 1px solid #dbdbdb;
+    border-radius: 15px;
+    background-color: #043873;
+    color: #ffffff;
+    padding: 0px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  .textarea {
+    width: 90%;
+    height: 100px;
+    margin: 0px auto;
+    border: 2px solid #eaeaea;
+    border-radius: 10px;
+    padding: 20px;
+    background: #ffffff;
+    margin: 20px 0px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    resize: none;
+    box-sizing: border-box;
+  }
+  
+  .select {
+    width: 90%;
+    height: 50px;
+    border: 1px solid #dbdbdb;
+    border-radius: 15px;
+    background: #fafafa;
+    padding: 0px 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .input {
+      width: 50%;
+    }
+    .textarea {
+      width: 50%;
+    }
+    .select {
+      width: 50%;
+    }
+    .button {
+      width: 50%;
+    }
+  }
