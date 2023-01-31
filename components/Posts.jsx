@@ -66,7 +66,7 @@ export default function Posts() {
     });
   }, []);
 
-  if (posts.length === 0) {
+  if (!isLoading && posts.length === 0) {
     return (
       <div className={styles.noResults}>
         <div
