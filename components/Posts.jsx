@@ -7,6 +7,8 @@ import styles from "../css/posts.module.css";
 import Button from "./Button";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Loader from "./Loader";
+import { useRouter } from "next/router";
+import { FaHotjar, FaSort } from "react-icons/fa";
 
 async function getPosts() {
   const postsCol = collection(db, "posts");
@@ -17,10 +19,34 @@ async function getPosts() {
   return postsList;
 }
 
+async function searchPosts(searchTerm) {
+  const postsCol = collection(db, "posts");
+  const orderByPostTimeQuery = query(postsCol, orderBy("postTime", "desc"));
+  const getOrderedPosts = await getDocs(orderByPostTimeQuery);
+  const postsList = getOrderedPosts.docs.map((doc) => doc.data());
+  const filteredPosts = postsList.filter((post) => {
+    return (
+      post.programmingLanguage
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      post.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.postTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.projectDescription.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+  return filteredPosts;
+}
+
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuthContext();
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    searchPosts(searchTerm).then(setPosts);
+  }, [searchTerm]);
 
   useEffect(() => {
     getPosts(db).then((response) => {
@@ -40,6 +66,19 @@ export default function Posts() {
     });
   }, []);
 
+  if (posts.length === 0) {
+    return (
+      <div className={styles.noResults}>
+        <div
+          onClick={() => {
+            setSearchTerm("");
+          }}
+          className={styles.searchAgain}
+        >{'< Search Again'}</div>
+        <div className={styles.title}>No Results Found</div>
+      </div>
+    );
+  } else {
   return (
     <main className={styles.container}>
       {isLoading ? (
@@ -47,10 +86,27 @@ export default function Posts() {
           <Loader />
         </div>
       ) : (
-        <div>
-          <h1>Welcome {user?.displayName}</h1>
+        <div className={styles.header}>
+          <div className={styles.hotContainer}>
+            <FaHotjar className={styles.hot} /> Hot
+          </div>
+          <div className={styles.sortContainer}>
+            <FaSort className={styles.sort} /> Sort
+          </div>
+          <form className={styles.form}>
+            <input
+              autoFocus
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              type="search"
+              placeholder="Search Posts"
+              className={styles.input}
+              required
+            />
+          </form>
+
           <Button
-            type="primary"
+            type="secondary"
             label="Create a Post"
             href={"/create-a-post"}
           />
@@ -61,4 +117,5 @@ export default function Posts() {
       })}
     </main>
   );
+    }
 }
