@@ -6,7 +6,7 @@ import { useAuthContext } from "./useAuthContext";
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState(null);
   const { dispatch } = useAuthContext();
 
   const signup = async (email, password, displayName) => {
@@ -21,9 +21,9 @@ export const useSignup = () => {
         throw new Error("Could not complete signup");
       }
       //add display name to firebase user
-      
+
       await updateProfile(res.user, { displayName });
-      
+
       // dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });
 
@@ -32,12 +32,10 @@ export const useSignup = () => {
         setError(null);
       }
       //error handling
+      setIsPending(false);
     } catch (err) {
-      if (!isCancelled) {
-        console.log(err);
-        setError(err.message);
-        setIsPending(false);
-      }
+      setError(err.message);
+      setIsPending(false);
     }
   };
 

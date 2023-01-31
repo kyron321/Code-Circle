@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSignup } from "../hooks/useSignup";
 import { postUser } from "../hooks/postUser";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import styles from "../css/login.module.css";
 import Image from "next/image";
 import logo from "../images/Logo_Icon.svg";
 import Link from "next/link";
+import LoaderButton from "./LoaderButton";
 
 const buttonVariants = {
   hover: {
@@ -23,15 +24,23 @@ export default function SignupForm() {
   const [passwordInput, setPasswordInput] = useState("");
   const [techStack, setTechStack] = useState([]);
   const [areAllTechCheckboxesUnselected, setAreAllTechCheckboxesUnselected] = useState(true);
-  const { signup } = useSignup();
+  const { signup, error, isPending } = useSignup();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const router = useRouter();
+  
 
+  //only signup if there is no error
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup(emailInput, passwordInput, displayNameInput);
     postUser(displayNameInput, techStack);
-    redirect();
+    signup(emailInput, passwordInput, displayNameInput);
   };
 
+  useEffect(() => {
+    if (isPending === false && error === null) {
+      router.push("/home");
+    }
+  }, [error, isPending, router]);
   const onChangeTechStack = (e) => {
     const techCheckboxes = [ ...e.target.parentElement.elements];
 
@@ -69,10 +78,21 @@ export default function SignupForm() {
     }
   };
 
-  let router = useRouter();
-  function redirect() {
-    router.push("/home");
-  }
+  useEffect(() => {
+    if (error === "Firebase: Error (auth/email-already-in-use).") {
+      setErrorMessage("Email already in use");
+    } else if (error === "Firebase: Error (auth/invalid-email).") {
+      setErrorMessage("Invalid email");
+    } else if (
+      error ===
+      "Firebase: Password should be at least 6 characters (auth/weak-password)."
+    ) {
+      setErrorMessage("Password should be at least 6 characters");
+    } else {
+      setErrorMessage(null);
+      setErrorMessage(null);
+    }
+  }, [error]);
 
   return (
     <main className={styles.container}>
@@ -204,10 +224,10 @@ export default function SignupForm() {
           whileHover="hover"
           whileTap="tap"
           className={styles.button}
-          disabled={areAllTechCheckboxesUnselected}
         >
-          Signup
+          {isPending ? <LoaderButton /> : "Sign Up"}
         </motion.button>
+        {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
         <div>
           {`Already have an account?`}{" "}
           <Link className={styles.forgotPassword} href="/login">
