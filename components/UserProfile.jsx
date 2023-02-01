@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from "react";
-import styles from "../css/userProfile.module.css";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase/config";
-import Image from "next/image";
-import defaultAvatar from "../images/default-avatar.svg";
-import { TbMessage2 } from "react-icons/tb";
-import { AiOutlinePhone } from "react-icons/ai";
-import { useRouter } from "next/router";
-import { useAuthContext } from "../hooks/useAuthContext";
+import React, { useEffect, useState } from 'react';
+import styles from '../css/userProfile.module.css';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+} from 'firebase/firestore';
+import { db } from '../firebase/config';
+import Image from 'next/image';
+import defaultAvatar from '../images/default-avatar.svg';
+import { TbMessage2 } from 'react-icons/tb';
+import { AiOutlinePhone } from 'react-icons/ai';
+import { useRouter } from 'next/router';
+import { useAuthContext } from '../hooks/useAuthContext';
+import Button from './Button';
+import { deleteUser } from 'firebase/auth';
 
 export default function UserProfile({ userName }) {
   const [profilePageUser, setProfilePageUser] = useState({});
@@ -16,6 +24,38 @@ export default function UserProfile({ userName }) {
   const { user } = useAuthContext();
   const router = useRouter();
   const userNameFromParams = router.query.displayname;
+
+  const deleteProfile = () => {
+    deleteUser(user)
+      .then(() => {
+        deleteUserFromFireStore();
+          router.push('/');
+        })
+        .catch((err) => {
+            console.log(err);
+          });
+  };
+
+  const deleteUserFromFireStore = async () => {
+    const userRef = collection(db, 'users');
+    const userQuery = query(
+      userRef,
+      where('displayName', '==', user.displayName)
+    );
+
+    const repliesRef = collection(db, 'replies');
+    const replyQuery = query(repliesRef, where('user', '==', user.displayName));
+
+    const postsRef = collection(db, 'posts');
+    const postQuery = query(postsRef, where('user', '==', user.displayName));
+    try {
+      await deleteDoc(userQuery);
+      await deleteDoc(replyQuery);
+      await deleteDoc(postQuery);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   let messageChannel;
 
@@ -37,10 +77,10 @@ export default function UserProfile({ userName }) {
     if (!router.isReady || !userNameFromParams) return;
 
     async function getUser() {
-      const usersCol = collection(db, "users");
+      const usersCol = collection(db, 'users');
       const userQuery = query(
         usersCol,
-        where("displayname", "==", `${userNameFromParams}`)
+        where('displayname', '==', `${userNameFromParams}`)
       );
       const usersSnapshot = await getDocs(userQuery);
       const usersList = usersSnapshot.docs.map((doc) => doc.data());
@@ -72,6 +112,15 @@ export default function UserProfile({ userName }) {
         />
 
         <h2 className={styles.displayName}>{userNameFromParams}</h2>
+
+        {!isSomeoneElsesProfile && (
+          <Button
+            size={'small'}
+            label="Delete Account"
+            onClick={deleteProfile}
+          />
+        )}
+
         {isSomeoneElsesProfile ? (
           <div className={styles.contactOtherUser}>
             <button
@@ -89,7 +138,7 @@ export default function UserProfile({ userName }) {
             <button
               className={styles.messageButton}
               onClick={() => {
-                router.push("/video");
+                router.push('/video');
               }}
             >
               <AiOutlinePhone size={30} />
