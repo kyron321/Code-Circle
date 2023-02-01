@@ -41,7 +41,7 @@ export default function LoggedOutNav() {
         <Link href="/">
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
-        {showModal && modal}
+        { modal}
         <GiHamburgerMenu onClick={()=>{
           setShowModal(!showModal)
         }} className={styles.hamburgerMenuStyle} />
