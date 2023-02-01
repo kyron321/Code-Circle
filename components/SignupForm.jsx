@@ -142,12 +142,8 @@ export default function SignupForm() {
           required
         />
 
-        <Link className={styles.forgotPassword} href="/">
-          Forgot Password?
-        </Link>
-
         <fieldset className={styles.fieldset}>
-          <legend>Tech stack:</legend>
+          <legend>Languages:</legend>
           <input
             type="checkbox"
             id="html"
@@ -201,24 +197,55 @@ export default function SignupForm() {
 
           <input
             type="checkbox"
-            id="mysql"
-            name="MySQL"
+            id="c#"
+            name="C#"
             onChange={(e) => {
               onChangeTechStack(e);
             }}
           />
-          <label htmlFor="mysql">MySQL</label>
+          <label htmlFor="c#">C#</label>
 
           <input
             type="checkbox"
-            id="lamp"
-            name="LAMP"
+            id="python"
+            name="Python"
             onChange={(e) => {
               onChangeTechStack(e);
             }}
           />
-          <label htmlFor="lamp">LAMP</label>
+          <label htmlFor="python">Python</label>
+
+          <input
+            type="checkbox"
+            id="go"
+            name="Go"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="go">Go</label>
+
+          <input
+            type="checkbox"
+            id="swift"
+            name="Swift"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="swift">Swift</label>
+
+          <input
+            type="checkbox"
+            id="ruby"
+            name="Ruby"
+            onChange={(e) => {
+              onChangeTechStack(e);
+            }}
+          />
+          <label htmlFor="ruby">Ruby</label>
         </fieldset>
+
         <motion.button
           variants={buttonVariants}
           whileHover="hover"
@@ -228,6 +255,11 @@ export default function SignupForm() {
           {isPending ? <LoaderButton /> : "Sign Up"}
         </motion.button>
         {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
+
+        <Link className={styles.forgotPassword} href="/">
+          Forgot Password?
+        </Link>
+        
         <div>
           {`Already have an account?`}{" "}
           <Link className={styles.forgotPassword} href="/login">
