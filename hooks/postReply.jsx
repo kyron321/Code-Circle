@@ -15,6 +15,6 @@ export const postReply = (message, postId, user) => {
       });
     });
   } catch (e) {
-    console.log("error");
+    console.log(e);
   }
 };

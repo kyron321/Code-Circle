@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import ProfilePagePostCard from "./ProfilePagePostCard";
 import { useRouter } from "next/router";
 
-export default function PastPosts( {userName} ) {
+export default function PastPosts({ userName }) {
   const [pastPosts, setPastPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,9 +31,7 @@ export default function PastPosts( {userName} ) {
         setPastPosts(response);
         setIsLoading(false);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   }, [router.isReady, userNameFromParams, router]);
 
   if (isLoading) return <div>Loading...</div>;
@@ -41,9 +39,17 @@ export default function PastPosts( {userName} ) {
     <div>
       <div className={styles.pastPostContainer}>
         <div className={styles.subHeader}>Past Posts</div>
-        {pastPosts.length === 0 ? <p>You have not created any posts yet.</p> : null}
+        {pastPosts.length === 0 ? (
+          <p>You have not created any posts yet.</p>
+        ) : null}
         {pastPosts?.map((post) => {
-          return <ProfilePagePostCard key={post.postId} props={post} userName={userName}/>;
+          return (
+            <ProfilePagePostCard
+              key={post.postId}
+              props={post}
+              userName={userName}
+            />
+          );
         })}
       </div>
     </div>
