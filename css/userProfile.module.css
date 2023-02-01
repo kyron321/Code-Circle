@@ -24,7 +24,7 @@
 
 .heading {
   text-align: center;
-  font-size: 48px;
+  font-size: 30px;
   font-weight: 600;
   padding-bottom: 20px;
 }
@@ -52,3 +52,11 @@
   display: flex;
   gap: 1em;
 }
+
+
+@media screen and (min-width: 1024px) {
+  .heading{
+    font-size:48px;
+  }
+  
+  }

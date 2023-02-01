@@ -25,8 +25,9 @@ export default function ProfilePagePostCard({ props }) {
       <Image
         src={imagePlaceholder}
         alt="placeholder"
-        width={300}
-        height={300}
+        width={200}
+        height={200}
+        className={styles.image}
       />
       <div className={styles.authorAndPostTimeContainer}>
         <div>Posted by: {user}</div>
