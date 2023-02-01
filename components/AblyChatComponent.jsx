@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useRouter } from "next/router";
 import styles from "../css/chat.module.css";
@@ -36,13 +43,13 @@ const AblyChatComponent = (props) => {
     // setMessages react useState hook
   });
   const router = useRouter();
-  console.log(router.query.secondUser, "ROUTER");
 
   useEffect(() => {
     async function getChatHistory() {
       const q = query(
         collection(db, "messages"),
-        where("channel", "==", `${props.channelNum.channel}`)
+        where("channel", "==", `${props.channelNum.channel}`),
+        orderBy("time")
       );
       const querySnapshot = await getDocs(q);
       const returnedMessages = querySnapshot.docs.map((doc) => {
@@ -61,8 +68,8 @@ const AblyChatComponent = (props) => {
       message: messageText,
       channel: props.channelNum.channel,
       recipient: router.query.secondUser,
+      time: Date.now(),
     });
-    console.log("Document written with ID: ", docRef.id);
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
     inputBox.focus();
@@ -80,7 +87,6 @@ const AblyChatComponent = (props) => {
   };
 
   const previousMessages = messageHistory.map((msg, index) => {
-    console.log(msg);
     return (
       <section key={index}>
         <span className={styles.prevMessage}>
