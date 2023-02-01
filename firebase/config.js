@@ -1,9 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getDocs, getCollection, getFirestore } from "firebase/firestore";
-
-// Code Circle's config
 
 const firebaseConfig = {
   apiKey: "AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI",
