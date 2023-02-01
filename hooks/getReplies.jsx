@@ -3,9 +3,7 @@ import { getDocs, collection, getFirestore } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 export async function getReplies() {
-
   const repliesCol = collection(db, "replies");
-  
 
   const repliesSnapshot = await getDocs(repliesCol);
 
@@ -17,6 +15,5 @@ export async function getReplies() {
       };
     })
     .sort((a, b) => b.createdAt - a.createdAt);
-
   return repliesList;
 }

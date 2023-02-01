@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "firebase/firestore";
 import { db } from "../../firebase/config";
 import PostReplyForm from "../../components/postReplyForm";
 import PostReplies from "../../components/PostReplies";
@@ -13,6 +17,7 @@ import imagePlaceholder from "../../images/image-placeholder.svg";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 import checkLoggedIn from "../../hooks/checkLoggedIn";
+import deleteAreply from "../../hooks/deleteAreply";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
@@ -41,6 +46,14 @@ export default function SinglePost() {
       setPosts(response);
     });
   }, []);
+
+  const handleDeleteReply = (replyId) => {
+
+    Promise.resolve(deleteAreply(replyId));
+    setReplies((prevReplies) =>
+      prevReplies.filter((reply) => reply.replyId !== replyId)
+    );
+  };
 
   const postToRender = posts.filter((post) => {
     return post.postId === pid;
@@ -112,7 +125,11 @@ export default function SinglePost() {
           </div>
         </div>
         <PostReplyForm pid={pid} setReplies={setReplies} />
-        <PostReplies pid={pid} replies={replies} />
+        <PostReplies
+          pid={pid}
+          replies={replies}
+          handleDeleteReply={handleDeleteReply}
+        />
       </div>
     </div>
   );
