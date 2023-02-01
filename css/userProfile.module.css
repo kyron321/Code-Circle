@@ -1,8 +1,10 @@
 .pageContainer {
+  height: auto;
+  width: 100%;
+  padding: 180px 0px 100px 0px;
   display: flex;
-  justify-content: center;
-  margin-top: 92px;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
@@ -10,11 +12,26 @@
   background: #043873;
   color: #ffffff;
   width: 80%;
+  padding: 20px 0px;
+}
+
+.messageButton {
+  background: #043873;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.heading {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 600;
+  padding-bottom: 20px;
 }
 
 .avatarStyle {
-  height: 3em;
-  width: 3em;
+  height: 100px;
+  width: 100px;
   margin-left: 1em;
   margin-right: 1em;
 }

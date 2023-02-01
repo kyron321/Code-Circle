@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useChannel } from "./AblyReactEffect";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useRouter } from "next/router";
+import styles from "../css/chat.module.css";
+import { motion } from "framer-motion";
+
+const buttonVariants = {
+  hover: {
+    scale: 1.06,
+  },
+  tap: {
+    scale: 0.99,
+  },
+};
 
 const AblyChatComponent = (props) => {
   const { user } = useAuthContext();
@@ -25,13 +43,13 @@ const AblyChatComponent = (props) => {
     // setMessages react useState hook
   });
   const router = useRouter();
-  console.log(router.query.secondUser, "ROUTER");
 
   useEffect(() => {
     async function getChatHistory() {
       const q = query(
         collection(db, "messages"),
-        where("channel", "==", `${props.channelNum.channel}`)
+        where("channel", "==", `${props.channelNum.channel}`),
+        orderBy("time")
       );
       const querySnapshot = await getDocs(q);
       const returnedMessages = querySnapshot.docs.map((doc) => {
@@ -50,8 +68,8 @@ const AblyChatComponent = (props) => {
       message: messageText,
       channel: props.channelNum.channel,
       recipient: router.query.secondUser,
+      time: Date.now(),
     });
-    console.log("Document written with ID: ", docRef.id);
     channel.publish({ name: user.displayName, data: messageText });
     setMessageText("");
     inputBox.focus();
@@ -67,11 +85,11 @@ const AblyChatComponent = (props) => {
     sendChatMessage(messageText);
     event.preventDefault();
   };
+
   const previousMessages = messageHistory.map((msg, index) => {
-    console.log(msg);
     return (
       <section key={index}>
-        <span>
+        <span className={styles.prevMessage}>
           {msg.user.stringValue}: {msg.message.stringValue}
         </span>
         <br />
@@ -84,9 +102,12 @@ const AblyChatComponent = (props) => {
 
     return (
       <section key={index}>
-        <span data-author={author}>
-          {message.name}: {message.data}
-        </span>
+        <div className={styles.messages}>
+          <span data-author={author} className={styles.newMessage}>
+            {message.name}: {message.data}
+          </span>
+        </div>
+
         <br />
       </section>
     );
@@ -98,18 +119,22 @@ const AblyChatComponent = (props) => {
   ></div>;
 
   return (
-    <main style={{ marginTop: "92px" }}>
+    <main className={styles.chatContainer}>
       <div>
-        {previousMessages}
-        {messages}
+        <div className={styles.message}>
+          <div>{previousMessages}</div>
+          <div>{messages}</div>
+        </div>
+
         <div
           ref={(element) => {
             messageEnd = element;
           }}
         ></div>
       </div>
-      <form onSubmit={handleFormSubmission}>
+      <form onSubmit={handleFormSubmission} className={styles.form}>
         <textarea
+          className={styles.textArea}
           ref={(element) => {
             inputBox = element;
           }}
@@ -117,9 +142,16 @@ const AblyChatComponent = (props) => {
           onChange={(e) => setMessageText(e.target.value)}
           onKeyPress={handleKeyPress}
         ></textarea>
-        <button type="submit" disabled={messageTextIsEmpty}>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          type="submit"
+          disabled={messageTextIsEmpty}
+          className={styles.button}
+        >
           Send
-        </button>
+        </motion.button>
       </form>
     </main>
   );
