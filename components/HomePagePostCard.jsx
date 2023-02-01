@@ -40,7 +40,8 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
                 {post.programmingLanguage}
               </div>
               <div className={styles.time}>
-                Today <span>at</span> 16:12pm
+                Today <span style={{ color: 'black' }}>at</span>{' '}
+                {moment.unix(post.postTime).format('HH:MM a')}
               </div>
             </div>
 
