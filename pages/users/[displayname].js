@@ -14,7 +14,7 @@ export default function OtherUserProfile() {
     <div className={styles.pageContainer}>
       <h1 className={styles.heading}>User Profile</h1>
       <UserProfile userName={user?.displayName} />
-      <PastPosts />
+      <PastPosts userName={user?.displayName}/>
     </div>
   );
 }
