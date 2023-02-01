@@ -20,7 +20,7 @@ export default function Footer() {
         <div className={styles.teamMembers}>
           <div className={styles.heading}>Team Array of Sunshine</div>
           <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/Nasramohammed">Nasramohammed</a>
+            <a href="https://github.com/Nasramohammed">Nasra</a>
           </div>
           <div className={styles.notLastTeamMember}>
             <a href="https://github.com/richnw">Rich</a>

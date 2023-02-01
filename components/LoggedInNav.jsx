@@ -57,7 +57,7 @@ export default function LoggedInNav() {
         <Link href={"/home"}>
           <Image className={styles.logoStyle} alt="logo" src={logo} />
         </Link>
-        {showModal && modal}
+        {modal}
         <GiHamburgerMenu
           onClick={() => {
             setShowModal(!showModal);

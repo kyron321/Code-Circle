@@ -11,6 +11,16 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import checkLoggedIn from "../hooks/checkLoggedIn";
+import { motion } from "framer-motion";
+
+const buttonVariants = {
+  hover: {
+    scale: 1.06,
+  },
+  tap: {
+    scale: 0.99,
+  },
+};
 
 export default function Video() {
   const [isRoomCreated, setIsRoomCreated] = useState(false);
@@ -201,21 +211,47 @@ export default function Video() {
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
-        <button onClick={getLocalMedia}>Start camera</button>
-        <button disabled={!isCameraStarted} onClick={createCall}>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          onClick={getLocalMedia}
+          className={styles.startCameraButton}
+        >
+          Start Camera
+        </motion.button>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          disabled={!isCameraStarted}
+          onClick={createCall}
+        >
           Create call
-        </button>
+        </motion.button>
         {isRoomCreated ? (
           <div className={styles.roomCreatedDialogue}>
             Room created with id of <code>{roomId}</code>
           </div>
         ) : null}
-        <button disabled={!isCameraStarted} onClick={hangUp}>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          disabled={!isCameraStarted}
+          onClick={hangUp}
+        >
           Hang up
-        </button>
-        <button disabled={!isCameraStarted} onClick={startScreenCapture}>
+        </motion.button>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          disabled={!isCameraStarted}
+          onClick={startScreenCapture}
+        >
           Screen share
-        </button>
+        </motion.button>
         <form onSubmit={answerCall}>
           <input
             id="call-id-input"
@@ -223,7 +259,14 @@ export default function Video() {
             placeholder="Add your invite code"
             ref={roomIdInput}
           ></input>
-          <button onClick={answerCall}>Join call</button>
+          <motion.button
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            onClick={answerCall}
+          >
+            Join call
+          </motion.button>
         </form>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export default function UserProfile({ userName }) {
   const [profilePageUser, setProfilePageUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { user } = useAuthContext();
   const router = useRouter();
   const userNameFromParams = router.query.displayname;
@@ -21,9 +22,8 @@ export default function UserProfile({ userName }) {
   function createChannel() {
     if (user.displayName > userNameFromParams) {
       messageChannel = userNameFromParams + user.displayName;
-    } else
-        messageChannel =  user.displayName + userNameFromParams;
-        return messageChannel;
+    } else messageChannel = user.displayName + userNameFromParams;
+    return messageChannel;
   }
 
   // if (user.displayName !== null && user.displayName > userNameFromParams) {
@@ -76,14 +76,26 @@ export default function UserProfile({ userName }) {
         <h2 className={styles.displayName}>{userNameFromParams}</h2>
         {isSomeoneElsesProfile ? (
           <div className={styles.contactOtherUser}>
-            <button onClick={() => router.push({ pathname: `/message/${createChannel()}`,
-          query: {secondUser: `${userNameFromParams}`}
-            })}>
-              
-              <TbMessage2 size={30} style={{ color: "white" }} />
+            <button
+              className={styles.messageButton}
+              onClick={() =>
+                router.push({
+                  pathname: `/message/${createChannel()}`,
+                  query: { secondUser: `${userNameFromParams}` },
+                })
+              }
+            >
+              <TbMessage2 size={30} />
             </button>
 
-            <AiOutlinePhone size={30} style={{ color: "white" }} />
+            <button
+              className={styles.messageButton}
+              onClick={() => {
+                router.push("/video");
+              }}
+            >
+              <AiOutlinePhone size={30} />
+            </button>
           </div>
         ) : null}
       </div>

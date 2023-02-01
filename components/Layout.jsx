@@ -4,7 +4,7 @@ import LoggedInNav from "./LoggedInNav";
 import LoggedOutNav from "./LoggedOutNav";
 import { useRouter } from "next/router";
 
-import styles from "../css/layout.module.css";
+
 
 export default function Layout({ children }) {
   const { user } = useAuthContext();
@@ -19,7 +19,7 @@ export default function Layout({ children }) {
     return (
       <div>
         {user ? <LoggedInNav /> : <LoggedOutNav />}
-        <div className={styles.main}>{children}</div>
+        <div >{children}</div>
         <Footer />
       </div>
     );

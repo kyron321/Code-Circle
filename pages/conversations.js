@@ -45,15 +45,21 @@ export default function Conversations() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (filteredConversations?.length > 0) {
+  if (filteredConversations?.length === 0) {
     return (
-      <div>
+      <div className={styles.messageContainer}>
+        <div>You have no messages yet</div>
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles.container}>
         <h1 className={styles.heading}>Conversations</h1>
 
         <section className={styles.conversations}>
           {Object.keys(grouped).map((item, i) => (
             <div
-            key={i}
+              key={i}
               onClick={() =>
                 handleRedirect(
                   grouped?.[item]?.[0]?.channel,
