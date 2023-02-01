@@ -40,8 +40,8 @@ export default function PastPosts( {userName} ) {
   return (
     <div>
       <div className={styles.pastPostContainer}>
-        {pastPosts.length === 0 ? <p>You have not created any posts yet.</p> : null}
         <div className={styles.subHeader}>Past Posts</div>
+        {pastPosts.length === 0 ? <p>You do not have any posts.</p> : null}
         {pastPosts?.map((post) => {
           return <ProfilePagePostCard key={post.postId} props={post} userName={userName}/>;
         })}
