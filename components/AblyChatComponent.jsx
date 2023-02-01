@@ -13,6 +13,7 @@ import { db } from "../firebase/config";
 import { useRouter } from "next/router";
 import styles from "../css/chat.module.css";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const buttonVariants = {
   hover: {
@@ -151,6 +152,17 @@ const AblyChatComponent = (props) => {
           className={styles.button}
         >
           Send
+        </motion.button>
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          type="button"
+          className={styles.button}
+        >
+          <Link href="/video" target="_blank">
+            Video
+          </Link>
         </motion.button>
       </form>
     </main>
