@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
-  getFirestore,
   collection,
   getDocs
 } from "firebase/firestore";
@@ -21,7 +20,7 @@ import deleteAreply from "../../hooks/deleteAreply";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
-  const postsCol = collection(db, "posts");
+  const postsCol = collection(db, 'posts');
   const postsSnapshot = await getDocs(postsCol);
   const postsList = postsSnapshot.docs.map((doc) => doc.data());
   return postsList;
@@ -33,7 +32,7 @@ export default function SinglePost() {
   const [replies, setReplies] = useState([]);
 
   const router = useRouter();
-  const pid = router.query["pid"];
+  const pid = router.query['pid'];
 
   useEffect(() => {
     getReplies().then((response) => {
@@ -62,9 +61,9 @@ export default function SinglePost() {
   return (
     <div className={styles.container}>
       <div
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
         onClick={() => {
-          router.push("/home");
+          router.push('/home');
         }}
       >
         <div className={styles.back}>
@@ -95,7 +94,7 @@ export default function SinglePost() {
                 {postToRender[0]?.programmingLanguage}
               </div>
               <div className={styles.time}>
-                Today <span>at</span> 16:12pm
+                {moment.unix(postToRender[0]?.postTime).format('HH:MM a')}
               </div>
             </div>
 
@@ -108,9 +107,9 @@ export default function SinglePost() {
               </div>
               <div>
                 <div>
-                  Time to code:{" "}
-                  {moment(postToRender[0]?.timeToCode).format("MMMM Do YYYY")}{" "}
-                  at {moment(postToRender[0]?.timeToCode).format("HH:MM a")}
+                  Time to code:{' '}
+                  {moment(postToRender[0]?.timeToCode).format('MMMM Do YYYY')}{' '}
+                  at {moment(postToRender[0]?.timeToCode).format('HH:MM a')}
                 </div>
                 <div>Time zone: {postToRender[0]?.timeZone}</div>
               </div>

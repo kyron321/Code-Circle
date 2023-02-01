@@ -3,20 +3,14 @@ import Button from "./Button";
 import arrow from "../images/arrow.svg";
 import styles from "../css/login.module.css";
 
-export default function FormSide({ title, descritpion }) {
+export default function FormSide({ title, description, button=null }) {
   const router = useRouter();
   return (
     <div className={styles.sideContainer}>
       <div className={styles.sideTitle}>{title}</div>
-      <div className={styles.description}>{descritpion}</div>
-      <Button
-        label={"Find Out More"}
-        onClick={() => {
-          router.push("/");
-        }}
-        image={arrow}
-        className={styles.side_btn}
-      />
+      <div className={styles.description}>{description}</div>
+      <div className={styles.side_btn}>{button}</div>
+    
     </div>
   );
 }

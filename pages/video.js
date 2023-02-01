@@ -13,6 +13,15 @@ import {
 import checkLoggedIn from "../hooks/checkLoggedIn";
 import { motion } from "framer-motion";
 
+import {
+  BsFillCameraVideoFill,
+  BsFillCameraVideoOffFill,
+} from "react-icons/bs";
+import { FaUserPlus } from "react-icons/fa";
+import { MdScreenShare } from "react-icons/md";
+import { RxExit } from "react-icons/rx";
+import { useRouter } from "next/router";
+
 const buttonVariants = {
   hover: {
     scale: 1.06,
@@ -33,6 +42,7 @@ export default function Video() {
   const roomIdInput = useRef();
   const localUser = useRef();
   const remoteUser = useRef();
+  const router = useRouter();
 
   const servers = {
     iceServers: [
@@ -69,7 +79,6 @@ export default function Video() {
     remoteStream = new MediaStream();
 
     peerConnection.current.ontrack = (event) => {
-      console.log("new remote track found:", event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
@@ -92,7 +101,6 @@ export default function Video() {
 
     const offerDescription = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(offerDescription);
-    console.log("offer created with description: ", offerDescription);
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -112,13 +120,15 @@ export default function Video() {
     onSnapshot(answerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
       });
     });
     setIsRoomCreated(true);
+    {
+      navigator.clipboard.writeText(callDoc.id);
+    }
   };
 
   const answerCall = async (e) => {
@@ -140,7 +150,6 @@ export default function Video() {
     );
 
     const answerDescription = await peerConnection.current.createAnswer();
-    console.log(answerDescription);
     await peerConnection.current.setLocalDescription(answerDescription);
 
     const answer = {
@@ -152,7 +161,6 @@ export default function Video() {
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
@@ -195,6 +203,15 @@ export default function Video() {
 
   return (
     <div className={styles.pageContainer}>
+      <div className={styles.exitContainer}>
+        <RxExit
+          onClick={() => {
+            router.back();
+          }}
+          className={styles.exit}
+        />
+      </div>
+
       <div className={styles.videoContainer}>
         <video
           muted
@@ -211,59 +228,74 @@ export default function Video() {
         ></video>
       </div>
       <div className={styles.formAndButtonContainer}>
-        <motion.button
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
-          onClick={getLocalMedia}
-          className={styles.startCameraButton}
-        >
-          Start Camera
-        </motion.button>
-        <motion.button
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
-          disabled={!isCameraStarted}
-          onClick={createCall}
-        >
-          Create call
-        </motion.button>
+        {!isCameraStarted ? (
+          <motion.button
+            variants={buttonVariants}
+            whileHover="hover"
+            whileTap="tap"
+            onClick={getLocalMedia}
+            className={styles.startCameraButton}
+          >
+            <BsFillCameraVideoFill />
+          </motion.button>
+        ) : (
+          <div className={styles.buttonContainer}>
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              disabled={!isCameraStarted}
+              onClick={hangUp}
+              className={styles.startCameraButton}
+            >
+              <BsFillCameraVideoOffFill />
+            </motion.button>
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              disabled={!isCameraStarted}
+              onClick={startScreenCapture}
+              className={styles.startCameraButton}
+            >
+              <MdScreenShare />
+            </motion.button>
+            <motion.button
+              variants={buttonVariants}
+              whileHover="hover"
+              whileTap="tap"
+              disabled={!isCameraStarted}
+              onClick={createCall}
+              className={styles.startCameraButton}
+            >
+              <FaUserPlus />
+            </motion.button>
+          </div>
+        )}
+
         {isRoomCreated ? (
           <div className={styles.roomCreatedDialogue}>
             Room created with id of <code>{roomId}</code>
+            <br />
+            Code copied to clipboard
           </div>
         ) : null}
-        <motion.button
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
-          disabled={!isCameraStarted}
-          onClick={hangUp}
-        >
-          Hang up
-        </motion.button>
-        <motion.button
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
-          disabled={!isCameraStarted}
-          onClick={startScreenCapture}
-        >
-          Screen share
-        </motion.button>
-        <form onSubmit={answerCall}>
+
+        <form onSubmit={answerCall} className={styles.form}>
           <input
             id="call-id-input"
             type="text"
-            placeholder="Add your invite code"
+            defaultValue={roomId}
+            placeholder={"Add your invite code"}
             ref={roomIdInput}
-          ></input>
+            className={styles.input}
+          />
           <motion.button
             variants={buttonVariants}
             whileHover="hover"
             whileTap="tap"
             onClick={answerCall}
+            className={styles.button}
           >
             Join call
           </motion.button>

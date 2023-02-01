@@ -47,7 +47,7 @@ export default function Conversations() {
   if (isLoading) return <div>Loading...</div>;
   if (filteredConversations?.length < 1) return <EmptyConvoPage />;
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.heading}>Conversations</h1>
 
       <section className={styles.conversations}>
