@@ -26,12 +26,6 @@ export default function UserProfile({ userName }) {
     return messageChannel;
   }
 
-  // if (user.displayName !== null && user.displayName > userNameFromParams) {
-  //   messageChannel = userNameFromParams + user.displayName;
-  // }
-  // else if (user.displayName !== null)
-  //   messageChannel = user.displayName + userNameFromParams;
-
   useEffect(() => {
     setIsLoading(true);
     if (!router.isReady || !userNameFromParams) return;
@@ -84,15 +78,6 @@ export default function UserProfile({ userName }) {
               }
             >
               <TbMessage2 size={30} />
-            </button>
-
-            <button
-              className={styles.messageButton}
-              onClick={() => {
-                router.push("/video");
-              }}
-            >
-              <AiOutlinePhone size={30} />
             </button>
           </div>
         ) : null}
