@@ -32,8 +32,6 @@ export default function UserProfile({ userName }) {
   // else if (user.displayName !== null)
   //   messageChannel = user.displayName + userNameFromParams;
 
-  console.log(messageChannel);
-
   useEffect(() => {
     setIsLoading(true);
     if (!router.isReady || !userNameFromParams) return;

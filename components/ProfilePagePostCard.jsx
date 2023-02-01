@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from '../css/profilePagePostCard.module.css';
+import deleteAPost from "../hooks/deleteAPost";
+import { useRouter } from "next/router";
 
-export default function ProfilePagePostCard({ props }) {
+export default function ProfilePagePostCard({ props, userName }) {
   const {
     postId,
     postTime,
@@ -16,6 +18,15 @@ export default function ProfilePagePostCard({ props }) {
   const readableDate = date.toLocaleDateString('en-GB');
   const readableTime = date.toLocaleTimeString('en-GB').slice(0, 5);
 
+  const router = useRouter();
+
+  function handleDeletePost() {
+    deleteAPost(postId);
+    setTimeout(() => {
+      router.push(`/users/${userName}`);
+    }, 1500);
+  }
+
   return (
     <div className={styles.profileCardContainer}>
       <div>{postTitle}</div>
@@ -26,6 +37,7 @@ export default function ProfilePagePostCard({ props }) {
           Created: {readableDate} at {readableTime}{' '}
         </div>
       </div>
+      <button onClick={handleDeletePost}>Delete Post</button>
     </div>
   );
 }
