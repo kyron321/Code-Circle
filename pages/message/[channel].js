@@ -20,8 +20,8 @@ export default function Message() {
   return (
     <div className={styles.container}>
       <FormSide
-        title={`Message ${user?.displayName}`}
-        descritpion="
+        title={`Message ${router.query.secondUser}`}
+        description="
 Send a message to a fellow coder and explore the possibility of working together on coding projects."
       />
       <AblyChatComponent channelNum={channelNum} />
