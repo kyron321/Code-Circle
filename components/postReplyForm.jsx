@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { db } from "../firebase/config";
 import { postReply } from "../hooks/postReply";
+import { getReplies } from "../hooks/getReplies";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useRouter } from "next/router";
 import styles from "../css/postReplies.module.css";
@@ -14,17 +16,22 @@ const buttonVariants = {
   },
 };
 
-
 export default function PostReplyForm({ pid, setReplies }) {
   const [postReplyInput, setPostReplyInput] = useState("");
 
   const { user } = useAuthContext();
- 
+
   function handleSubmit(e) {
     e.preventDefault();
+
     postReply(postReplyInput, pid, user.displayName);
-    setPostReplyInput("");
-    setReplies((prevReplies) => [...prevReplies, {message: postReplyInput, user: user.displayName, postId: pid, createdAt: new Date()}]);
+
+    setTimeout(() => {
+      getReplies(db).then((response) => {
+        setPostReplyInput("");
+        setReplies(response);
+      });
+    }, 150);
   }
 
   function onChangePostReply(e) {
@@ -33,26 +40,26 @@ export default function PostReplyForm({ pid, setReplies }) {
 
   return (
     <div className={styles.container}>
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <textarea
-        autoFocus
-        className={styles.textarea}
-        onChange={onChangePostReply}
-        value={postReplyInput}
-        placeholder="Reply to this post"
-        spellCheck="true"
-        maxLength={300}
-        required
-      />
-      <motion.button
-        variants={buttonVariants}
-        whileHover="hover"
-        whileTap="tap"
-        className={styles.button}
-      >
-        Reply
-      </motion.button>
-    </form>
-  </div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <textarea
+          autoFocus
+          className={styles.textarea}
+          onChange={onChangePostReply}
+          value={postReplyInput}
+          placeholder="Reply to this post"
+          spellCheck="true"
+          maxLength={300}
+          required
+        />
+        <motion.button
+          variants={buttonVariants}
+          whileHover="hover"
+          whileTap="tap"
+          className={styles.button}
+        >
+          Reply
+        </motion.button>
+      </form>
+    </div>
   );
 }
