@@ -119,6 +119,9 @@ export default function Video() {
       });
     });
     setIsRoomCreated(true);
+    {
+      navigator.clipboard.writeText(callDoc.id);
+    }
   };
 
   const answerCall = async (e) => {
@@ -232,6 +235,8 @@ export default function Video() {
         {isRoomCreated ? (
           <div className={styles.roomCreatedDialogue}>
             Room created with id of <code>{roomId}</code>
+            <br />
+            Code copied to clipboard
           </div>
         ) : null}
         <motion.button
@@ -256,7 +261,8 @@ export default function Video() {
           <input
             id="call-id-input"
             type="text"
-            placeholder="Add your invite code"
+            defaultValue={roomId}
+            placeholder={"Add your invite code"}
             ref={roomIdInput}
           ></input>
           <motion.button
