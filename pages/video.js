@@ -79,7 +79,6 @@ export default function Video() {
     remoteStream = new MediaStream();
 
     peerConnection.current.ontrack = (event) => {
-      console.log("new remote track found:", event.streams[0]);
       event.streams[0].getTracks().forEach((track) => {
         remoteStream.addTrack(track);
       });
@@ -102,7 +101,6 @@ export default function Video() {
 
     const offerDescription = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(offerDescription);
-    console.log("offer created with description: ", offerDescription);
     const offer = {
       sdp: offerDescription.sdp,
       type: offerDescription.type,
@@ -122,7 +120,6 @@ export default function Video() {
     onSnapshot(answerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
@@ -153,7 +150,6 @@ export default function Video() {
     );
 
     const answerDescription = await peerConnection.current.createAnswer();
-    console.log(answerDescription);
     await peerConnection.current.setLocalDescription(answerDescription);
 
     const answer = {
@@ -165,7 +161,6 @@ export default function Video() {
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("new answer candidate added");
           const candidate = new RTCIceCandidate(change.doc.data());
           peerConnection.current.addIceCandidate(candidate);
         }
@@ -277,7 +272,7 @@ export default function Video() {
             </motion.button>
           </div>
         )}
-    
+
         {isRoomCreated ? (
           <div className={styles.roomCreatedDialogue}>
             Room created with id of <code>{roomId}</code>
