@@ -79,15 +79,6 @@ export default function UserProfile({ userName }) {
             >
               <TbMessage2 size={30} />
             </button>
-
-            <button
-              className={styles.messageButton}
-              onClick={() => {
-                router.push("/video");
-              }}
-            >
-              <AiOutlinePhone size={30} />
-            </button>
           </div>
         ) : null}
       </div>
