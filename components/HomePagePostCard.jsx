@@ -1,16 +1,17 @@
-import React from "react";
-import Link from "next/link";
-import styles from "../css/posts.module.css";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { BiMessageRounded } from "react-icons/bi";
-import profilePlaceholder from "../images/profilePlaceholder.png";
-import imagePlaceholder from "../images/image-placeholder.svg";
-import moment from "moment/moment";
+import React from 'react';
+import Link from 'next/link';
+import styles from '../css/posts.module.css';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { BiMessageRounded } from 'react-icons/bi';
+import profilePlaceholder from '../images/profilePlaceholder.png';
+import imagePlaceholder from '../images/image-placeholder.svg';
+import moment from 'moment/moment';
 
-export default function HomePagePostCard({ post }) {
+export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
   const { postId } = router.query;
+  const replyCountObject = Object.assign({}, ...replyCountByPostId);
   return (
     <div
       className={styles.post}
@@ -52,8 +53,8 @@ export default function HomePagePostCard({ post }) {
               </div>
               <div>
                 <div>
-                  Time to code: {moment(post.timeToCode).format("MMMM Do YYYY")}{" "}
-                  at {moment(post.timeToCode).format("HH:MM a")}
+                  Time to code: {moment(post.timeToCode).format('MMMM Do YYYY')}{' '}
+                  at {moment(post.timeToCode).format('HH:MM a')}
                 </div>
                 <div>Time zone: {post.timeZone}</div>
               </div>
@@ -72,7 +73,7 @@ export default function HomePagePostCard({ post }) {
         <div>
           <BiMessageRounded className={styles.messageIcon} />
         </div>
-        <div>10</div>
+        <div>{replyCountObject[post.postId]}</div>
       </div>
     </div>
   );
