@@ -1,231 +1,261 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "../css/video.module.css";
-import { db } from "../firebase/config";
-import {
-  collection,
-  getDoc,
-  addDoc,
-  doc,
-  setDoc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
-import checkLoggedIn from "../hooks/checkLoggedIn";
+const APP_ID = '493c12c1user1.current53e4411b901885ac9db802b4';
+import { useRouter } from 'next/router';
+import { useEffect, useRef } from 'react';
+import styles from '../css/video.module.css';
+import Image from 'next/image';
+import camera from '../images/camera.png';
+import mic from '../images/mic.png';
+import phone from '../images/phone.png';
+
+const getAgoraRTM = async () => {
+  const AgoraRTM = (await import('agora-rtm-sdk')).default;
+
+  return AgoraRTM;
+};
 
 export default function Video() {
-  const [isRoomCreated, setIsRoomCreated] = useState(false);
-  const [isCameraStarted, setIsCameraStarted] = useState(false);
-  const [roomId, setRoomId] = useState(null);
-  checkLoggedIn();
-  let localStream = null;
-  let remoteStream = null;
-  let peerConnection = useRef();
-  const roomIdInput = useRef();
-  const localUser = useRef();
-  const remoteUser = useRef();
+  const router = useRouter();
+  const user1 = useRef();
+  const user2 = useRef();
+  const cameraButton = useRef();
 
-  const servers = {
-    iceServers: [
-      {
-        urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
-        ],
-      },
-    ],
-    iceCandidatePoolSize: 10,
-  };
-  useEffect(() => {
-    peerConnection.current = new RTCPeerConnection(servers);
-  }, []);
+  if (typeof window !== 'undefined') {
+    let client;
+    let channel;
 
-  const getLocalMedia = async () => {
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
+    let roomId = 'test';
 
-    localStream.getTracks().forEach((track) => {
-      peerConnection.current.addTrack(track, localStream);
-    });
+    let localStream;
+    let remoteStream;
+    let peerConnection;
 
-    localUser.current.srcObject = localStream;
-
-    setIsCameraStarted(true);
-    getRemoteMedia();
-  };
-
-  const getRemoteMedia = () => {
-    remoteStream = new MediaStream();
-
-    peerConnection.current.ontrack = (event) => {
-      console.log("new remote track found:", event.streams[0]);
-      event.streams[0].getTracks().forEach((track) => {
-        remoteStream.addTrack(track);
-      });
-    };
-    remoteUser.current.srcObject = remoteStream;
-  };
-
-  const createCall = async (e) => {
-    e.preventDefault();
-
-    const callDoc = doc(collection(db, "calls"));
-    const offerCandidates = collection(callDoc, "offerCandidates");
-    const answerCandidates = collection(callDoc, "answerCandidates");
-
-    setRoomId(callDoc.id);
-
-    peerConnection.current.onicecandidate = (event) => {
-      event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
+    const servers = {
+      iceServers: [
+        {
+          urls: [
+            'stun:stun1.l.google.com:19302',
+            'stun:stun2.l.google.com:19302',
+          ],
+        },
+      ],
     };
 
-    const offerDescription = await peerConnection.current.createOffer();
-    await peerConnection.current.setLocalDescription(offerDescription);
-    console.log("offer created with description: ", offerDescription);
-    const offer = {
-      sdp: offerDescription.sdp,
-      type: offerDescription.type,
-    };
-
-    await setDoc(callDoc, { offer });
-
-    onSnapshot(callDoc, (snapshot) => {
-      const data = snapshot.data();
-      if (!peerConnection.current.currentRemoteDescription && data?.answer) {
-        const answerDescription = new RTCSessionDescription(data.answer);
-
-        peerConnection.current.setRemoteDescription(answerDescription);
-      }
-    });
-
-    onSnapshot(answerCandidates, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          console.log("new answer candidate added");
-          const candidate = new RTCIceCandidate(change.doc.data());
-          peerConnection.current.addIceCandidate(candidate);
-        }
-      });
-    });
-    setIsRoomCreated(true);
-  };
-
-  const answerCall = async (e) => {
-    e.preventDefault();
-    const callId = roomIdInput.current.value;
-    const callDoc = doc(collection(db, "calls"), callId);
-    const offerCandidates = collection(callDoc, "offerCandidates");
-    const answerCandidates = collection(callDoc, "answerCandidates");
-
-    peerConnection.current.onicecandidate = (event) => {
-      event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
-    };
-
-    const callData = (await getDoc(callDoc)).data();
-
-    const offerDescription = callData.offer;
-    await peerConnection.current.setRemoteDescription(
-      new RTCSessionDescription(offerDescription)
-    );
-
-    const answerDescription = await peerConnection.current.createAnswer();
-    console.log(answerDescription);
-    await peerConnection.current.setLocalDescription(answerDescription);
-
-    const answer = {
-      type: answerDescription.type,
-      sdp: answerDescription.sdp,
-    };
-    await updateDoc(callDoc, { answer });
-
-    onSnapshot(offerCandidates, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          console.log("new answer candidate added");
-          const candidate = new RTCIceCandidate(change.doc.data());
-          peerConnection.current.addIceCandidate(candidate);
-        }
-      });
-    });
-  };
-
-  function hangUp() {
-    const tracks = localUser.current.srcObject.getTracks();
-    tracks.forEach((track) => {
-      track.stop();
-    });
-
-    if (remoteStream) {
-      remoteStream.getTracks().forEach((track) => track.stop());
-    }
-
-    if (peerConnection.current) {
-      peerConnection.current.close();
-    }
-    setIsCameraStarted(false);
-  }
-
-  async function startScreenCapture() {
-    const sender = peerConnection.current.getSenders()[1];
-    const displayMediaOptions = {
+    let constraints = {
       video: {
-        displaySurface: "window",
+        width: { min: 640, ideal: 1920, max: 1920 },
+        height: { min: 480, ideal: 1080, max: 1080 },
       },
-      audio: false,
+      audio: true,
     };
-    const screenCapture = await navigator.mediaDevices.getDisplayMedia(
-      displayMediaOptions
-    );
-    localStream = screenCapture;
-    const screenShareTrack = localStream.getTracks()[0];
-    sender.replaceTrack(screenShareTrack);
-    localUser.current.srcObject = screenCapture;
+    if (!roomId) {
+      // router.push('/video-lobby');
+    }
+
+    const init = async () => {
+      let uid = String(Math.floor(Math.random() * 10000));
+      let token = null;
+
+      const callAgora = await getAgoraRTM();
+
+      client = callAgora.createInstance(APP_ID);
+      await client.login({ uid, token });
+      channel = client.createChannel(roomId);
+      await channel.join();
+
+      channel.on('MemberJoined', handleUserJoined);
+      channel.on('MemberLeft', handleUserLeft);
+
+      client.on('MessageFromPeer', handleMessageFromPeer);
+
+      localStream = await navigator.mediaDevices.getUserMedia(constraints);
+      user1.current.srcObject = localStream;
+    };
+
+    let handleUserLeft = (MemberId) => {
+      user2.current.style.display = 'none';
+      user1.current.classList.remove('smallFrame');
+    };
+
+    let handleMessageFromPeer = async (message, MemberId) => {
+      message = JSON.parse(message.text);
+
+      if (message.type === 'offer') {
+        createAnswer(MemberId, message.offer);
+      }
+
+      if (message.type === 'answer') {
+        addAnswer(message.answer);
+      }
+
+      if (message.type === 'candidate') {
+        if (peerConnection) {
+          peerConnection.addIceCandidate(message.candidate);
+        }
+      }
+    };
+
+    let handleUserJoined = async (MemberId) => {
+      console.log('A new user joined the channel:', MemberId);
+      createOffer(MemberId);
+    };
+
+    let createPeerConnection = async (MemberId) => {
+      peerConnection = new RTCPeerConnection(servers);
+
+      remoteStream = new MediaStream();
+      console.log(user2);
+      user2.current.srcObject = remoteStream;
+      user2.current.style.display = 'block';
+
+      user1.current.classList.add('smallFrame');
+
+      if (!localStream) {
+        localStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false,
+        });
+        user1.current.srcObject = localStream;
+      }
+
+      localStream.getTracks().forEach((track) => {
+        peerConnection.addTrack(track, localStream);
+      });
+
+      peerConnection.ontrack = (event) => {
+        event.streams[0].getTracks().forEach((track) => {
+          remoteStream.addTrack(track);
+        });
+      };
+
+      peerConnection.onicecandidate = async (event) => {
+        if (event.candidate) {
+          client.sendMessageToPeer(
+            {
+              text: JSON.stringify({
+                type: 'candidate',
+                candidate: event.candidate,
+              }),
+            },
+            MemberId
+          );
+        }
+      };
+    };
+
+    let createOffer = async (MemberId) => {
+      await createPeerConnection(MemberId);
+
+      let offer = await peerConnection.createOffer();
+      await peerConnection.setLocalDescription(offer);
+
+      client.sendMessageToPeer(
+        { text: JSON.stringify({ type: 'offer', offer: offer }) },
+        MemberId
+      );
+    };
+
+    let createAnswer = async (MemberId, offer) => {
+      await createPeerConnection(MemberId);
+
+      await peerConnection.setRemoteDescription(offer);
+
+      let answer = await peerConnection.createAnswer();
+      await peerConnection.setLocalDescription(answer);
+
+      client.sendMessageToPeer(
+        { text: JSON.stringify({ type: 'answer', answer: answer }) },
+        MemberId
+      );
+    };
+
+    let addAnswer = async (answer) => {
+      if (!peerConnection.currentRemoteDescription) {
+        peerConnection.setRemoteDescription(answer);
+      }
+    };
+
+    let leaveChannel = async () => {
+      await channel.leave();
+      await client.logout();
+    };
+
+    window.addEventListener('beforeunload', leaveChannel);
+
+    init();
   }
+  let toggleCamera = async () => {
+    let videoTrack = localStream
+      .getTracks()
+      .find((track) => track.kind === 'video');
+
+    if (videoTrack.enabled) {
+      videoTrack.enabled = false;
+      document.getElementById('camera-btn').style.backgroundColor =
+        'rgb(255, 80, 80)';
+    } else {
+      videoTrack.enabled = true;
+      document.getElementById('camera-btn').style.backgroundColor =
+        'rgb(179, 102, 249, .9)';
+    }
+  };
+
+  let toggleMic = async () => {
+    let audioTrack = localStream
+      .getTracks()
+      .find((track) => track.kind === 'audio');
+
+    if (audioTrack.enabled) {
+      audioTrack.enabled = false;
+      document.getElementById('mic-btn').style.backgroundColor =
+        'rgb(255, 80, 80)';
+    } else {
+      audioTrack.enabled = true;
+      document.getElementById('mic-btn').style.backgroundColor =
+        'rgb(179, 102, 249, .9)';
+    }
+  };
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.videoContainer}>
+    <main>
+      <div id="videos">
         <video
-          muted
+          className={styles.videoPlayer}
+          ref={user1}
           autoPlay
-          playsInline
-          className={styles.localUser}
-          ref={localUser}
+          playsInLine
         ></video>
         <video
+          className={styles.videoPlayer}
+          ref={user2}
           autoPlay
-          playsInline
-          className={styles.remoteUser}
-          ref={remoteUser}
+          playsInLine
         ></video>
       </div>
-      <div className={styles.formAndButtonContainer}>
-        <button onClick={getLocalMedia}>Start camera</button>
-        <button disabled={!isCameraStarted} onClick={createCall}>
-          Create call
-        </button>
-        {isRoomCreated ? (
-          <div className={styles.roomCreatedDialogue}>
-            Room created with id of <code>{roomId}</code>
+
+      <div id="controls">
+        <div
+          className={styles.controlContainer}
+          id="camera-btn"
+          ref={cameraButton}
+          onClick={() => toggleCamera()}
+        >
+          <Image src={camera} alt="camera Icon" />
+        </div>
+
+        <div
+          className="control-container"
+          id="mic-btn"
+          onClick={() => toggleMic}
+        >
+          <Image src={mic} alt="mic Icon" />
+        </div>
+
+        <a href="lobby.html">
+          <div className="control-container" id="leave-btn">
+            <Image src={phone} alt="phone Icon" />
           </div>
-        ) : null}
-        <button disabled={!isCameraStarted} onClick={hangUp}>
-          Hang up
-        </button>
-        <button disabled={!isCameraStarted} onClick={startScreenCapture}>
-          Screen share
-        </button>
-        <form onSubmit={answerCall}>
-          <input
-            id="call-id-input"
-            type="text"
-            placeholder="Add your invite code"
-            ref={roomIdInput}
-          ></input>
-          <button onClick={answerCall}>Join call</button>
-        </form>
+        </a>
       </div>
-    </div>
+    </main>
   );
 }
