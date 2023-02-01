@@ -1,25 +1,24 @@
 .pageContainer {
   background: #043873;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding-bottom: 200px;
+  padding: 200px 0px;
   align-items: center;
 }
 
 .videoContainer {
-  margin-top: 10em;
   background: #043873;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 8em;
-  margin-bottom: 3em;
+  gap: 30px;
+  margin: 20px 0;
 }
 .localUser {
-  height: 24rem;
-  width: 24rem;
+  height: 18rem;
+  width: 18rem;
   border: 4px solid white;
   border-radius: 15px;
   flex-shrink: 5;
@@ -27,10 +26,9 @@
 }
 
 .remoteUser {
-  height: 24rem;
-  width: 24rem;
+  height: 18rem;
+  width: 18rem;
   border: 4px solid white;
-
   border-radius: 15px;
   flex-shrink: 2;
   object-fit: cover;
@@ -44,6 +42,7 @@
   align-items: center;
   flex-wrap: nowrap;
   gap: 1em;
+  width: 100%;
 }
 
 .roomCreatedDialogue {
@@ -60,4 +59,93 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.input {
+  background: white;
+  color: black;
+  border: 2px solid white;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  font-size: 12px;
+  font-weight: 600;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.button {
+  width: 50%;
+  background: #4f9cf9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  font-size: 16px;
+}
+
+.exit {
+  color: white;
+  font-size: 25px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.exitContainer {
+  display: flex;
+  justify-content: flex-start;
+  width: 80%;
+  padding-top: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .videoContainer {
+    flex-direction: row;
+    gap: 20px;
+  }
+  .localUser {
+    height: 20rem;
+    width: 20rem;
+  }
+
+  .remoteUser {
+    height: 20rem;
+    width: 20rem;
+  }
+
+  .pageContainer {
+    height: 100vh;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .videoContainer {
+    flex-direction: row;
+    gap: 8em;
+  }
+  .localUser {
+    height: 24rem;
+    width: 24rem;
+  }
+
+  .remoteUser {
+    height: 24rem;
+    width: 24rem;
+  }
+
+  .pageContainer {
+    height: 100vh;
+  }
 }

@@ -1,5 +1,5 @@
 .conversations {
-  height: 90px;
+  height: 100vh;
   background-color: #fafafa;
   border-bottom: solid 1px #e0e0e0;
   display: flex;
