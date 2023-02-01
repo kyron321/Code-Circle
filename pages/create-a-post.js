@@ -21,7 +21,7 @@ export default function CreateAPost() {
 
   const [postTitleInput, setPostTitleinput] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
-  const [programmingLanguage, setProgrammingLanguage] = useState("JavaScript");
+  const [programmingLanguage, setProgrammingLanguage] = useState("HTML");
   const [timeToCode, setTimeToCode] = useState("");
   const [timeZone, setTimeZone] = useState("GMT");
   const [loading, setLoading] = useState(false);
