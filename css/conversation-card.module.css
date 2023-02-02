@@ -1,12 +1,10 @@
 .conversations {
-  height: 100vh;
   background-color: #fafafa;
   border-bottom: solid 1px #e0e0e0;
   display: flex;
   align-items: center;
   cursor: pointer;
   padding: 20px;
-  margin: 20px;
 }
 
 .photo {
@@ -41,21 +39,21 @@
 
 .name {
   margin: 0 0 0 20px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 16pt;
   color: #515151;
 }
 
 .message {
   margin: 6px 0 0 20px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 10pt;
   color: #515151;
 }
 
 .createdAt {
   margin-left: 15%;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
   padding: 3px 8px;
   color: #bbb;
