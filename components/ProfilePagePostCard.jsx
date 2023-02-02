@@ -94,8 +94,6 @@ export default function ProfilePagePostCard({ props, userName }) {
           </label>
         : <div>Language: {editProgrammingLanguage}</div>}
 
-      <br />
-
       {isPostBeingEdited
         ? <label>
             Choose a time to code :
@@ -106,8 +104,6 @@ export default function ProfilePagePostCard({ props, userName }) {
             />
           </label>
         : <div>Time to code: {editTimeToCode.replace('T', ' ')}</div>}
-
-        <br />
 
       {isPostBeingEdited
         ? <label>
@@ -131,10 +127,14 @@ export default function ProfilePagePostCard({ props, userName }) {
         ? <div>Enter new project description:</div>
         : null}      
       {isPostBeingEdited
-        ? <textarea name="edit-project-description" onChange={onChangeEditProjectDescription} placeholder={editProjectDescription} ></textarea>
+        ? <textarea
+            className={styles.textarea}
+            name="edit-project-description"
+            onChange={onChangeEditProjectDescription}
+            placeholder={editProjectDescription}>
+          </textarea>
         : <div>{projectDescription}</div>}
-      
-      <br />
+
       <Image
         src={imagePlaceholder}
         alt="placeholder"
@@ -142,19 +142,23 @@ export default function ProfilePagePostCard({ props, userName }) {
         height={200}
         className={styles.image}
       />
+
       <div className={styles.authorAndPostTimeContainer}>
         <div>Posted by: {user}</div>
         <div>
           Created: {readableDate} at {readableTime}{" "}
         </div>
       </div>
-      {isPostBeingEdited
-        ? <button onClick={handleCancelEditPost}>Cancel Editing</button>
-        : <button onClick={handleEditPost}>Edit Post</button>}
-      {isPostBeingEdited
-        ? <button onClick={handleUpdatePost}>Update Post</button>
-        : null}
-      <button onClick={handleDeletePost}>Delete Post</button>
+
+      <div className={styles.buttons}>
+        {isPostBeingEdited
+          ? <button onClick={handleCancelEditPost}>Cancel Editing</button>
+          : <button onClick={handleEditPost}>Edit Post</button>}
+        {isPostBeingEdited
+          ? <button onClick={handleUpdatePost}>Update Post</button>
+          : null}
+        <button onClick={handleDeletePost}>Delete Post</button>
+      </div>      
     </div>
   );
 }
