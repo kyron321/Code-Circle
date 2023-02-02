@@ -3,9 +3,12 @@
   padding: 20px 50px;
   margin: 20px 0px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.postInfo {
   display: grid;
   gap: 10px;
-  justify-content: left;
+  margin: 10px 0px 0px 0px;
 }
 
 .authorAndPostTimeContainer {
@@ -31,8 +34,22 @@
   gap: 10px;
 }
 
+.button {
+  height: 64px;
+  border: 1px solid #dbdbdb;
+  border-radius: 15px;
+  background-color: #043873;
+  color: #ffffff;
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
 .textarea {
   width: 100%;
+  max-width: 500px;
   height: 150px;
 }
 
