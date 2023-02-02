@@ -38,6 +38,7 @@
 .image{
   width: 250px;
   height: 250px;
+}
 
 .buttons {
   display: flex;
