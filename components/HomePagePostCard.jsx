@@ -7,6 +7,7 @@ import { BiMessageRounded } from "react-icons/bi";
 import profilePlaceholder from "../images/profilePlaceholder.png";
 import imagePlaceholder from "../images/image-placeholder.svg";
 import moment from "moment/moment";
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
 export default function HomePagePostCard({ post, replyCountByPostId }) {
