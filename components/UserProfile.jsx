@@ -12,7 +12,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 export default function UserProfile({ userName }) {
   const [profilePageUser, setProfilePageUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
   const { user } = useAuthContext();
   const router = useRouter();
   const userNameFromParams = router.query.displayname;
@@ -57,13 +56,10 @@ export default function UserProfile({ userName }) {
   return (
     <main className={styles.profile}>
       <div className={styles.avatarAndNameContainer}>
-        <Image
-          className={styles.avatarStyle}
-          alt="user Avatar"
-          src={
-            profilePageUser?.avatar ? profilePageUser?.avatar : defaultAvatar
-          }
-        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={user.photoURL} alt="profile "  className={styles.avatarStyle} onClick={()=>{
+              router.push(`/users/${user?.displayName}`)
+            }} />
 
         <h2 className={styles.displayName}>{userNameFromParams}</h2>
         {isSomeoneElsesProfile ? (

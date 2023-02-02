@@ -8,13 +8,19 @@ import profilePlaceholder from "../images/profilePlaceholder.png";
 import imagePlaceholder from "../images/image-placeholder.svg";
 import moment from "moment/moment";
 
+
 export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
   const { postId } = router.query;
   const replyCountObject = Object.assign({}, ...replyCountByPostId);
+
+  const { user } = useAuthContext();
+
+
   const date = new Date(post.postTime);
   const readableDate = date.toLocaleDateString('en-GB');
   const readableTime = date.toLocaleTimeString('en-GB').slice(0, 5);
+
   return (
     <div
       className={styles.post}
@@ -25,18 +31,40 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
       <div className={styles.mainContainer}>
         <div className={styles.colOne}>
           <div className={styles.profileContainer}>
-            <Image
-              src={profilePlaceholder}
-              width={60}
-              height={60}
-              alt="profile placeholder"
-              className={styles.profileImage}
-            />
+            {post.photoURL ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.photoURL}
+                alt="profile "
+                className={styles.profileImage}
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+              />
+            ) : (
+              <Image
+                src={profilePlaceholder}
+                alt="profile"
+                className={styles.profileImage}
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+              />
+            )}
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div className={styles.atUser}>
-                <Link href={`/users/${post.user}`}>@{post.user} </Link> in
+
+              <div
+                onClick={() => {
+                  router.push(`/users/${post.user}`);
+                }}
+                className={styles.atUser}
+              >
+                @{post.user} in
+
+              
+
               </div>
               <div className={styles.programmingLanguage}>
                 {post.programmingLanguage}

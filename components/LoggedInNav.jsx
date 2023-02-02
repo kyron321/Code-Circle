@@ -17,20 +17,25 @@ export default function LoggedInNav() {
   const router = useRouter();
   const { logout } = useLogout();
   const { user } = useAuthContext();
-
+  
   const [showModal, setShowModal] = useState(false);
 
   const modal = (
     <Modal setShowModal={setShowModal} showModal={showModal}>
-      <Link href={`/users/${user?.displayName}`}>
-      <Image
-        className={styles.avatarImage}
-        src={defaultAvatar}
-        alt="user avatar"
-        width={50}
-        height={50}
-      />
-</Link>
+      {user.photoURL ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={user.photoURL}
+          alt="profile "
+          className={styles.avatarImage}
+          onClick={() => {
+            router.push(`/users/${user?.displayName}`);
+          }}
+        />
+      ) : (
+        <Image src={defaultAvatar} alt="profile" className={styles.avatarImage} />
+      )}
+     
       <div>Logged in {user.displayName}</div>
       <Link href="/conversations" className={styles.message_container}>
         <TbMessage2 size={30} className={styles.messages} />{" "}
@@ -66,15 +71,19 @@ export default function LoggedInNav() {
         />
         <div className={styles.buttonContainerStyle}>
           <div className={styles.userInfoStyles}>
-            <Link href={`/users/${user?.displayName}`}>
-              <Image
-                className={styles.avatarImage}
-                src={defaultAvatar}
-                alt="user avatar"
-                width={50}
-                height={50}
-              />
-            </Link>
+           
+            {user.photoURL ? (
+               /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={user.photoURL}
+              alt="profile "
+              className={styles.avatarImage}
+              onClick={() => {
+                router.push(`/users/${user?.displayName}`);
+              }}
+            /> ) : (
+              <Image src={defaultAvatar} alt="profile" className={styles.avatarImage} />
+            )}
             <Link href={"/conversations"}>
               <TbMessage2 size={30} style={{ color: "white" }} />{" "}
             </Link>

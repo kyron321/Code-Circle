@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {getStorage} from "firebase/storage"
+import { getDocs, getCollection, getFirestore } from "firebase/firestore";
+
+
 
 // Code Circle's config
 const firebaseConfig = {
@@ -16,5 +19,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app)
 
-export { auth, db, app };
+export { auth, db, app, storage };

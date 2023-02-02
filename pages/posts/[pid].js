@@ -16,7 +16,9 @@ import imagePlaceholder from "../../images/image-placeholder.svg";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 import checkLoggedIn from "../../hooks/checkLoggedIn";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import deleteAreply from "../../hooks/deleteAreply";
+
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
@@ -30,6 +32,7 @@ export default function SinglePost() {
   checkLoggedIn();
   const [posts, setPosts] = useState([]);
   const [replies, setReplies] = useState([]);
+  const { user } = useAuthContext();
 
   const router = useRouter();
   const pid = router.query['pid'];
@@ -74,22 +77,37 @@ export default function SinglePost() {
       <div className={styles.post}>
         <div className={styles.colOne}>
           <div className={styles.profileContainer}>
-            <Image
-              src={profilePlaceholder}
-              width={60}
-              height={60}
-              alt="profile placeholder"
-              className={styles.profileImage}
-            />
+            {postToRender[0]?.photoURL ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={postToRender[0]?.photoURL}
+                alt="profile "
+                className={styles.profileImage}
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+              />
+            ) : (
+              <Image
+                src={profilePlaceholder}
+                alt="profile"
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+                className={styles.profileImage}
+              />
+            )}
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div className={styles.link}>
-                <Link href={`/users/${postToRender[0]?.user}`}>
-                  {postToRender[0]?.user}
-                </Link>
+              <div
+                onClick={() => {
+                  router.push(`/users/${postToRender[0]?.user}`);
+                }}
+                className={styles.atUser}
+              >
+                @{postToRender[0]?.user} in
               </div>
-              <div className={styles.atUser}>@{postToRender[0]?.user} in</div>
               <div className={styles.programmingLanguage}>
                 {postToRender[0]?.programmingLanguage}
               </div>
