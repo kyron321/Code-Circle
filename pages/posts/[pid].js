@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {
-  collection,
-  getDocs
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import PostReplyForm from "../../components/postReplyForm";
 import PostReplies from "../../components/PostReplies";
@@ -20,7 +17,7 @@ import deleteAreply from "../../hooks/deleteAreply";
 
 // Gets all posts from Firestore database
 async function getPosts(db) {
-  const postsCol = collection(db, 'posts');
+  const postsCol = collection(db, "posts");
   const postsSnapshot = await getDocs(postsCol);
   const postsList = postsSnapshot.docs.map((doc) => doc.data());
   return postsList;
@@ -32,7 +29,7 @@ export default function SinglePost() {
   const [replies, setReplies] = useState([]);
 
   const router = useRouter();
-  const pid = router.query['pid'];
+  const pid = router.query["pid"];
 
   useEffect(() => {
     getReplies().then((response) => {
@@ -47,7 +44,6 @@ export default function SinglePost() {
   }, []);
 
   const handleDeleteReply = (replyId) => {
-
     Promise.resolve(deleteAreply(replyId));
     setReplies((prevReplies) =>
       prevReplies.filter((reply) => reply.replyId !== replyId)
@@ -61,9 +57,9 @@ export default function SinglePost() {
   return (
     <div className={styles.container}>
       <div
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: "pointer" }}
         onClick={() => {
-          router.push('/home');
+          router.push("/home");
         }}
       >
         <div className={styles.back}>
@@ -84,17 +80,18 @@ export default function SinglePost() {
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div className={styles.link}>
+              <div className={styles.atUser}>
                 <Link href={`/users/${postToRender[0]?.user}`}>
-                  {postToRender[0]?.user}
-                </Link>
+                  @{postToRender[0]?.user}
+                </Link>{" "}
+                in
               </div>
-              <div className={styles.atUser}>@{postToRender[0]?.user} in</div>
               <div className={styles.programmingLanguage}>
                 {postToRender[0]?.programmingLanguage}
               </div>
               <div className={styles.time}>
-                {moment.unix(postToRender[0]?.postTime).format('HH:MM a')}
+                Today <span>at</span>{" "}
+                {moment.unix(postToRender[0]?.postTime).format("HH:MM a")}
               </div>
             </div>
 
@@ -107,9 +104,9 @@ export default function SinglePost() {
               </div>
               <div>
                 <div>
-                  Time to code:{' '}
-                  {moment(postToRender[0]?.timeToCode).format('MMMM Do YYYY')}{' '}
-                  at {moment(postToRender[0]?.timeToCode).format('HH:MM a')}
+                  Time to code:{" "}
+                  {moment(postToRender[0]?.timeToCode).format("MMMM Do YYYY")}{" "}
+                  at {moment(postToRender[0]?.timeToCode).format("HH:MM a")}
                 </div>
                 <div>Time zone: {postToRender[0]?.timeZone}</div>
               </div>
