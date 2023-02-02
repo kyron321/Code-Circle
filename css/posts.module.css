@@ -79,16 +79,21 @@
     border-radius: 10px;
   }
   
-  .atUser {
-    font-weight: 700;
+  .atUser
+  {font-weight: 700;
     margin-left: 5px;
     margin-right: 5px;
-    color: #94a3b8;
-  }
+    color: #94a3b8;}
+    
+  .atUser :any-link {
+    color:#94a3b8;
+    
+  } 
   
   .programmingLanguage {
     font-weight: 700;
     margin-right: 5px;
+    color: #94a3b8;
   }
   
   .time {
@@ -254,7 +259,5 @@
     }
   }
 
-  .link :any-link {
-    color: black;
-  }
+  
 

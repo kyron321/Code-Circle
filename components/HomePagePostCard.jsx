@@ -1,12 +1,12 @@
-import React from 'react';
-import Link from 'next/link';
-import styles from '../css/posts.module.css';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { BiMessageRounded } from 'react-icons/bi';
-import profilePlaceholder from '../images/profilePlaceholder.png';
-import imagePlaceholder from '../images/image-placeholder.svg';
-import moment from 'moment/moment';
+import React from "react";
+import Link from "next/link";
+import styles from "../css/posts.module.css";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { BiMessageRounded } from "react-icons/bi";
+import profilePlaceholder from "../images/profilePlaceholder.png";
+import imagePlaceholder from "../images/image-placeholder.svg";
+import moment from "moment/moment";
 
 export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
@@ -35,10 +35,9 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div className={styles.link}>
-                <Link href={`/users/${post.user}`}>User: {post.user}</Link>
+              <div className={styles.atUser}>
+                <Link href={`/users/${post.user}`}>@{post.user} </Link> in
               </div>
-              <div className={styles.atUser}>@{post.user} in</div>
               <div className={styles.programmingLanguage}>
                 {post.programmingLanguage}
               </div>
@@ -56,8 +55,8 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
               </div>
               <div>
                 <div>
-                  Time to code: {moment(post.timeToCode).format('MMMM Do YYYY')}{' '}
-                  at {moment(post.timeToCode).format('HH:MM a')}
+                  Time to code: {moment(post.timeToCode).format("MMMM Do YYYY")}{" "}
+                  at {moment(post.timeToCode).format("HH:MM a")}
                 </div>
                 <div>Time zone: {post.timeZone}</div>
               </div>
