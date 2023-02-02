@@ -177,15 +177,6 @@ export default function ProfilePagePostCard({ props, userName }) {
           Created: {readableDate} at {readableTime}{" "}
         </div>
       </div>
-      {isPostBeingEdited ? (
-        <button onClick={handleCancelEditPost}>Cancel Editing</button>
-      ) : (
-        <button onClick={handleEditPost}>Edit Post</button>
-      )}
-      {isPostBeingEdited ? (
-        <button onClick={handleUpdatePost}>Update Post</button>
-      ) : null}
-      <button onClick={handleDeletePost}>Delete Post</button>
       </div>  
     </div>
   );
