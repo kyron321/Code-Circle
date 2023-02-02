@@ -73,6 +73,7 @@ export default function Posts() {
         const newPost = {};
         newPost.postId = post.postId;
         newPost.user = post.user;
+        newPost.photoURL = post.photoURL;
         newPost.postTitle = post.postTitle;
         newPost.projectDescription = post.projectDescription;
         newPost.programmingLanguage = post.programmingLanguage;

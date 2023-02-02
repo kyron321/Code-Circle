@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "../css/postReplies.module.css";
-import Image from "next/image";
-import profilePlaceholder from "../images/profilePlaceholder.png";
 import moment from "moment";
 
 export default function PostReplies({ pid, replies }) {
@@ -16,13 +14,10 @@ export default function PostReplies({ pid, replies }) {
       return (
         <div key={reply.replyId} className={styles.container}>
           <div className={styles.profileContainer}>
-            <Image
-              src={profilePlaceholder}
-              width={60}
-              height={60}
-              alt="profile placeholder"
-              className={styles.profileImage}
-            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={user.photoURL} alt="profile "  className={styles.profileImage} onClick={()=>{
+              router.push(`/users/${user?.displayName}`)
+            }} />
             <div>
               <div className={styles.usernameContainer}>
                 <div className={styles.username}>{reply.user}</div>

@@ -4,6 +4,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 export const createAPost = (
   user,
+  photoURL,
   postTitle,
   projectDescription,
   programmingLanguage,
@@ -14,6 +15,7 @@ export const createAPost = (
   try {
     const docRef = addDoc(collection(db, 'posts'), {
       user,
+      photoURL,
       postTitle,
       projectDescription,
       programmingLanguage,

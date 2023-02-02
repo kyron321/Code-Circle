@@ -33,6 +33,7 @@ export default function CreateAPost() {
     e.preventDefault();
     createAPost(
       user.displayName,
+      user.photoURL,
       postTitleInput,
       projectDescription,
       programmingLanguage,

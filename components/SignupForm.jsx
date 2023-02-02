@@ -23,17 +23,40 @@ export default function SignupForm() {
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [techStack, setTechStack] = useState([]);
-  const [areAllTechCheckboxesUnselected, setAreAllTechCheckboxesUnselected] = useState(true);
-  const { signup, error, isPending } = useSignup();
+  const [areAllTechCheckboxesUnselected, setAreAllTechCheckboxesUnselected] =
+    useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailError, setThumbnailError] = useState(null);
+  const { signup, error, isPending } = useSignup();
   const router = useRouter();
-  
 
   //only signup if there is no error
   const handleSubmit = (e) => {
     e.preventDefault();
     postUser(displayNameInput, techStack);
-    signup(emailInput, passwordInput, displayNameInput);
+    signup(emailInput, passwordInput, displayNameInput, thumbnail);
+  };
+
+  const handleFileChange = (e) => {
+    setThumbnail(null);
+    let selected = e.target.files[0];
+
+    if (!selected) {
+      setThumbnailError("Please select a file");
+      return;
+    }
+    if (!selected.type.includes("image")) {
+      setThumbnailError("Selected file must be an image");
+      return;
+    }
+    if (selected.size > 1000000) {
+      setThumbnailError("Image file size must be less than 10mb");
+      return;
+    }
+
+    setThumbnailError(null);
+    setThumbnail(selected);
   };
 
   useEffect(() => {
@@ -42,7 +65,7 @@ export default function SignupForm() {
     }
   }, [error, isPending, router]);
   const onChangeTechStack = (e) => {
-    const techCheckboxes = [ ...e.target.parentElement.elements];
+    const techCheckboxes = [...e.target.parentElement.elements];
 
     if (e.target.checked) {
       setTechStack((currentTechStack) => {
@@ -62,7 +85,7 @@ export default function SignupForm() {
 
     const allCheckboxesUnselected = techCheckboxes.every((tech) => {
       return tech.checked === false;
-    })
+    });
 
     setAreAllTechCheckboxesUnselected(allCheckboxesUnselected);
   };
@@ -246,6 +269,17 @@ export default function SignupForm() {
           <label htmlFor="ruby">Ruby</label>
         </fieldset>
 
+        <label className={styles.label}>
+          <span>Add Profile Image</span>
+          <input
+            required
+            type="file"
+            onChange={handleFileChange}
+            className={styles.fileInput}
+          />
+          {thumbnailError && <div className="error">{thumbnailError}</div>}
+        </label>
+
         <motion.button
           variants={buttonVariants}
           whileHover="hover"
@@ -259,7 +293,7 @@ export default function SignupForm() {
         <Link className={styles.forgotPassword} href="/">
           Forgot Password?
         </Link>
-        
+
         <div>
           {`Already have an account?`}{" "}
           <Link className={styles.forgotPassword} href="/login">

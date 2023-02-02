@@ -1,17 +1,20 @@
-import React from 'react';
-import Link from 'next/link';
-import styles from '../css/posts.module.css';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { BiMessageRounded } from 'react-icons/bi';
-import profilePlaceholder from '../images/profilePlaceholder.png';
-import imagePlaceholder from '../images/image-placeholder.svg';
-import moment from 'moment/moment';
+import React from "react";
+import Link from "next/link";
+import styles from "../css/posts.module.css";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { BiMessageRounded } from "react-icons/bi";
+import profilePlaceholder from "../images/profilePlaceholder.png";
+import imagePlaceholder from "../images/image-placeholder.svg";
+import moment from "moment/moment";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
   const { postId } = router.query;
   const replyCountObject = Object.assign({}, ...replyCountByPostId);
+  const { user } = useAuthContext();
+
   return (
     <div
       className={styles.post}
@@ -22,20 +25,37 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
       <div className={styles.mainContainer}>
         <div className={styles.colOne}>
           <div className={styles.profileContainer}>
-            <Image
-              src={profilePlaceholder}
-              width={60}
-              height={60}
-              alt="profile placeholder"
-              className={styles.profileImage}
-            />
+            {post.photoURL ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={post.photoURL}
+                alt="profile "
+                className={styles.profileImage}
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+              />
+            ) : (
+              <Image
+                src={profilePlaceholder}
+                alt="profile"
+                className={styles.profileImage}
+                onClick={() => {
+                  router.push(`/users/${user?.displayName}`);
+                }}
+              />
+            )}
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
-              <div className={styles.link}>
-                <Link href={`/users/${post.user}`}>User: {post.user}</Link>
+              <div
+                onClick={() => {
+                  router.push(`/users/${post.user}`);
+                }}
+                className={styles.atUser}
+              >
+                @{post.user} in
               </div>
-              <div className={styles.atUser}>@{post.user} in</div>
               <div className={styles.programmingLanguage}>
                 {post.programmingLanguage}
               </div>
@@ -53,8 +73,8 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
               </div>
               <div>
                 <div>
-                  Time to code: {moment(post.timeToCode).format('MMMM Do YYYY')}{' '}
-                  at {moment(post.timeToCode).format('HH:MM a')}
+                  Time to code: {moment(post.timeToCode).format("MMMM Do YYYY")}{" "}
+                  at {moment(post.timeToCode).format("HH:MM a")}
                 </div>
                 <div>Time zone: {post.timeZone}</div>
               </div>
