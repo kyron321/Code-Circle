@@ -12,6 +12,9 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
   const { postId } = router.query;
   const replyCountObject = Object.assign({}, ...replyCountByPostId);
+  const date = new Date(post.postTime);
+  const readableDate = date.toLocaleDateString('en-GB');
+  const readableTime = date.toLocaleTimeString('en-GB').slice(0, 5);
   return (
     <div
       className={styles.post}
@@ -40,8 +43,7 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
                 {post.programmingLanguage}
               </div>
               <div className={styles.time}>
-                Today <span style={{ color: 'black' }}>at</span>{' '}
-                {moment.unix(post.postTime).format('HH:MM a')}
+                Today <span style={{ color: 'black' }}>at</span> {readableTime}
               </div>
             </div>
 
