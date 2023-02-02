@@ -161,6 +161,7 @@ export default function ProfilePagePostCard({ props, userName }) {
         <button onClick={handleDeletePost} className={styles.button}>Delete Post</button>
       </div>
 
+
       <div className={styles.authorAndPostTimeContainer}>
         {photoURL ? (
           /* eslint-disable-next-line @next/next/no-img-element */
@@ -172,6 +173,7 @@ export default function ProfilePagePostCard({ props, userName }) {
             className={styles.profileImage}
           />
         )}
+
         <div>Posted by: {user}</div>
         <div>
           Created: {readableDate} at {readableTime}{" "}

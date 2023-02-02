@@ -33,11 +33,13 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .image{
   width: 250px;
   height: 250px;
+  object-fit: cover;
 }
  
 

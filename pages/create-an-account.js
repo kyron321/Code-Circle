@@ -3,6 +3,7 @@ import FormSide from "../components/FormSide";
 import styles from "../css/login.module.css";
 import Button from "../components/Button";
 import arrow from "../images/arrow.svg";
+import router from 'next/router'
 
 export default function CreateAnAccount() {
   return (

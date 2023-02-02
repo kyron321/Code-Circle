@@ -57,13 +57,12 @@ export default function UserProfile({ userName }) {
     <main className={styles.profile}>
       <div className={styles.avatarAndNameContainer}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={user.photoURL} alt="profile "  className={styles.avatarStyle} onClick={()=>{
-              router.push(`/users/${user?.displayName}`)
-            }} />
-
+        <Image src={defaultAvatar} alt="profile" className={styles.avatarStyle} />
         <h2 className={styles.displayName}>{userNameFromParams}</h2>
         {isSomeoneElsesProfile ? (
+          
           <div className={styles.contactOtherUser}>
+            
             <button
               className={styles.messageButton}
               onClick={() =>
