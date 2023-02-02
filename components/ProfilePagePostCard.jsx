@@ -83,6 +83,8 @@ export default function ProfilePagePostCard({ props, userName }) {
     <div className={styles.profileCardContainer}>
       <div className={styles.title}>{postTitle}</div>
 
+
+ <div className={styles.postInfo}>
       {isPostBeingEdited ? (
         <label>
           Update programming language:
@@ -140,6 +142,7 @@ export default function ProfilePagePostCard({ props, userName }) {
       {isPostBeingEdited ? <div>Enter new project description:</div> : null}
       {isPostBeingEdited ? (
         <textarea
+        className={styles.textarea}
           name="edit-project-description"
           onChange={onChangeEditProjectDescription}
           placeholder={editProjectDescription}
@@ -147,9 +150,17 @@ export default function ProfilePagePostCard({ props, userName }) {
       ) : (
         <div>{projectDescription}</div>
       )}
-
-      <br />
       <Image src={imagePlaceholder} alt="placeholder" className={styles.image} />
+       <div className={styles.buttons}>
+        {isPostBeingEdited
+          ? <button onClick={handleCancelEditPost} className={styles.button}>Cancel Editing</button>
+          : <button onClick={handleEditPost} className={styles.button}>Edit Post</button>}
+        {isPostBeingEdited
+          ? <button onClick={handleUpdatePost} className={styles.button}>Update Post</button>
+          : null}
+        <button onClick={handleDeletePost} className={styles.button}>Delete Post</button>
+      </div>
+
       <div className={styles.authorAndPostTimeContainer}>
         {photoURL ? (
           /* eslint-disable-next-line @next/next/no-img-element */
@@ -175,6 +186,7 @@ export default function ProfilePagePostCard({ props, userName }) {
         <button onClick={handleUpdatePost}>Update Post</button>
       ) : null}
       <button onClick={handleDeletePost}>Delete Post</button>
+      </div>  
     </div>
   );
 }

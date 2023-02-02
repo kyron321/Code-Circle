@@ -14,11 +14,11 @@
 .conversations {
   box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-
 }
 
-.container{
-  height: 100vh;
+.container {
+  margin-top: 9em;
+  height: 58.9vh;
 }
 
 .emptyConvoContainer {
@@ -28,4 +28,3 @@
   height: 100vh;
   padding-top: 130px;
 }
-

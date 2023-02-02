@@ -7,13 +7,19 @@ import { BiMessageRounded } from "react-icons/bi";
 import profilePlaceholder from "../images/profilePlaceholder.png";
 import imagePlaceholder from "../images/image-placeholder.svg";
 import moment from "moment/moment";
-import { useAuthContext } from "../hooks/useAuthContext";
+
 
 export default function HomePagePostCard({ post, replyCountByPostId }) {
   const router = useRouter();
   const { postId } = router.query;
   const replyCountObject = Object.assign({}, ...replyCountByPostId);
+
   const { user } = useAuthContext();
+
+
+  const date = new Date(post.postTime);
+  const readableDate = date.toLocaleDateString('en-GB');
+  const readableTime = date.toLocaleTimeString('en-GB').slice(0, 5);
 
   return (
     <div
@@ -48,6 +54,7 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
           </div>
           <div className={styles.colTwo}>
             <div className={styles.userInfo}>
+
               <div
                 onClick={() => {
                   router.push(`/users/${post.user}`);
@@ -55,12 +62,15 @@ export default function HomePagePostCard({ post, replyCountByPostId }) {
                 className={styles.atUser}
               >
                 @{post.user} in
+
+              
+
               </div>
               <div className={styles.programmingLanguage}>
                 {post.programmingLanguage}
               </div>
               <div className={styles.time}>
-                Today <span>at</span> 16:12pm
+                Today <span style={{ color: 'black' }}>at</span> {readableTime}
               </div>
             </div>
 

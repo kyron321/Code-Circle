@@ -24,6 +24,9 @@ export default function PastPosts({ userName }) {
 
       const postsSnapshot = await getDocs(postQuery);
       const postList = postsSnapshot.docs.map((doc) => doc.data());
+      postList.sort((a, b) => {
+        return b.postTime - a.postTime;
+      })
       return postList;
     };
     getUserPosts()

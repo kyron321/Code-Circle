@@ -5,6 +5,12 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
+.postInfo {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0px 0px 0px;
+}
+
 .authorAndPostTimeContainer {
   display: flex;
   font-size: 0.8em;
@@ -22,6 +28,7 @@
   font-weight: 300;
 }
 
+
 .profileImage{
   width: 60px;
   height: 60px;
@@ -31,6 +38,30 @@
 .image{
   width: 250px;
   height: 250px;
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button {
+  height: 64px;
+  border: 1px solid #dbdbdb;
+  border-radius: 15px;
+  background-color: #043873;
+  color: #ffffff;
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.textarea {
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
 }
 
 @media screen and (min-width: 768px) {

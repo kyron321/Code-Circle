@@ -3,6 +3,9 @@ import { getAuth } from "firebase/auth";
 import {getStorage} from "firebase/storage"
 import { getDocs, getCollection, getFirestore } from "firebase/firestore";
 
+
+
+// Code Circle's config
 const firebaseConfig = {
   apiKey: "AIzaSyDxBm0urtZBgYT5vP84OsqDzoMqHr0CNtI",
   authDomain: "code-circle--x.firebaseapp.com",

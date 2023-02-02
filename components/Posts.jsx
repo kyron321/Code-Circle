@@ -79,6 +79,7 @@ export default function Posts() {
         newPost.programmingLanguage = post.programmingLanguage;
         newPost.timeToCode = post.timeToCode.replace('T', ' ');
         newPost.timeZone = post.timeZone;
+        newPost.postTime = post.postTime;
         return newPost;
       });
       setPosts(postsArray);
