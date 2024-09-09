@@ -17,24 +17,6 @@ export default function Footer() {
             better workspace around the world.
           </p>
         </div>
-        <div className={styles.teamMembers}>
-          <div className={styles.heading}>Team Array of Sunshine</div>
-          <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/Nasramohammed">Nasra</a>
-          </div>
-          <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/richnw">Rich</a>
-          </div>
-          <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/johnnyfwk">Johnny</a>
-          </div>
-          <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/JoeDGit">Joe</a>
-          </div>
-          <div className={styles.notLastTeamMember}>
-            <a href="https://github.com/kyron321">Kyron</a>
-          </div>
-        </div>
         <div>
           <Button
             label="Github Repository"

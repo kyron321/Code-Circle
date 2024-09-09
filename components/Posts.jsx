@@ -110,12 +110,12 @@ export default function Posts() {
           </div>
         ) : (
           <div className={styles.header}>
-            <div className={styles.hotContainer}>
+            {/* <div className={styles.hotContainer}>
               <FaHotjar className={styles.hot} /> Hot
             </div>
             <div className={styles.sortContainer}>
               <FaSort className={styles.sort} /> Sort
-            </div>
+            </div> */}
             <form className={styles.form}>
               <input
                 autoFocus
